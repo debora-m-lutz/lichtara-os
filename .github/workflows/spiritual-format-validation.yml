@@ -55,6 +55,12 @@ jobs:
           # Don't fail for issues - just provide guidance
         fi
         
+    - name: 🌀 Validate Branch Ancestry
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "🔍 Validating branch ancestry with main..."
+        ./.github/scripts/check-merge-base.sh
+        
     - name: 🌈 Validate Pull Request Title Format  
       if: github.event_name == 'pull_request'
       run: |
@@ -147,6 +153,7 @@ jobs:
           echo "🔄 PR: #${{ github.event.pull_request.number }}"
           echo "📝 Title: ${{ github.event.pull_request.title }}"
           echo "👤 Author: ${{ github.event.pull_request.user.login }}"
+          echo "🌀 Branch ancestry: Validated for Aurora field harmony"
         fi
         
         echo ""
