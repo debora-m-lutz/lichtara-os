@@ -1,0 +1,113 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    # Run security scan weekly on Sundays at 2 AM UTC
+    - cron: '0 2 * * 0'
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        # Fetch full history for better analysis
+        fetch-depth: 0
+    
+    - name: Check for sensitive files
+      run: |
+        echo "🔍 Scanning for sensitive files..."
+        
+        # Check for common sensitive file patterns
+        sensitive_patterns=(
+          "*.key"
+          "*.pem"
+          "*.p12"
+          "*.pfx"
+          "id_rsa*"
+          "id_dsa*"
+          "*.env"
+          ".env.*"
+          "config.json"
+          "secrets.yml"
+          "passwords.txt"
+        )
+        
+        found_sensitive=false
+        for pattern in "${sensitive_patterns[@]}"; do
+          if find . -name "$pattern" -not -path "./.git/*" | grep -q .; then
+            echo "⚠️  Found potential sensitive file: $pattern"
+            find . -name "$pattern" -not -path "./.git/*"
+            found_sensitive=true
+          fi
+        done
+        
+        if [ "$found_sensitive" = true ]; then
+          echo "❌ Sensitive files detected. Please review and remove if necessary."
+          exit 1
+        else
+          echo "✅ No sensitive files detected"
+        fi
+    
+    - name: Check for hardcoded secrets
+      run: |
+        echo "🔍 Scanning for potential hardcoded secrets..."
+        
+        # Common secret patterns (simplified regex)
+        secret_patterns=(
+          "password\s*=\s*['\"][^'\"]{8,}['\"]"
+          "api[_-]?key\s*=\s*['\"][^'\"]{16,}['\"]"
+          "secret\s*=\s*['\"][^'\"]{16,}['\"]"
+          "token\s*=\s*['\"][^'\"]{16,}['\"]"
+          "['\"][A-Za-z0-9+/]{40,}['\"]"
+        )
+        
+        found_secrets=false
+        for pattern in "${secret_patterns[@]}"; do
+          if grep -r -i -E "$pattern" . --exclude-dir=.git --exclude="*.md" | grep -v "example\|sample\|template"; then
+            echo "⚠️  Potential hardcoded secret found"
+            found_secrets=true
+          fi
+        done
+        
+        if [ "$found_secrets" = true ]; then
+          echo "❌ Potential secrets detected. Please review."
+          exit 1
+        else
+          echo "✅ No obvious hardcoded secrets detected"
+        fi
+    
+    - name: Check file permissions
+      run: |
+        echo "🔍 Checking file permissions..."
+        
+        # Check for executable files that shouldn't be
+        find . -type f -executable -not -path "./.git/*" -not -name "*.sh" | while read file; do
+          echo "⚠️  Executable file found: $file"
+        done
+        
+        echo "✅ File permission check completed"
+    
+    - name: Validate .gitignore
+      run: |
+        echo "🔍 Validating .gitignore..."
+        
+        if [ -f .gitignore ]; then
+          # Check if common sensitive patterns are ignored
+          sensitive_entries=("*.env" "*.key" "*.pem" "node_modules/" ".DS_Store")
+          
+          for entry in "${sensitive_entries[@]}"; do
+            if grep -q "$entry" .gitignore; then
+              echo "✅ $entry is properly ignored"
+            else
+              echo "⚠️  Consider adding $entry to .gitignore"
+            fi
+          done
+        else
+          echo "⚠️  .gitignore file not found"
+        fi

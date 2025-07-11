@@ -1,0 +1,101 @@
+name: Code Quality Check
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Check file encoding
+      run: |
+        echo "🔍 Checking file encoding..."
+        
+        # Check for files with non-UTF-8 encoding
+        find . -type f -name "*.md" -o -name "*.txt" -o -name "*.json" -o -name "*.yml" -o -name "*.yaml" | while read file; do
+          if ! file "$file" | grep -q "UTF-8"; then
+            echo "⚠️  File $file might not be UTF-8 encoded"
+          fi
+        done
+        
+        echo "✅ File encoding check completed"
+    
+    - name: Check line endings
+      run: |
+        echo "🔍 Checking line endings..."
+        
+        # Check for mixed line endings
+        find . -type f \( -name "*.md" -o -name "*.txt" -o -name "*.json" -o -name "*.yml" -o -name "*.yaml" \) -not -path "./.git/*" | while read file; do
+          if file "$file" | grep -q "CRLF"; then
+            echo "⚠️  File $file has Windows line endings (CRLF)"
+          fi
+        done
+        
+        echo "✅ Line endings check completed"
+    
+    - name: Validate JSON files
+      run: |
+        echo "🔍 Validating JSON files..."
+        
+        find . -name "*.json" -not -path "./.git/*" | while read file; do
+          if python3 -m json.tool "$file" > /dev/null 2>&1; then
+            echo "✅ $file is valid JSON"
+          else
+            echo "❌ $file contains invalid JSON"
+            exit 1
+          fi
+        done
+    
+    - name: Validate YAML files
+      run: |
+        echo "🔍 Validating YAML files..."
+        
+        # Install PyYAML for validation
+        pip3 install PyYAML
+        
+        find . \( -name "*.yml" -o -name "*.yaml" \) -not -path "./.git/*" | while read file; do
+          if python3 -c "import yaml; yaml.safe_load(open('$file'))" 2>/dev/null; then
+            echo "✅ $file is valid YAML"
+          else
+            echo "❌ $file contains invalid YAML"
+            exit 1
+          fi
+        done
+    
+    - name: Check for TODO comments
+      run: |
+        echo "🔍 Checking for TODO comments..."
+        
+        # Look for TODO, FIXME, HACK comments
+        todo_count=$(grep -r -i -n "TODO\|FIXME\|HACK" . --exclude-dir=.git --include="*.md" --include="*.txt" | wc -l)
+        
+        if [ "$todo_count" -gt 0 ]; then
+          echo "📝 Found $todo_count TODO/FIXME/HACK comments:"
+          grep -r -i -n "TODO\|FIXME\|HACK" . --exclude-dir=.git --include="*.md" --include="*.txt" | head -10
+          echo "✅ TODOs documented (this is informational, not a failure)"
+        else
+          echo "✅ No TODO comments found"
+        fi
+    
+    - name: Check repository structure
+      run: |
+        echo "🔍 Validating repository structure..."
+        
+        # Check if repository follows the documented structure
+        expected_dirs=("00-overview:" "01-fundamentos:" "02-manual-aurora:" "03-tecnica:" "04-legal:" "05-ai:" "05-prototipos" "manuais")
+        
+        for dir in "${expected_dirs[@]}"; do
+          if [ -d "$dir" ]; then
+            echo "✅ Directory $dir exists"
+          else
+            echo "⚠️  Expected directory $dir not found"
+          fi
+        done
+        
+        echo "✅ Repository structure check completed"
