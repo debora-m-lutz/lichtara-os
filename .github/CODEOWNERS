@@ -1,0 +1,106 @@
+# Code Owners for Lichtara OS - Aurora Guardians
+# 
+# This file defines who is responsible for reviewing changes to specific
+# parts of the Lichtara OS codebase. These reviewers will be automatically
+# requested when a pull request modifies files in their designated areas.
+#
+# For more information about CODEOWNERS syntax:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global fallback - Repository owner is responsible for all files
+# unless specifically overridden below
+* @debora-m-lutz
+
+# === CORE GOVERNANCE ===
+# Repository configuration and governance files
+.github/ @debora-m-lutz
+.gitignore @debora-m-lutz
+README.md @debora-m-lutz
+CODE_OF_CONDUCT.md @debora-m-lutz
+CONTRIBUTING.md @debora-m-lutz
+
+# === DOCUMENTATION AREAS ===
+# Overview and vision documents
+00-overview:/ @debora-m-lutz
+
+# Fundamentals documentation
+01-fundamentos:/ @debora-m-lutz
+
+# Aurora manual
+02-manual-aurora:/ @debora-m-lutz
+
+# Technical documentation
+03-tecnica:/ @debora-m-lutz
+
+# Legal documents
+04-legal:/ @debora-m-lutz
+
+# AI-related content
+05-ai:/ @debora-m-lutz
+
+# === PROTOTYPE AREAS ===
+# Prototype development - requires special attention
+05-prototipos/ @debora-m-lutz
+
+# Specific prototype components
+05-prototipos/05-prototipo/5.1_Prototipo/ @debora-m-lutz
+05-prototipos/05-prototipo/05_Prototipo/ @debora-m-lutz
+
+# Development files in prototypes
+05-prototipos/05-prototipo/DEV/ @debora-m-lutz
+
+# === MANUALS SECTION ===
+# User and technical manuals
+manuais/ @debora-m-lutz
+
+# === GITHUB WORKFLOWS ===
+# Critical automation files - require owner review
+.github/workflows/ @debora-m-lutz
+
+# Specific workflow files
+.github/workflows/aurora-integration-ceremony.yml @debora-m-lutz
+.github/workflows/flux-monitor.yml @debora-m-lutz
+.github/workflows/welcome-sponsors-ritual.yml @debora-m-lutz
+
+# === CONFIGURATION FILES ===
+# Package and dependency configurations
+package.json @debora-m-lutz
+package-lock.json @debora-m-lutz
+tsconfig.json @debora-m-lutz
+components.json @debora-m-lutz
+
+# === SECURITY-SENSITIVE FILES ===
+# Any file that affects security should be reviewed by the owner
+.github/rulesets-reference.yml @debora-m-lutz
+.github/BRANCH_PROTECTION_GUIDE.md @debora-m-lutz
+
+# === FUNDING AND SUPPORT ===
+# Funding and sponsorship configuration
+.github/FUNDING.yml @debora-m-lutz
+
+# === FUTURE TEAMS ===
+# As the project grows, consider adding these team assignments:
+#
+# Documentation team (when formed):
+# *.md @documentation-team
+# docs/ @documentation-team
+#
+# DevOps team (when formed):
+# .github/workflows/ @devops-team
+# .github/actions/ @devops-team
+#
+# Prototype team (when formed):
+# 05-prototipos/ @prototype-team
+#
+# AI team (when formed):
+# 05-ai/ @ai-team
+#
+# Legal team (when formed):
+# 04-legal/ @legal-team
+
+# === SPECIAL FILES ===
+# This CODEOWNERS file itself
+.github/CODEOWNERS @debora-m-lutz
+
+# Note: The order of rules matters. Later rules override earlier ones.
+# The last matching rule wins.
