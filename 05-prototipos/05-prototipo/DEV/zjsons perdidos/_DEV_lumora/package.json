@@ -2,6 +2,7 @@
   "name": "arina-lumora",
   "version": "1.0.0",
   "main": "index.js",
+  "license": "MIT",
   "scripts": {
     "start": "node server/index.js",
     "dev": "nodemon server/index.js"
@@ -18,5 +19,5 @@
   "devDependencies": {
     "nodemon": "^3.1.10"
   },
-  "description": ""
+  "description": "AI integration prototype for Lichtara OS - experimental OpenAI communication layer"
 }
