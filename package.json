@@ -1,0 +1,41 @@
+{
+  "name": "lichtara-os",
+  "version": "1.0.0",
+  "description": "Technical-spiritual knowledge base | Base de conhecimento técnico-espiritual",
+  "author": "Débora Lutz | Aurora Mission",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "install:prototypes": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm install && cd ../05_Prototipo && npm install || echo 'Some prototypes may not have npm setup'",
+    "dev:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm run dev",
+    "dev:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm run dev",
+    "build:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm run build",
+    "check:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm run check",
+    "status": "echo 'Lichtara OS - Aurora Mission Status' && echo 'Current recommended prototype: v2 (5.1_Prototipo)' && echo 'Run: npm run dev:v2'"
+  },
+  "workspaces": [
+    "05-prototipos/05-prototipo/5.1_Prototipo",
+    "05-prototipos/05-prototipo/05_Prototipo"
+  ],
+  "keywords": [
+    "spiritual-technology",
+    "conscious-integration",
+    "aurora-mission",
+    "technical-spiritual",
+    "knowledge-base",
+    "aurorabridge"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/debora-m-lutz/lichtara-os.git"
+  },
+  "homepage": "https://github.com/debora-m-lutz/lichtara-os",
+  "bugs": {
+    "url": "https://github.com/debora-m-lutz/lichtara-os/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {}
+}
