@@ -1,0 +1,84 @@
+{
+  "name": "lichtara-os",
+  "version": "1.0.0",
+  "description": "A conscious integration architecture between technology, science, and spirituality | Uma arquitetura de integração consciente entre tecnologia, ciência e espiritualidade",
+  "keywords": [
+    "consciousness",
+    "spiritual-technology",
+    "integration",
+    "aurora",
+    "knowledge-base",
+    "bilingual",
+    "ai-collaboration",
+    "quantum-spirituality",
+    "consciousness-technology",
+    "spiritual-science"
+  ],
+  "homepage": "https://github.com/debora-m-lutz/lichtara-os#readme",
+  "bugs": {
+    "url": "https://github.com/debora-m-lutz/lichtara-os/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/debora-m-lutz/lichtara-os.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Debora M. Lutz",
+    "email": "debora.m.lutz@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Debora M. Lutz",
+      "email": "debora.m.lutz@gmail.com",
+      "role": "Project Lead & Spiritual-Technical Integration Architect"
+    }
+  ],
+  "engines": {
+    "node": ">=18.20.0",
+    "npm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "echo 'Navigate to specific prototype directories to run development servers'",
+    "build": "echo 'Navigate to specific prototype directories to build projects'",
+    "test": "echo 'Navigate to specific prototype directories to run tests'",
+    "lint": "echo 'Navigate to specific prototype directories to run linting'",
+    "docs": "echo 'Documentation is available in markdown format throughout the repository'",
+    "validate": "npm run validate:structure && npm run validate:links",
+    "validate:structure": "find . -name '*.md' -type f | head -10 | xargs ls -la",
+    "validate:links": "echo 'Link validation would go here - consider adding markdown-link-check'",
+    "setup": "echo 'Project setup: Read README.md and navigate to 00-overview/ to begin'"
+  },
+  "workspaces": [
+    "05-prototipos/05-prototipo/5.1_Prototipo",
+    "05-prototipos/05-prototipo/05_Prototipo"
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/debora-m-lutz"
+  },
+  "private": false,
+  "type": "module",
+  "main": "README.md",
+  "files": [
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "00-overview:",
+    "01-fundamentos:",
+    "02-manual-aurora:",
+    "03-tecnica:",
+    "04-legal:",
+    "05-ai:",
+    "05-prototipos/",
+    "manuais/"
+  ],
+  "directories": {
+    "doc": ".",
+    "example": "05-prototipos",
+    "test": "05-prototipos"
+  }
+}
