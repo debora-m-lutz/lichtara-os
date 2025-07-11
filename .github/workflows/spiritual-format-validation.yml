@@ -8,6 +8,9 @@ on:
     types: [opened, edited]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   spiritual-format-validation:
     runs-on: ubuntu-latest
