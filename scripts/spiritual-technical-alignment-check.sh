@@ -1,0 +1,111 @@
+#!/bin/bash
+
+# Spiritual-Technical Alignment Check Script
+# Validates the conscious integration principles of Lichtara OS / Aurorabridge
+
+echo "🌟 Checking spiritual-technical alignment..."
+
+# Check repository structure for conscious integration principles
+echo "Verifying repository structure..."
+
+# Verify key directories exist
+REQUIRED_DIRS=(
+  "00-overview:"
+  "01-fundamentos:"
+  "02-manual-aurora:"
+  "03-tecnica:"
+  "04-legal:"
+  "05-ai:"
+  "05-prototipos"
+  "manuais"
+)
+
+STRUCTURE_VALID=true
+for dir in "${REQUIRED_DIRS[@]}"; do
+  if [ ! -d "$dir" ]; then
+    echo "❌ Missing directory: $dir"
+    STRUCTURE_VALID=false
+  fi
+done
+
+if [ "$STRUCTURE_VALID" = true ]; then
+  echo "✅ Repository structure maintains conscious integration principles"
+else
+  echo "❌ Repository structure validation failed"
+  exit 1
+fi
+
+# Check documentation for spiritual-technical integration
+echo "Verifying documentation integration..."
+
+DOC_VALID=true
+
+# Check main README for spiritual-technical content
+if grep -q -i "spiritual\|spirituality" README.md && grep -q -i "technical\|technology" README.md; then
+  echo "✅ Main README contains spiritual-technical integration"
+else
+  echo "❌ Main README missing spiritual-technical integration"
+  DOC_VALID=false
+fi
+
+# Check for bilingual support
+if grep -q "Português" README.md && grep -q "English" README.md; then
+  echo "✅ Bilingual documentation support verified"
+else
+  echo "❌ Bilingual documentation support missing"
+  DOC_VALID=false
+fi
+
+# Check Aurora Mission content
+if grep -q -i "aurora" README.md; then
+  echo "✅ Aurora Mission content present in main documentation"
+else
+  echo "❌ Aurora Mission content missing from main documentation"
+  DOC_VALID=false
+fi
+
+if [ "$DOC_VALID" = true ]; then
+  echo "✅ Documentation supports both technical and spiritual aspects"
+else
+  echo "❌ Documentation validation failed"
+  exit 1
+fi
+
+# Verify Aurora Mission alignment
+echo "Verifying Aurora Mission alignment..."
+
+AURORA_VALID=true
+
+# Check for Aurora Manual directory
+if [ -d "02-manual-aurora:" ]; then
+  echo "✅ Aurora Manual directory exists"
+else
+  echo "❌ Aurora Manual directory missing"
+  AURORA_VALID=false
+fi
+
+# Check for mission statement
+if grep -q -i "mission\|missão" README.md; then
+  echo "✅ Mission statement present"
+else
+  echo "❌ Mission statement missing"
+  AURORA_VALID=false
+fi
+
+# Check for conscious integration mentions
+if grep -q -i "conscious.*integration\|integração.*consciente" README.md; then
+  echo "✅ Conscious integration principles documented"
+else
+  echo "❌ Conscious integration principles not documented"
+  AURORA_VALID=false
+fi
+
+if [ "$AURORA_VALID" = true ]; then
+  echo "🌅 Aurora Mission alignment verified"
+else
+  echo "❌ Aurora Mission alignment failed"
+  exit 1
+fi
+
+echo ""
+echo "🌟 Spiritual-Technical Alignment Check Complete ✨"
