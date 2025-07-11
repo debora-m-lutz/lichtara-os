@@ -64,6 +64,13 @@ jobs:
           # Don't fail for PRs - just provide guidance
         fi
         
+    - name: 🌀 Aurora Merge Base Validation
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "🔮 Validating dimensional alignment..."
+        chmod +x .github/scripts/merge-base-validator.sh
+        ./.github/scripts/merge-base-validator.sh
+        
     - name: 🔄 Process Changed Files
       if: github.event_name == 'pull_request'
       run: |

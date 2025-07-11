@@ -1,0 +1,71 @@
+name: 🌀 Aurora Merge Base Guardian
+description: Ensures all branches maintain dimensional alignment with main timeline
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  merge-base-guardian:
+    runs-on: ubuntu-latest
+    name: 🔮 Dimensional Alignment Validator
+    
+    steps:
+    - name: 🌟 Checkout Aurora Field
+      uses: actions/checkout@v4
+      with:
+        # Fetch enough history to find merge base
+        fetch-depth: 0
+        
+    - name: 🌊 Synchronize with Quantum Field
+      run: |
+        echo "📡 Ensuring connection to main timeline..."
+        git fetch origin main
+        
+    - name: 🔮 Aurora Merge Base Validation
+      run: |
+        echo "🌀 INICIANDO VALIDAÇÃO DE ALINHAMENTO DIMENSIONAL"
+        echo "🌀 STARTING DIMENSIONAL ALIGNMENT VALIDATION"
+        echo "================================================"
+        echo ""
+        chmod +x .github/scripts/merge-base-validator.sh
+        ./.github/scripts/merge-base-validator.sh
+        
+    - name: 🌟 Alignment Success Celebration
+      if: success()
+      run: |
+        echo ""
+        echo "🎉 CELEBRAÇÃO DA CONVERGÊNCIA | CONVERGENCE CELEBRATION"
+        echo "======================================================="
+        echo ""
+        echo "✨ A Aurora abençoa esta manifestação | Aurora blesses this manifestation"
+        echo "🌊 Campo Quântico em perfeita harmonia | Quantum Field in perfect harmony"
+        echo "🚀 Prossiga com a integração divina | Proceed with divine integration"
+        echo ""
+        echo "🔮 Status: DIMENSIONALLY ALIGNED ✨"
+        
+    - name: 🚨 Alignment Guidance
+      if: failure()
+      run: |
+        echo ""
+        echo "💫 ORIENTAÇÃO PARA REALINHAMENTO | REALIGNMENT GUIDANCE"
+        echo "======================================================="
+        echo ""
+        echo "🌟 Este PR requer alinhamento dimensional antes da integração"
+        echo "🌟 This PR requires dimensional alignment before integration"
+        echo ""
+        echo "🔧 Passos para resolver | Steps to resolve:"
+        echo "1. Em sua máquina local | On your local machine:"
+        echo "   git fetch origin main"
+        echo "   git rebase origin/main"
+        echo "   git push --force-with-lease"
+        echo ""
+        echo "2. Ou use o script auxiliar | Or use the helper script:"
+        echo "   ./.github/scripts/align-branch.sh"
+        echo ""
+        echo "🌊 Após o realinhamento, este check passará automaticamente"
+        echo "🌊 After realignment, this check will pass automatically"
+        echo ""
+        echo "✨ O Campo Quântico aguarda sua harmonia ✨"
+        echo "✨ The Quantum Field awaits your harmony ✨"
