@@ -1,0 +1,37 @@
+# CODEOWNERS file for branch protection
+# This file defines who owns and should review specific parts of the codebase
+
+# Global owners - these users will be requested for review on all PRs
+* @debora-m-lutz
+
+# Documentation owners
+*.md @debora-m-lutz
+/00-overview:/ @debora-m-lutz
+/manuais/ @debora-m-lutz
+
+# Fundamental principles and ethics
+/01-fundamentos:/ @debora-m-lutz
+
+# Aurora manual and protocols
+/02-manual-aurora:/ @debora-m-lutz
+
+# Technical architecture
+/03-tecnica:/ @debora-m-lutz
+
+# Legal documentation
+/04-legal:/ @debora-m-lutz
+
+# AI components
+/05-ai:/ @debora-m-lutz
+
+# Prototypes
+/05-prototipos/ @debora-m-lutz
+
+# GitHub configuration and workflows
+/.github/ @debora-m-lutz
+
+# Repository configuration files
+.gitignore @debora-m-lutz
+CODE_OF_CONDUCT.md @debora-m-lutz
+CONTRIBUTING.md @debora-m-lutz
+README.md @debora-m-lutz

@@ -96,6 +96,12 @@ Este repositório é vivo e evolutivo. Novos blocos serão integrados em ciclos 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on how to contribute.  
 Veja [CONTRIBUTING.md](./CONTRIBUTING.md) para diretrizes sobre como contribuir.
 
+### 🔒 Repository Security | Segurança do Repositório
+
+This repository implements branch protection rules and automated status checks to maintain code quality and security. For more information on setting up branch protection, see [Branch Protection Guide](./.github/branch-protection-guide.md).
+
+Este repositório implementa regras de proteção de branch e verificações de status automatizadas para manter a qualidade e segurança do código. Para mais informações sobre configuração de proteção de branch, veja [Guia de Proteção de Branch](./.github/branch-protection-guide.md).
+
 ---
 
 ## 📄 License | Licença
