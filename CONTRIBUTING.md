@@ -108,7 +108,85 @@ git commit -m "✨ Add conscious AI integration feature"
 
 # 5. Push and create PR
 git push origin feature/your-feature-name
+
+# If you need to force push (after rebasing or amending commits)
+# ALWAYS use --force-with-lease for safety
+git push --force-with-lease origin feature/your-feature-name
 ```
+
+### 2.1. 🛡️ Safe Force Push | Push Forçado Seguro
+
+When working with feature branches, you may sometimes need to rewrite history through rebasing or amending commits. For these situations, **always use `--force-with-lease`** instead of `--force`:
+
+Ao trabalhar com branches de features, às vezes você pode precisar reescrever o histórico através de rebase ou emenda de commits. Para essas situações, **sempre use `--force-with-lease`** em vez de `--force`:
+
+```bash
+# ✅ SAFE: Use --force-with-lease
+git push --force-with-lease origin feature/your-feature-name
+
+# ❌ DANGEROUS: Never use --force directly
+git push --force origin feature/your-feature-name
+```
+
+**Why `--force-with-lease` is safer:**
+- Prevents overwriting other contributors' work
+- Only allows force push if remote matches your local tracking branch
+- Protects against accidental data loss
+
+**Por que `--force-with-lease` é mais seguro:**
+- Impede sobrescrever o trabalho de outros contribuidores
+- Só permite push forçado se o remoto coincidir com sua branch de tracking local
+- Protege contra perda acidental de dados
+
+### 2.2. 🛡️ Safe Push Script | Script de Push Seguro
+
+We provide a convenient script that automates safe force pushing:
+
+Fornecemos um script conveniente que automatiza o push forçado seguro:
+
+```bash
+# Use the safe push script
+./.github/scripts/safe-push.sh
+
+# Push specific branch safely
+./.github/scripts/safe-push.sh feature/your-feature-name
+
+# Get help
+./.github/scripts/safe-push.sh --help
+```
+
+This script automatically:
+- Validates your branch and repository state
+- Uses `--force-with-lease` for maximum safety
+- Provides helpful error messages in both English and Portuguese
+- Sets upstream if needed
+
+Este script automaticamente:
+- Valida sua branch e estado do repositório
+- Usa `--force-with-lease` para máxima segurança
+- Fornece mensagens de erro úteis em inglês e português
+- Define upstream se necessário
+
+### 2.3. ⚙️ Git Configuration Setup | Configuração do Git
+
+For even easier safe pushing, run our git configuration script:
+
+Para push seguro ainda mais fácil, execute nosso script de configuração do git:
+
+```bash
+# Configure safe git defaults (run once per repository)
+./.github/scripts/setup-git.sh
+
+# After setup, you can use the shorter alias
+git push-safe origin feature/your-feature-name
+
+# Or continue using the interactive script
+./.github/scripts/safe-push.sh
+```
+
+The setup script creates a `push-safe` alias and configures other safety defaults.
+
+O script de configuração cria um alias `push-safe` e configura outros padrões de segurança.
 
 ### 3. 🔮 Pull Request Process | Processo de Pull Request
 - Use our Aurora Integration PR template
