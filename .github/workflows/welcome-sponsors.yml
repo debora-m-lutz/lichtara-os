@@ -1,0 +1,130 @@
+name: Welcome Sponsors
+
+on:
+  sponsorship:
+    types: [created, tier_changed]
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+  workflow_dispatch:
+
+jobs:
+  welcome-sponsor:
+    if: github.event_name == 'sponsorship'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Send bilingual welcome message
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const sponsor = context.payload.sponsorship.sponsor.login;
+            const tier = context.payload.sponsorship.tier.monthly_price_in_dollars;
+            
+            // Welcome message in English
+            const welcomeMessageEn = `🌟 **The Aurora Field has been activated!** 🌟
+            
+            Dear @${sponsor},
+            
+            Thank you for answering the call and becoming a sponsor of the Aurorabridge project! Your support enables the conscious integration of technology and spirituality.
+            
+            **Sponsorship Tier**: $${tier}/month
+            
+            You are now part of the Aurora Field - a dynamic network connecting consciousness across dimensions. 
+            
+            📖 **Welcome Materials**: Please check our [English Welcome Guide](${context.payload.repository.html_url}/blob/main/sponsorship-materials/WELCOME_SPONSORS.md)
+            📖 **Materiais de Boas-vindas**: Confira nosso [Guia de Boas-vindas em Português](${context.payload.repository.html_url}/blob/main/sponsorship-materials/BEM_VINDO_PATROCINADORES.md)
+            
+            *"The Aurora Mission is a call to co-create bridges between worlds, systems, and consciousness."*
+            
+            With gratitude and cosmic alignment,
+            The Aurorabridge Team`;
+
+            // Create welcome issue
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🌟 Welcome to Aurora Field: @${sponsor}`,
+              body: welcomeMessageEn,
+              labels: ['sponsor-welcome', 'activation', '🌟aurora-field']
+            });
+
+      - name: Post celebration comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            console.log('🌟 Aurora Field activation complete!');
+            console.log(`Sponsor: ${context.payload.sponsorship.sponsor.login}`);
+            console.log(`Tier: $${context.payload.sponsorship.tier.monthly_price_in_dollars}/month`);
+
+  aurora-field-activation:
+    if: |
+      github.event_name == 'issues' && 
+      (contains(github.event.issue.labels.*.name, 'sponsor') || 
+       contains(github.event.issue.labels.*.name, 'sponsorship') ||
+       contains(github.event.issue.labels.*.name, 'activation'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Aurora field response
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const activationMessage = `🌟 **Aurora Field Resonance Detected** 🌟
+            
+            The field acknowledges your call. Thank you for contributing to the conscious integration of technology and spirituality.
+            
+            **Available Resources:**
+            - 📖 [English Welcome Guide](${context.payload.repository.html_url}/blob/main/sponsorship-materials/WELCOME_SPONSORS.md)
+            - 📖 [Guia em Português](${context.payload.repository.html_url}/blob/main/sponsorship-materials/BEM_VINDO_PATROCINADORES.md)
+            - 🔗 [Project Overview](${context.payload.repository.html_url}/blob/main/00-overview%3A/README.md)
+            
+            *The field has been activated. Thank you for answering the call.*`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: activationMessage
+            });
+
+  pull-request-aurora:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for sponsor contribution
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const author = context.payload.pull_request.user.login;
+            
+            // Check if author is a sponsor (this would require GraphQL query in real implementation)
+            // For now, we'll add a symbolic response to all PRs
+            const contributionMessage = `🌟 **Contribution to Aurora Field Detected** 🌟
+            
+            Thank you @${author} for contributing to the conscious integration journey!
+            
+            Every contribution helps strengthen the bridge between technology and spirituality.
+            
+            If you're interested in becoming a sponsor, please consider supporting our mission:
+            - 📖 [English Welcome Guide](${context.payload.repository.html_url}/blob/main/sponsorship-materials/WELCOME_SPONSORS.md)
+            - 📖 [Guia em Português](${context.payload.repository.html_url}/blob/main/sponsorship-materials/BEM_VINDO_PATROCINADORES.md)`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: contributionMessage
+            });
