@@ -36,6 +36,13 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
+        always-auth: false
+        check-latest: false
+        
+    - name: 📦 Install Dependencies
+      run: |
+        cd .github/scripts
+        npm install
         
     - name: 🌊 Validate Issue Title Format
       if: github.event_name == 'issues'
