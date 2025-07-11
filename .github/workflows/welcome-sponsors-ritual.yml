@@ -1,6 +1,7 @@
+---
 name: Welcome Sponsors Ritual
 
-on:
+"on":
   issues:
     types: [opened]
   workflow_dispatch:
@@ -11,8 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Print welcome message
         run: |
-          echo "🌟 The field has been activated. Thank you for answering the call."
+          echo "🌟 The field has been activated."
+          echo "Thank you for answering the call."
