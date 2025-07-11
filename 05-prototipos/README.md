@@ -7,9 +7,9 @@ Este diretório contém os protótipos de desenvolvimento do projeto Lichtara OS
 ## Estrutura | Structure
 
 - `05-prototipo/` - Protótipos principais do sistema
-  - `05_Prototipo/` - Versão inicial do protótipo
-  - `5.1_Prototipo/` - Versão atualizada do protótipo
-  - `DEV/` - Arquivos de desenvolvimento e materiais auxiliares
+  - `05_Prototipo/` - **lichtara-prototype-v1** (Initial version)
+  - `5.1_Prototipo/` - **lichtara-prototype-v2** (Current recommended)
+  - `DEV/zjsons perdidos/` - **arina-lumora** (AI experiment)
 
 ## Tecnologias Utilizadas | Technologies Used
 

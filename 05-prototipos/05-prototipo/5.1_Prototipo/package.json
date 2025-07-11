@@ -1,6 +1,7 @@
 {
-  "name": "rest-express",
+  "name": "lichtara-prototype-v2",
   "version": "1.0.0",
+  "description": "Lichtara OS Prototype v2 - Current recommended version of the prototype system",
   "type": "module",
   "license": "MIT",
   "scripts": {
