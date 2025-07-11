@@ -93,9 +93,39 @@ lichtara-os/
    cd lichtara-os
    ```
 
-2. Explore the structure | Explore a estrutura:
+2. Install all prototypes | Instale todos os protótipos:
+   ```bash
+   npm run install:prototypes
+   ```
+
+3. Run current prototype (recommended) | Execute o protótipo atual (recomendado):
+   ```bash
+   npm run dev:v2
+   ```
+
+4. Check project status | Verifique o status do projeto:
+   ```bash
+   npm run status
+   ```
+
+5. Explore the structure | Explore a estrutura:
    - Start with [`00-overview:/README.md`](./00-overview:/README.md) for a comprehensive introduction
    - Comece com [`00-overview:/README.md`](./00-overview:/README.md) para uma introdução abrangente
+
+### 🛠️ Available Scripts | Scripts Disponíveis
+
+| Script | Description | Descrição |
+|--------|-------------|-----------|
+| `npm run install:prototypes` | Install all prototypes dependencies | Instala as dependências de todos os protótipos |
+| `npm run dev:v2` | Run current prototype (v2) in development mode | Executa o protótipo atual (v2) em modo de desenvolvimento |
+| `npm run dev:v1` | Run prototype v1 in development mode | Executa o protótipo v1 em modo de desenvolvimento |
+| `npm run status` | Check installation status of all prototypes | Verifica o status de instalação de todos os protótipos |
+| `npm run build:v1` | Build prototype v1 for production | Compila o protótipo v1 para produção |
+| `npm run build:v2` | Build prototype v2 for production | Compila o protótipo v2 para produção |
+
+**Prototype Details | Detalhes dos Protótipos:**
+- **v1 (05_Prototipo)**: Full-stack React + Express application with WebSocket support
+- **v2 (5.1_Prototipo)**: Frontend-only React application running on Vite
 
 ### Quick Navigation | Navegação Rápida
 
