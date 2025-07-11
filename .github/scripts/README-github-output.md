@@ -1,4 +1,38 @@
-# GitHub Actions Output Utility
+# GitHub Scripts | Scripts do GitHub
+
+This directory contains utility scripts for Lichtara OS development and GitHub workflows.
+
+Este diretório contém scripts utilitários para desenvolvimento do Lichtara OS e workflows do GitHub.
+
+## 🛡️ Safe Push Tool | Ferramenta de Push Seguro
+
+### `safe-push.sh`
+A secure wrapper around `git push --force-with-lease` that provides safety checks and bilingual error messages.
+
+Um wrapper seguro em torno do `git push --force-with-lease` que fornece verificações de segurança e mensagens de erro bilíngues.
+
+**Usage | Uso:**
+```bash
+# Push current branch safely
+./.github/scripts/safe-push.sh
+
+# Push specific branch safely  
+./.github/scripts/safe-push.sh feature/my-feature
+
+# Get help
+./.github/scripts/safe-push.sh --help
+```
+
+**Features | Características:**
+- ✅ Uses `--force-with-lease` for maximum safety
+- ✅ Validates repository state before pushing
+- ✅ Bilingual output (English/Portuguese)
+- ✅ Automatic upstream configuration
+- ✅ Helpful error messages and guidance
+
+## 📄 GitHub Actions Output Utility
+
+### `github-output.sh`
 
 This utility script implements the requirement to output GitHub Actions variables, specifically the command:
 ```bash
