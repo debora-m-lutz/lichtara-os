@@ -80,7 +80,6 @@ export class ProcessCleanupManager {
           try {
             console.log(`🔌 Cleaning up: ${resource.name}`);
             await resource.cleanup();
-            console.log(`✅ Cleaned up: ${resource.name}`);
           } catch (error) {
             console.error(`❌ Error cleaning up ${resource.name}:`, error);
           }
@@ -196,5 +195,7 @@ export function setupExpressCleanup(
   return cleanup;
 }
 
-// Default instance for simple usage
-export const defaultCleanup = new ProcessCleanupManager();
+// Default instance for simple usage (not auto-registered)
+export function createDefaultCleanup(options?: CleanupOptions): ProcessCleanupManager {
+  return new ProcessCleanupManager(options);
+}
