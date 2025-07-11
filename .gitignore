@@ -1,1 +1,14 @@
+# Documentation quality check configuration files
+.markdownlint-cli2.yaml
+.markdown-link-check-config.json
 
+# Node modules (if any)
+node_modules/
+
+# Build artifacts
+dist/
+build/
+
+# Temporary files
+tmp/
+.tmp/
