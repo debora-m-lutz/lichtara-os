@@ -1,0 +1,119 @@
+name: 🔮 Spiritual Format Validation
+description: Validates titles and content according to Lichtara OS spiritual conventions
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+  issues:
+    types: [opened, edited]
+  workflow_dispatch:
+
+jobs:
+  spiritual-format-validation:
+    runs-on: ubuntu-latest
+    name: ✨ Aurora Format Guardian
+    
+    steps:
+    - name: 🌟 Checkout Aurora Field
+      uses: actions/checkout@v4
+      
+    - name: 🔮 Setup Node.js for Validation
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: 🌊 Validate Issue Title Format
+      if: github.event_name == 'issues'
+      run: |
+        echo "🔍 Validating issue title format..."
+        TITLE="${{ github.event.issue.title }}"
+        echo "Issue Title: $TITLE"
+        
+        # Run validation
+        RESULT=$(node .github/scripts/format-validator.js validate "$TITLE")
+        echo "Validation Result: $RESULT"
+        
+        # Check if validation passed
+        if node .github/scripts/format-validator.js validate "$TITLE" > /dev/null 2>&1; then
+          echo "✅ Issue title follows spiritual conventions!"
+          echo "🌟 Format validation passed"
+        else
+          echo "💫 Suggestion: Consider using spiritual emoji prefixes"
+          echo "🔮 Run: node .github/scripts/format-validator.js help"
+          # Don't fail for issues - just provide guidance
+        fi
+        
+    - name: 🌈 Validate Pull Request Title Format  
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "🔍 Validating PR title format..."
+        TITLE="${{ github.event.pull_request.title }}"
+        echo "PR Title: $TITLE"
+        
+        # Run validation
+        RESULT=$(node .github/scripts/format-validator.js validate "$TITLE")
+        echo "Validation Result: $RESULT"
+        
+        # Check if validation passed
+        if node .github/scripts/format-validator.js validate "$TITLE" > /dev/null 2>&1; then
+          echo "✅ PR title follows spiritual conventions!"
+          echo "🌟 Format validation passed"
+        else
+          echo "💫 Suggestion: Consider using spiritual emoji prefixes"
+          echo "🔮 Run: node .github/scripts/format-validator.js help"
+          # Don't fail for PRs - just provide guidance
+        fi
+        
+    - name: 🔄 Process Changed Files
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "🌊 Processing changed files for format consistency..."
+        
+        # Get list of changed files
+        git fetch origin main
+        CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
+        
+        echo "Changed files:"
+        echo "$CHANGED_FILES"
+        
+        # Process markdown files for format validation
+        for file in $CHANGED_FILES; do
+          if [[ "$file" == *.md ]] && [[ -f "$file" ]]; then
+            echo "📝 Processing: $file"
+            node .github/scripts/format-validator.js process "$file" || true
+          fi
+        done
+        
+    - name: 🌟 Generate Format Report
+      run: |
+        echo "📊 SPIRITUAL FORMAT VALIDATION REPORT"
+        echo "====================================="
+        echo ""
+        echo "🎯 Event: ${{ github.event_name }}"
+        echo "🌀 Repository: ${{ github.repository }}"
+        echo "⏰ Timestamp: $(date)"
+        echo ""
+        
+        if [ "${{ github.event_name }}" = "issues" ]; then
+          echo "📋 Issue: #${{ github.event.issue.number }}"
+          echo "📝 Title: ${{ github.event.issue.title }}"
+          echo "👤 Author: ${{ github.event.issue.user.login }}"
+        elif [ "${{ github.event_name }}" = "pull_request" ]; then
+          echo "🔄 PR: #${{ github.event.pull_request.number }}"
+          echo "📝 Title: ${{ github.event.pull_request.title }}"
+          echo "👤 Author: ${{ github.event.pull_request.user.login }}"
+        fi
+        
+        echo ""
+        echo "✨ Spiritual format validation completed"
+        echo "🌊 The Aurora field remains harmonious"
+        
+    - name: 🌸 Blessing for Spiritual Alignment
+      run: |
+        echo "🙏 Aurora Blessing for Conscious Technology:"
+        echo ""
+        echo "May each title serve consciousness evolution,"
+        echo "May each format honor the sacred in technology,"
+        echo "May each validation bridge worlds with wisdom."
+        echo ""
+        echo "🌟 Format guardian duties complete ✨"
