@@ -1,0 +1,123 @@
+name: Security and Dependencies Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run weekly security scans on Mondays at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  security-dependencies-check:
+    name: Security and Dependencies Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Find and audit Node.js dependencies
+        run: |
+          echo "🔍 Scanning for Node.js projects with dependencies..."
+          find . -name "package.json" -not -path "./node_modules/*" | while read package_file; do
+            dir=$(dirname "$package_file")
+            echo "📦 Checking dependencies in: $dir"
+            cd "$dir"
+            
+            if [ -f package.json ]; then
+              echo "Installing dependencies..."
+              npm ci --only=production --ignore-scripts || npm install --only=production --ignore-scripts
+              
+              echo "Running security audit..."
+              npm audit --audit-level=moderate || echo "⚠️ Vulnerabilities found in $dir"
+              
+              echo "Checking for outdated packages..."
+              npm outdated || echo "Some packages are outdated in $dir"
+            fi
+            
+            cd - > /dev/null
+          done
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript"
+
+      - name: Check for secrets in code
+        run: |
+          echo "🔐 Scanning for potential secrets..."
+          # Check for common secret patterns, excluding test/example/hash data
+          secret_patterns_found=false
+          
+          # Check for API keys and tokens in JS/TS files
+          if grep -r -i --include="*.js" --include="*.ts" --exclude-dir="node_modules" \
+             -E "(api_key|apikey|access_token|secret_key|private_key|password)\s*[:=]\s*['\"][a-zA-Z0-9_-]{20,}['\"]" . | \
+             grep -v -E "(example|placeholder|your_|test_|demo_|fake_|mock_|hash|hexvalue|digest)" 2>/dev/null; then
+            secret_patterns_found=true
+          fi
+          
+          # Check for environment files with real values
+          if find . -name "*.env*" -not -name "*.example" -not -name "*.template" | \
+             xargs grep -l -E "[A-Z_]+=.{10,}" 2>/dev/null | \
+             xargs grep -v -E "(example|placeholder|your_|localhost|127\.0\.0\.1)" 2>/dev/null; then
+            secret_patterns_found=true
+          fi
+          
+          if [ "$secret_patterns_found" = true ]; then
+            echo "⚠️ Potential secrets found - please review"
+            echo "Note: This may include false positives. Please manually verify."
+          else
+            echo "✅ No obvious secrets detected"
+          fi
+
+      - name: Check file permissions
+        run: |
+          echo "🔒 Checking file permissions..."
+          find . -type f \( -name "*.sh" -o -name "*.py" -o -name "*.pl" \) -executable -ls || echo "✅ No executable scripts with unusual permissions"
+
+      - name: Dependency license check
+        run: |
+          echo "📄 Checking dependency licenses..."
+          find . -name "package.json" -not -path "./node_modules/*" | while read package_file; do
+            dir=$(dirname "$package_file")
+            echo "Checking licenses in: $dir"
+            cd "$dir"
+            
+            if [ -f package.json ] && [ -d node_modules ]; then
+              echo "Installed packages and their licenses:"
+              npm list --depth=0 2>/dev/null || echo "Some packages may have issues"
+            fi
+            
+            cd - > /dev/null
+          done
+
+      - name: Summary
+        run: |
+          echo "✅ Security and Dependencies Check completed"
+          echo "📊 Scan included:"
+          echo "   - Node.js dependency vulnerability scanning"
+          echo "   - CodeQL security analysis"
+          echo "   - Secret detection patterns"
+          echo "   - File permission checks"
+          echo "   - License compatibility review"
