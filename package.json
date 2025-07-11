@@ -50,8 +50,7 @@
     "setup": "echo 'Project setup: Read README.md and navigate to 00-overview/ to begin'"
   },
   "workspaces": [
-    "05-prototipos/05-prototipo/5.1_Prototipo",
-    "05-prototipos/05-prototipo/05_Prototipo"
+    "05-prototipos/05-prototipo/5.1_Prototipo"
   ],
   "funding": {
     "type": "github",
