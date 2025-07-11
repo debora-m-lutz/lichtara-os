@@ -23,12 +23,19 @@ The "Cleaning up orphan processes" issue has been successfully resolved with a c
 - PID tracking to prevent multiple instances
 - Orphan process detection and cleanup
 - Live log monitoring
+- Port conflict resolution
 
 ### 4. **Verification System** (`verify-cleanup.sh`)
 - Automated testing of cleanup functionality
 - Validates both TypeScript and JavaScript servers
 - Tests orphan detection and cleanup
 - Ensures configuration correctness
+- Port conflict handling
+
+### 5. **Testing Suite**
+- `test-orphan-cleanup.sh`: Simple test for basic orphan process scenarios
+- `verify-cleanup.sh`: Comprehensive test suite
+- TypeScript compilation validation with `tsconfig.server.json`
 
 ## 📊 Test Results
 
@@ -41,6 +48,9 @@ All tests pass successfully:
 - ✅ Connection tracking and cleanup works
 - ✅ WebSocket connections properly closed
 - ✅ Server manager script functions correctly
+- ✅ Port conflict resolution works
+- ✅ Force-kill scenarios are handled properly
+- ✅ TypeScript compilation works correctly
 
 ## 🚀 Usage
 
@@ -60,9 +70,15 @@ cd 05-prototipos/05-prototipo/05_Prototipo
 ./server-manager.sh cleanup
 ```
 
-### Run Full Verification
+### Clean PID Files and Logs
 ```bash
-./verify-cleanup.sh
+./server-manager.sh clean
+```
+
+### Run Tests
+```bash
+./test-orphan-cleanup.sh      # Simple test
+./verify-cleanup.sh           # Comprehensive test
 ```
 
 ## 🔍 Before vs After
@@ -73,6 +89,7 @@ cd 05-prototipos/05-prototipo/05_Prototipo
 - Port conflicts when restarting
 - Missing server files referenced in package.json
 - No process management tools
+- TypeScript compilation issues
 
 **After:**
 - Zero orphan processes after termination
@@ -81,6 +98,9 @@ cd 05-prototipos/05-prototipo/05_Prototipo
 - Connection tracking and cleanup
 - Development tools for server management
 - Comprehensive testing and verification
+- Port conflict resolution
+- TypeScript compilation working
+- Robust error handling for edge cases
 
 ## 📁 Files Added/Modified
 
@@ -89,11 +109,13 @@ cd 05-prototipos/05-prototipo/05_Prototipo
 - `server/cleanup.ts` - Reusable cleanup utility
 - `server-manager.sh` - Server lifecycle management
 - `verify-cleanup.sh` - Automated testing
+- `test-orphan-cleanup.sh` - Simple cleanup test
+- `tsconfig.server.json` - TypeScript config for server files
 - `CLEANUP_GUIDE.md` - Detailed documentation
-- `.gitignore` files - Exclude temporary files
 
 ### Modified Files:
 - `package.json` - Updated scripts to use npx tsx
+- `tsconfig.json` - Improved TypeScript configuration
 - `DEV/.../server/index.js` - Added graceful shutdown
 
 ## 🎯 Impact
@@ -105,5 +127,7 @@ This implementation ensures:
 4. **Resource conservation** through proper cleanup
 5. **Developer productivity** with management tools
 6. **Production readiness** with proper error handling
+7. **Robust testing** to prevent regressions
+8. **TypeScript support** with proper compilation
 
 The solution is minimal, focused, and addresses the core issue while providing comprehensive tooling for ongoing development.

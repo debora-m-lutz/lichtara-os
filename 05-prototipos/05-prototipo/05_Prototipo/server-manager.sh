@@ -31,6 +31,7 @@ is_server_running() {
         if kill -0 "$pid" 2>/dev/null; then
             return 0
         else
+            # Clean up stale PID file
             rm -f "$PID_FILE"
             return 1
         fi
@@ -42,8 +43,25 @@ is_server_running() {
 cleanup_orphans() {
     print_status $YELLOW "🔍 Checking for orphan Node.js processes..."
     
-    # Find Node.js processes related to this project
-    local project_processes=$(pgrep -f "tsx.*server/index.ts|node.*server|npm.*dev" 2>/dev/null || true)
+    # Find Node.js processes related to this project (more specific patterns)
+    local tsx_processes=$(pgrep -f "tsx.*server/index\.ts" 2>/dev/null || true)
+    local node_server_processes=$(pgrep -f "node.*server.*index" 2>/dev/null || true)
+    local npm_dev_processes=$(pgrep -f "npm.*dev" 2>/dev/null | grep -v "$$" 2>/dev/null || true)
+    
+    # Combine all found processes
+    local project_processes=""
+    if [ -n "$tsx_processes" ]; then
+        project_processes="$project_processes $tsx_processes"
+    fi
+    if [ -n "$node_server_processes" ]; then
+        project_processes="$project_processes $node_server_processes"
+    fi
+    if [ -n "$npm_dev_processes" ]; then
+        project_processes="$project_processes $npm_dev_processes"
+    fi
+    
+    # Remove duplicates and trim whitespace
+    project_processes=$(echo "$project_processes" | tr ' ' '\n' | sort -u | tr '\n' ' ' | xargs)
     
     if [ -n "$project_processes" ]; then
         print_status $YELLOW "🧹 Found potential orphan processes:"
@@ -53,21 +71,41 @@ cleanup_orphans() {
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             for pid in $project_processes; do
-                if kill -TERM "$pid" 2>/dev/null; then
-                    print_status $GREEN "✅ Terminated process $pid"
-                else
-                    print_status $RED "❌ Failed to terminate process $pid"
+                if kill -0 "$pid" 2>/dev/null; then
+                    if kill -TERM "$pid" 2>/dev/null; then
+                        print_status $GREEN "✅ Terminated process $pid"
+                    else
+                        print_status $RED "❌ Failed to terminate process $pid"
+                    fi
                 fi
             done
             
             # Wait a bit and force kill if necessary
-            sleep 2
+            sleep 3
             for pid in $project_processes; do
                 if kill -0 "$pid" 2>/dev/null; then
                     print_status $YELLOW "⚠️  Force killing stubborn process $pid"
                     kill -KILL "$pid" 2>/dev/null || true
                 fi
             done
+            
+            # Check for port conflicts and clean them up
+            print_status $BLUE "🧹 Checking for port conflicts..."
+            local port_pids=$(lsof -ti:${PORT:-3001} 2>/dev/null || true)
+            if [ -n "$port_pids" ]; then
+                print_status $YELLOW "Found processes using port ${PORT:-3001}: $port_pids"
+                for pid in $port_pids; do
+                    kill -TERM "$pid" 2>/dev/null || true
+                done
+                sleep 2
+                # Force kill if still there
+                port_pids=$(lsof -ti:${PORT:-3001} 2>/dev/null || true)
+                if [ -n "$port_pids" ]; then
+                    for pid in $port_pids; do
+                        kill -KILL "$pid" 2>/dev/null || true
+                    done
+                fi
+            fi
         fi
     else
         print_status $GREEN "✅ No orphan processes found"
@@ -161,8 +199,10 @@ status_server() {
         print_status $GREEN "✅ Server is running (PID: $pid)"
         print_status $BLUE "📊 Memory usage:"
         ps -p "$pid" -o pid,ppid,%cpu,%mem,command 2>/dev/null || true
+        return 0
     else
         print_status $RED "❌ Server is not running"
+        return 1
     fi
 }
 
@@ -174,6 +214,13 @@ show_logs() {
     else
         print_status $YELLOW "⚠️  No log file found"
     fi
+}
+
+# Function to clean up PID files and logs
+clean_files() {
+    print_status $BLUE "🧹 Cleaning up PID files and logs..."
+    rm -f "$PID_FILE" "$LOG_FILE"
+    print_status $GREEN "✅ Cleanup completed"
 }
 
 # Main command handler
@@ -196,9 +243,12 @@ case "${1:-}" in
     cleanup)
         cleanup_orphans
         ;;
+    clean)
+        clean_files
+        ;;
     *)
         print_status $BLUE "🌟 Lichtara OS Server Manager"
-        echo "Usage: $0 {start|stop|restart|status|logs|cleanup}"
+        echo "Usage: $0 {start|stop|restart|status|logs|cleanup|clean}"
         echo ""
         echo "Commands:"
         echo "  start    - Start the development server"
@@ -207,10 +257,12 @@ case "${1:-}" in
         echo "  status   - Show server status"
         echo "  logs     - Show server logs (live)"
         echo "  cleanup  - Clean up orphan processes"
+        echo "  clean    - Clean up PID files and logs"
         echo ""
         echo "Examples:"
         echo "  $0 start      # Start server"
         echo "  $0 cleanup    # Clean up any orphan processes"
+        echo "  $0 clean      # Clean up PID files and logs"
         echo "  $0 status     # Check if server is running"
         exit 1
         ;;
