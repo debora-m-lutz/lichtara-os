@@ -11,8 +11,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          # Configure git for clean post-job cleanup
+          set-safe-directory: true
+          
+      - name: Configure git for quiet operations
+        run: |
+          git config --global core.quiet true
+          git config --global advice.addIgnoredFile false
+          git config --global advice.addEmptyPathspec false
 
       - name: Print welcome message
         run: |
           echo "🌟 The field has been activated. Thank you for answering the call."
+          
+      - name: Post-job cleanup
+        if: always()
+        run: |
+          # Clean up git configuration silently
+          git config --global --unset-all http.https://github.com/.extraheader 2>/dev/null || true
+          git config --local --unset-all http.https://github.com/.extraheader 2>/dev/null || true
+          git config --local --unset-all core.sshCommand 2>/dev/null || true

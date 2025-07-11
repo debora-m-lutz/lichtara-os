@@ -1,1 +1,19 @@
+# Git and CI/CD artifacts
+.git/config.backup
+.git/config.local
 
+# GitHub Actions artifacts
+.github-actions/
+
+# Local development
+.vscode/
+.idea/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
