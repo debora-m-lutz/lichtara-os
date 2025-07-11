@@ -1,0 +1,61 @@
+{
+  "name": "lichtara-os",
+  "version": "0.1.0",
+  "description": "Technical-spiritual knowledge base - A conscious integration architecture between technology, science, and spirituality",
+  "type": "module",
+  "license": "MIT",
+  "author": "Débora M. Lutz <debora-m-lutz@users.noreply.github.com>",
+  "homepage": "https://github.com/debora-m-lutz/lichtara-os",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/debora-m-lutz/lichtara-os.git"
+  },
+  "bugs": {
+    "url": "https://github.com/debora-m-lutz/lichtara-os/issues"
+  },
+  "keywords": [
+    "spiritual-technology",
+    "consciousness",
+    "aurora-mission",
+    "aurorabridge",
+    "lichtara",
+    "integration",
+    "knowledge-base",
+    "bilingual",
+    "open-source"
+  ],
+  "workspaces": [
+    "05-prototipos/05-prototipo/05_Prototipo",
+    "05-prototipos/05-prototipo/5.1_Prototipo",
+    "05-prototipos/05-prototipo/DEV/zjsons perdidos/_DEV_lumora"
+  ],
+  "scripts": {
+    "install:prototypes": "npm install --workspaces",
+    "dev": "npm run dev:v2",
+    "dev:v1": "npm run dev --workspace=05-prototipos/05-prototipo/05_Prototipo",
+    "dev:v2": "npm run dev --workspace=05-prototipos/05-prototipo/5.1_Prototipo",
+    "dev:experimental": "npm run dev --workspace='05-prototipos/05-prototipo/DEV/zjsons perdidos/_DEV_lumora'",
+    "build": "npm run build --workspaces",
+    "build:v1": "npm run build --workspace=05-prototipos/05-prototipo/05_Prototipo",
+    "build:v2": "npm run build --workspace=05-prototipos/05-prototipo/5.1_Prototipo",
+    "start": "npm run start --workspaces",
+    "start:v1": "npm run start --workspace=05-prototipos/05-prototipo/05_Prototipo",
+    "start:v2": "npm run start --workspace=05-prototipos/05-prototipo/5.1_Prototipo",
+    "check": "npm run check --workspaces",
+    "test": "echo 'Running consciousness-aligned tests across all prototypes' && npm run test --workspaces --if-present",
+    "lint": "echo 'Applying conscious code quality checks' && npm run lint --workspaces --if-present",
+    "status": "echo '🌟 Lichtara OS Status' && echo 'Available prototypes:' && ls -la 05-prototipos/05-prototipo/ && echo 'Use npm run dev:v2 for current recommended prototype'",
+    "consciousness-check": "echo '🧘 Checking spiritual-technical integration alignment...' && grep -r 'conscious\\|spiritual\\|aurora' . --include='*.md' | wc -l && echo 'integration points found'",
+    "aurora-mission": "echo '💫 The Aurora Mission: Co-creating bridges between worlds, systems, and consciousnesses'"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {},
+  "private": true,
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/debora-m-lutz"
+  }
+}
