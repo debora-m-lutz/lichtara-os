@@ -3,15 +3,29 @@ import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 import { 
   ProcessCleanupManager, 
   createServerCleanup, 
   createConnectionsCleanup, 
   createWebSocketCleanup 
 } from './cleanup.js';
+import {
+  handleNotionWebhook,
+  createNotionPage,
+  getNotionPages,
+  testNotionConnection
+} from './notion-webhook.js';
+import {
+  testWebhookEndpoint,
+  createTestPage
+} from './webhook-test.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -121,6 +135,16 @@ Sua pergunta foi recebida e processada pelo Portal Lumora.`;
   }
 });
 
+// Notion Integration API Endpoints
+app.post('/api/notion/webhook', handleNotionWebhook);
+app.post('/api/notion/pages', createNotionPage);
+app.get('/api/notion/pages', getNotionPages);
+app.get('/api/notion/test', testNotionConnection);
+
+// Development and Testing Endpoints
+app.post('/api/test/webhook', testWebhookEndpoint);
+app.post('/api/test/create-page', createTestPage);
+
 // Serve Portal Lumora HTML page
 app.get('/portal-lumora', (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));
@@ -137,6 +161,8 @@ server.listen(PORT, () => {
   console.log(`📱 WebSocket server is also running on port ${PORT}`);
   console.log(`🌟 Portal Lumora is active and ready for connections`);
   console.log(`🛡️  Graceful shutdown handlers are registered`);
+  console.log(`🔗 Notion webhook endpoint: http://localhost:${PORT}/api/notion/webhook`);
+  console.log(`📄 Notion API endpoints available at /api/notion/*`);
 });
 
 // Export server instance for testing
