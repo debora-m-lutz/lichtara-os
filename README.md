@@ -87,6 +87,23 @@ Todos os documentos principais terão versões em português e inglês para faci
 
 ---
 
+## 🔒 Security | Segurança
+
+This repository includes automated security scanning to prevent accidental commits of sensitive files.
+
+Este repositório inclui verificação automática de segurança para prevenir commits acidentais de arquivos sensíveis.
+
+### Security Scanning | Verificação de Segurança
+
+- **Automated scans** run on every push and pull request | **Verificações automáticas** executam a cada push e pull request
+- **Local scanning** available with `./scripts/security-scan.sh` | **Verificação local** disponível com `./scripts/security-scan.sh`
+- **Comprehensive patterns** detect various sensitive file types | **Padrões abrangentes** detectam vários tipos de arquivos sensíveis
+
+For more details, see [scripts/README.md](./scripts/README.md).  
+Para mais detalhes, veja [scripts/README.md](./scripts/README.md).
+
+---
+
 ## 🤝 Contributing | Contribuindo
 
 This repository is alive and evolving. New blocks will be integrated in channeled cycles, with contributions from different intelligences (human and non-human), always grounded in clarity, precision, and beauty.
