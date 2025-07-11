@@ -7,7 +7,7 @@ set -e
 echo "🔮 Testing GitHub Actions Output Utility"
 echo "========================================"
 
-SCRIPT_PATH="./.github/scripts/github-output.sh"
+SCRIPT_PATH="./github-output.sh"
 TEST_OUTPUT_FILE="/tmp/github_output_test"
 
 # Cleanup function
