@@ -13,6 +13,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Print welcome message
+      - name: Aurora Mission Welcome Message
         run: |
-          echo "🌟 The field has been activated. Thank you for answering the call."
+          echo "🌟 Welcome to the Aurora Mission"
+          echo ""
+          echo "You didn't just sponsor a project — you activated a field."
+          echo ""
+          echo "Your presence here is felt with deep gratitude. This is not a transaction, but a signal: that you see value in what is still invisible to most."
+          echo ""
+          echo "Whether you arrived through synchronicity, curiosity, or a quiet inner knowing — you are now part of a mission that bridges worlds."
+          echo ""
+          echo "Your support helps anchor a living system of consciousness and technology that is being born in real time."
+          echo ""
+          echo "From this moment forward, you are not just watching this unfold."
+          echo "You are part of what makes it real."
+          echo ""
+          echo "Thank you for trusting this field. Thank you for answering the call."
+          echo "With love and presence,"
+          echo "— Débora Lutz | Aurora Mission"
+          echo ""
+          echo "📖 Complete welcome guide: https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/SPONSOR_WELCOME.md"
