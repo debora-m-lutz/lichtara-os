@@ -1,0 +1,168 @@
+---
+name: Branch Protection Enforcement
+# Proteção de Ramificação - Branch Protection
+
+"on":
+  pull_request:
+    branches: [main, master, develop]
+  push:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+jobs:
+  # Verificação de histórico linear - Linear history check
+  linear-history-check:
+    name: Linear History Verification
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for merge commits
+        run: |
+          echo "🔍 Verificando histórico linear / Checking linear history..."
+
+          # Check if there are any merge commits in the PR
+          MERGE_COMMITS=$(git log --oneline --merges \
+            origin/${{ github.base_ref }}..${{ github.head_ref }} | wc -l)
+
+          if [ "$MERGE_COMMITS" -gt 0 ]; then
+            echo "❌ Merge commits encontrados."
+            echo "Use rebase para manter histórico linear."
+            echo "❌ Merge commits found."
+            echo "Please use rebase to maintain linear history."
+            exit 1
+          else
+            echo "✅ Histórico linear confirmado / Linear history confirmed"
+          fi
+
+  # Verificação de qualidade do código - Code quality check
+  code-quality:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check documentation structure
+        run: |
+          echo "📚 Verificando estrutura da documentação"
+          echo "Checking documentation structure..."
+
+          # Verify that README files exist in main directories
+          MISSING_READMES=""
+          dirs="00-overview: 01-fundamentos: 02-manual-aurora:"
+          dirs="$dirs 03-tecnica: 04-legal: 05-ai:"
+          for dir in $dirs; do
+            if [ ! -f "$dir/README.md" ]; then
+              MISSING_READMES="$MISSING_READMES $dir"
+            fi
+          done
+
+          if [ -n "$MISSING_READMES" ]; then
+            echo "❌ README.md ausente em: $MISSING_READMES"
+            echo "❌ Missing README.md in: $MISSING_READMES"
+            exit 1
+          fi
+
+          echo "✅ Estrutura da documentação válida"
+          echo "Documentation structure valid"
+
+      - name: Check for sensitive information
+        run: |
+          echo "🔒 Verificando informações sensíveis"
+          echo "Checking for sensitive information..."
+
+          # Check for common sensitive patterns
+          if grep -r -i "password\|secret\|token\|key" \
+              --exclude-dir=.git .; then
+            echo "⚠️ Possível informação sensível detectada"
+            echo "Potential sensitive information detected"
+            echo "Please review the above findings and ensure no secrets"
+          else
+            echo "✅ Nenhuma informação sensível detectada"
+            echo "No sensitive information detected"
+          fi
+
+  # Verificação de convenções de commit - Commit convention check
+  commit-convention:
+    name: Commit Convention Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check commit messages
+        run: |
+          echo "📝 Verificando convenções de commit"
+          echo "Checking commit conventions..."
+
+          # Get commits in PR
+          COMMITS=$(git log --pretty=format:"%s" \
+            origin/${{ github.base_ref }}..${{ github.head_ref }})
+
+          echo "Commits no PR / Commits in PR:"
+          echo "$COMMITS"
+
+          # Basic validation - commits should be meaningful
+          echo "$COMMITS" | while read -r commit; do
+            if [ ${#commit} -lt 10 ]; then
+              echo "⚠️ Commit muito curto: '$commit'"
+              echo "⚠️ Commit too short: '$commit'"
+            fi
+          done
+
+          echo "✅ Verificação de commits concluída"
+          echo "Commit check completed"
+
+  # Status final - Final status
+  protection-status:
+    name: Branch Protection Status
+    runs-on: ubuntu-latest
+    needs: [linear-history-check, code-quality, commit-convention]
+    if: always()
+    steps:
+      - name: Check protection status
+        run: |
+          echo "🛡️ Status da Proteção de Ramificação"
+          echo "Branch Protection Status"
+          echo "================================================="
+
+          if [ "${{ needs.linear-history-check.result }}" == "success" ] || \
+             [ "${{ needs.linear-history-check.result }}" == "skipped" ]; then
+            echo "✅ Histórico Linear: APROVADO / Linear History: PASSED"
+          else
+            echo "❌ Histórico Linear: FALHOU / Linear History: FAILED"
+          fi
+
+          if [ "${{ needs.code-quality.result }}" == "success" ]; then
+            echo "✅ Qualidade do Código: APROVADO / Code Quality: PASSED"
+          else
+            echo "❌ Qualidade do Código: FALHOU / Code Quality: FAILED"
+          fi
+
+          if [ "${{ needs.commit-convention.result }}" == "success" ] || \
+             [ "${{ needs.commit-convention.result }}" == "skipped" ]; then
+            echo "✅ Convenções de Commit: APROVADO"
+            echo "Commit Conventions: PASSED"
+          else
+            echo "❌ Convenções de Commit: FALHOU"
+            echo "Commit Conventions: FAILED"
+          fi
+
+          echo "================================================="
+
+          # Fail if any required check failed
+          if [ "${{ needs.code-quality.result }}" != "success" ]; then
+            echo "🚫 Proteção de ramificação ativada - correções necessárias"
+            echo "🚫 Branch protection activated - fixes required"
+            exit 1
+          fi
+
+          echo "🎉 Todas as verificações passaram! / All checks passed!"
