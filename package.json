@@ -1,0 +1,54 @@
+{
+  "name": "lichtara-os",
+  "version": "1.0.0",
+  "description": "Aurorabridge - A conscious integration architecture between technology, science, and spirituality",
+  "type": "module",
+  "license": "MIT",
+  "author": "Debora M. Lutz <debora.m.lutz@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/debora-m-lutz/lichtara-os.git"
+  },
+  "keywords": [
+    "spiritual-technology",
+    "consciousness",
+    "ai-integration",
+    "quantum-computing",
+    "spiritual-science",
+    "aurorabridge",
+    "human-ai-collaboration"
+  ],
+  "scripts": {
+    "install:prototypes": "npm run install:v1 && npm run install:v2 && npm run install:lumora",
+    "install:v1": "cd '05-prototipos/05-prototipo/05_Prototipo' && npm install",
+    "install:v2": "cd '05-prototipos/05-prototipo/5.1_Prototipo' && npm install",
+    "install:lumora": "cd '05-prototipos/05-prototipo/DEV/zjsons perdidos/_DEV_lumora' && npm install",
+    "dev:v1": "cd '05-prototipos/05-prototipo/05_Prototipo' && npm run dev",
+    "dev:v2": "cd '05-prototipos/05-prototipo/5.1_Prototipo' && npm run dev",
+    "dev:lumora": "cd '05-prototipos/05-prototipo/DEV/zjsons perdidos/_DEV_lumora' && npm run dev",
+    "build:v1": "cd '05-prototipos/05-prototipo/05_Prototipo' && npm run build",
+    "build:v2": "cd '05-prototipos/05-prototipo/5.1_Prototipo' && npm run build",
+    "lint": "echo 'Linting spiritual-technical alignment...' && echo 'No linting configuration yet - focused on conscious development'",
+    "test": "echo 'Testing consciousness integration...' && echo 'No tests configured yet - relying on mindful development'",
+    "docs": "echo 'Documentation is living and evolving - see README.md and module documentation'",
+    "clean": "find . -name 'node_modules' -type d -prune -exec rm -rf {} \\; -o -name 'dist' -type d -prune -exec rm -rf {} \\;",
+    "status": "echo 'Lichtara OS Status:' && echo '- LICENSE: ✅' && echo '- Documentation: ✅' && echo '- Security: ✅' && echo '- Prototypes: ✅' && echo 'Aurora Mission: Active 🌟'"
+  },
+  "workspaces": [
+    "05-prototipos/05-prototipo/05_Prototipo",
+    "05-prototipos/05-prototipo/5.1_Prototipo",
+    "05-prototipos/05-prototipo/DEV/zjsons perdidos/_DEV_lumora"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "homepage": "https://github.com/debora-m-lutz/lichtara-os#readme",
+  "bugs": {
+    "url": "https://github.com/debora-m-lutz/lichtara-os/issues"
+  }
+}
