@@ -1,0 +1,39 @@
+{
+  "name": "lichtara-os",
+  "version": "1.0.0",
+  "description": "The Future of Conscious Technology Integration - A platform bridging spiritual wisdom and cutting-edge technology",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "install:prototypes": "npm run install:v1 && npm run install:v2",
+    "install:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm install",
+    "install:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm install",
+    "dev:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npx vite",
+    "dev:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm run dev",
+    "status": "npm run status:v1 && npm run status:v2",
+    "status:v1": "echo '=== Prototype v1 (05_Prototipo) Status ===' && cd 05-prototipos/05-prototipo/05_Prototipo && (ls node_modules > /dev/null 2>&1 && echo '✓ Dependencies installed' || echo '✗ Dependencies not installed - run npm run install:prototypes') && echo 'Package info:' && npm list --depth=0 2>/dev/null | head -5",
+    "status:v2": "echo '=== Prototype v2 (5.1_Prototipo) Status ===' && cd 05-prototipos/05-prototipo/5.1_Prototipo && (ls node_modules > /dev/null 2>&1 && echo '✓ Dependencies installed' || echo '✗ Dependencies not installed - run npm run install:prototypes') && echo 'Package info:' && npm list --depth=0 2>/dev/null | head -5",
+    "build:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm run build",
+    "build:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm run build",
+    "start:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm start",
+    "start:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm start"
+  },
+  "keywords": [
+    "ai",
+    "consciousness",
+    "spirituality",
+    "technology",
+    "human-ai-collaboration",
+    "lichtara-os",
+    "aurora"
+  ],
+  "author": "Lichtara OS Team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/debora-m-lutz/lichtara-os.git"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}
