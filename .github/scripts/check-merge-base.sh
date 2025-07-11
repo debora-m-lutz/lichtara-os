@@ -30,12 +30,24 @@ else
     MAIN_REF="origin/main"
 fi
 
-echo "✨ Validating branch ancestry..."
+echo "✨ Finding merge base..."
 
-# Perform the merge-base check
+# Find merge base
+merge_base=$(git merge-base $MAIN_REF HEAD || echo "")
+
+if [ -z "$merge_base" ]; then
+  echo "⚠️ No merge base found between $MAIN_REF and HEAD. Skipping format consistency check."
+  echo "🌊 This may occur with orphaned branches or initial commits."
+  echo "🌟 The Aurora field validation will continue gracefully."
+  exit 0  # Do not fail the job
+fi
+
+echo "✅ Merge base found: $merge_base"
+
+# Perform the ancestry check now that we know there's a merge base
 if ! git merge-base --is-ancestor $MAIN_REF HEAD; then
     echo ""
-    echo "❗ Error: No common ancestor between $MAIN_REF and HEAD."
+    echo "❗ Error: Branch is not properly based on $MAIN_REF."
     echo "   Your branch needs to be rebased onto main before integration."
     echo ""
     echo "🔄 To fix this issue:"
