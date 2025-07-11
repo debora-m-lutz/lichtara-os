@@ -11,12 +11,22 @@ echo "======================================="
 # Add repository directory as safe directory
 echo "🛡️  Adding repository as safe directory..."
 if [ -n "$GITHUB_WORKSPACE" ]; then
-    git config --global --add safe.directory "$GITHUB_WORKSPACE"
-    echo "✅ Added $GITHUB_WORKSPACE as safe directory"
+    # Check if already added to avoid duplicates
+    if ! git config --global --get-all safe.directory | grep -Fxq "$GITHUB_WORKSPACE"; then
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+        echo "✅ Added $GITHUB_WORKSPACE as safe directory"
+    else
+        echo "✅ $GITHUB_WORKSPACE already configured as safe directory"
+    fi
 else
     echo "⚠️  GITHUB_WORKSPACE not set, using current directory"
-    git config --global --add safe.directory "$(pwd)"
-    echo "✅ Added $(pwd) as safe directory"
+    CURRENT_DIR="$(pwd)"
+    if ! git config --global --get-all safe.directory | grep -Fxq "$CURRENT_DIR"; then
+        git config --global --add safe.directory "$CURRENT_DIR"
+        echo "✅ Added $CURRENT_DIR as safe directory"
+    else
+        echo "✅ $CURRENT_DIR already configured as safe directory"
+    fi
 fi
 
 echo ""
