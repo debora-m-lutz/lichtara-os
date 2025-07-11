@@ -1,0 +1,154 @@
+name: Bilingual Documentation Check
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - '**/*.md'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - '**/*.md'
+  workflow_dispatch:
+
+jobs:
+  bilingual-check:
+    name: Bilingual Documentation Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check bilingual documentation compliance
+        run: |
+          python3 << 'EOF'
+          import os
+          import re
+          import sys
+          from pathlib import Path
+
+          def check_bilingual_patterns(file_path):
+              """Check if markdown file follows bilingual documentation patterns"""
+              try:
+                  with open(file_path, 'r', encoding='utf-8') as f:
+                      content = f.read()
+              except UnicodeDecodeError:
+                  print(f"⚠️  Could not read {file_path} - encoding issue")
+                  return True  # Skip files with encoding issues
+              
+              # Check for EN:/PT: pattern
+              en_pattern = re.findall(r'\*\*EN:\*\*([^*]+)', content)
+              pt_pattern = re.findall(r'\*\*PT:\*\*([^*]+)', content)
+              
+              # Check for English | Português pattern  
+              bilingual_header = re.search(r'(English\s*\|\s*Português|Português\s*\|\s*English)', content)
+              
+              has_bilingual_content = len(en_pattern) > 0 or len(pt_pattern) > 0 or bilingual_header
+              
+              if has_bilingual_content:
+                  issues = []
+                  
+                  # If EN: patterns exist, PT: should also exist
+                  if len(en_pattern) > 0 and len(pt_pattern) == 0:
+                      issues.append("Found **EN:** content but missing **PT:** translations")
+                  
+                  # If PT: patterns exist, EN: should also exist  
+                  if len(pt_pattern) > 0 and len(en_pattern) == 0:
+                      issues.append("Found **PT:** content but missing **EN:** translations")
+                  
+                  # Check if counts match
+                  if len(en_pattern) > 0 and len(pt_pattern) > 0 and len(en_pattern) != len(pt_pattern):
+                      issues.append(f"Mismatch: {len(en_pattern)} **EN:** sections vs {len(pt_pattern)} **PT:** sections")
+                  
+                  return issues
+              
+              return []
+
+          def main():
+              """Main function to check all markdown files"""
+              repo_root = Path('.')
+              markdown_files = list(repo_root.rglob('*.md'))
+              
+              print("🔍 Checking bilingual documentation compliance...")
+              print(f"📁 Found {len(markdown_files)} markdown files")
+              print()
+              
+              total_issues = 0
+              files_with_issues = []
+              
+              for md_file in markdown_files:
+                  # Skip files in .git directory
+                  if '.git' in str(md_file):
+                      continue
+                      
+                  issues = check_bilingual_patterns(md_file)
+                  
+                  if issues:
+                      print(f"❌ {md_file}:")
+                      for issue in issues:
+                          print(f"   • {issue}")
+                      print()
+                      total_issues += len(issues)
+                      files_with_issues.append(str(md_file))
+                  else:
+                      print(f"✅ {md_file}")
+              
+              print("\n" + "="*50)
+              print(f"📊 Summary:")
+              print(f"   • Total files checked: {len(markdown_files)}")
+              print(f"   • Files with issues: {len(files_with_issues)}")
+              print(f"   • Total issues found: {total_issues}")
+              
+              if total_issues > 0:
+                  print(f"\n🚨 Bilingual documentation check failed!")
+                  print(f"   Please ensure all **EN:** content has corresponding **PT:** translations and vice versa.")
+                  sys.exit(1)
+              else:
+                  print(f"\n🎉 All files passed bilingual documentation check!")
+
+          if __name__ == "__main__":
+              main()
+          EOF
+
+      - name: Check for outdated action versions
+        run: |
+          echo "🔍 Checking for outdated GitHub Actions..."
+          
+          # Check all workflow files for outdated actions
+          outdated_found=false
+          
+          for workflow in .github/workflows/*.yml .github/workflows/*.yaml; do
+            if [[ -f "$workflow" ]]; then
+              echo "Checking $workflow..."
+              
+              # Check for actions/checkout@v3 or older
+              if grep -q "actions/checkout@v[1-3]" "$workflow"; then
+                echo "❌ Found outdated actions/checkout in $workflow"
+                grep -n "actions/checkout@v[1-3]" "$workflow"
+                outdated_found=true
+              fi
+              
+              # Check for actions/setup-python without version or old version
+              if grep -q "actions/setup-python@v[1-4]" "$workflow"; then
+                echo "⚠️  Consider updating actions/setup-python in $workflow"
+                grep -n "actions/setup-python@v[1-4]" "$workflow"
+              fi
+            fi
+          done
+          
+          if [[ "$outdated_found" == "true" ]]; then
+            echo ""
+            echo "🚨 Found outdated GitHub Actions that should be updated!"
+            echo "   Recommendation: Update to actions/checkout@v4 for latest features and security"
+            exit 1
+          else
+            echo "✅ All GitHub Actions are using recommended versions"
+          fi
