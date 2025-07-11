@@ -167,6 +167,27 @@ Este script automaticamente:
 - Fornece mensagens de erro úteis em inglês e português
 - Define upstream se necessário
 
+### 2.3. ⚙️ Git Configuration Setup | Configuração do Git
+
+For even easier safe pushing, run our git configuration script:
+
+Para push seguro ainda mais fácil, execute nosso script de configuração do git:
+
+```bash
+# Configure safe git defaults (run once per repository)
+./.github/scripts/setup-git.sh
+
+# After setup, you can use the shorter alias
+git push-safe origin feature/your-feature-name
+
+# Or continue using the interactive script
+./.github/scripts/safe-push.sh
+```
+
+The setup script creates a `push-safe` alias and configures other safety defaults.
+
+O script de configuração cria um alias `push-safe` e configura outros padrões de segurança.
+
 ### 3. 🔮 Pull Request Process | Processo de Pull Request
 - Use our Aurora Integration PR template
 - Provide clear description of changes and intention

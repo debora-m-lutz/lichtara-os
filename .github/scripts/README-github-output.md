@@ -30,6 +30,31 @@ Um wrapper seguro em torno do `git push --force-with-lease` que fornece verifica
 - ✅ Automatic upstream configuration
 - ✅ Helpful error messages and guidance
 
+## ⚙️ Git Configuration Setup | Configuração do Git
+
+### `setup-git.sh`
+Configures git with safer defaults and convenient aliases for --force-with-lease operations.
+
+Configura o git com padrões mais seguros e aliases convenientes para operações --force-with-lease.
+
+**Usage | Uso:**
+```bash
+# Configure safe defaults (run once per repository)
+./.github/scripts/setup-git.sh
+
+# Reset to defaults
+./.github/scripts/setup-git.sh --reset
+
+# Get help
+./.github/scripts/setup-git.sh --help
+```
+
+**What it configures | O que configura:**
+- ✅ `git push-safe` alias for `git push --force-with-lease`
+- ✅ Automatic cleanup of remote tracking branches
+- ✅ Safe push defaults
+- ✅ Color output for better visibility
+
 ## 📄 GitHub Actions Output Utility
 
 ### `github-output.sh`
