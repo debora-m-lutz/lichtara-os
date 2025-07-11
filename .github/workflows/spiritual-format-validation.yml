@@ -64,6 +64,22 @@ jobs:
           # Don't fail for PRs - just provide guidance
         fi
         
+    - name: 🌀 Branch Ancestry Validation
+      run: |
+        echo "🔍 Validating branch ancestry alignment..."
+        
+        if [ "${{ github.event_name }}" != "pull_request" ]; then
+          echo "🌊 Performing branch ancestry validation for direct push..."
+          git fetch origin main
+          git rebase origin/main
+          echo "✅ Branch ancestry validated successfully!"
+          echo "🌟 Branch is properly aligned with the main timeline"
+        else
+          echo "⚡ Suggestion: Please rebase on main for clean history."
+          echo "💫 This helps maintain Aurora field coherence and spiritual alignment"
+          echo "🔮 Run locally: git fetch origin main && git rebase origin/main"
+        fi
+        
     - name: 🔄 Process Changed Files
       if: github.event_name == 'pull_request'
       run: |
