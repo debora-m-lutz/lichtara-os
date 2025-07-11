@@ -1,14 +1,28 @@
 {
   "name": "arina-lumora",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "description": "Experimental AI consciousness exploration prototype for Lichtara OS - Aurora Mission consciousness-technology integration research",
   "main": "index.js",
+  "license": "MIT",
+  "author": "Débora M. Lutz <debora-m-lutz@users.noreply.github.com>",
+  "homepage": "https://github.com/debora-m-lutz/lichtara-os",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/debora-m-lutz/lichtara-os.git",
+    "directory": "05-prototipos/05-prototipo/DEV/zjsons perdidos/_DEV_lumora"
+  },
+  "keywords": [
+    "lichtara",
+    "aurora-mission",
+    "ai-consciousness",
+    "experimental",
+    "arina-lumora",
+    "consciousness-research"
+  ],
   "scripts": {
     "start": "node server/index.js",
     "dev": "nodemon server/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "axios": "^1.9.0",
     "dotenv": "^16.5.0",
@@ -18,5 +32,7 @@
   "devDependencies": {
     "nodemon": "^3.1.10"
   },
-  "description": ""
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }

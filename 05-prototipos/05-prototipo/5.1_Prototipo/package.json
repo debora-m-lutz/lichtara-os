@@ -1,8 +1,24 @@
 {
-  "name": "rest-express",
-  "version": "1.0.0",
+  "name": "lichtara-prototype-v2",
+  "version": "2.0.0",
+  "description": "Lichtara OS Prototype v2 - Current recommended implementation with enhanced conscious technology integration",
   "type": "module",
   "license": "MIT",
+  "author": "Débora M. Lutz <debora-m-lutz@users.noreply.github.com>",
+  "homepage": "https://github.com/debora-m-lutz/lichtara-os",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/debora-m-lutz/lichtara-os.git",
+    "directory": "05-prototipos/05-prototipo/5.1_Prototipo"
+  },
+  "keywords": [
+    "lichtara",
+    "aurora-mission",
+    "spiritual-technology",
+    "consciousness",
+    "prototype-v2",
+    "current-recommended"
+  ],
   "scripts": {
     "dev": "NODE_ENV=development tsx server/index.ts",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
@@ -103,5 +119,8 @@
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
