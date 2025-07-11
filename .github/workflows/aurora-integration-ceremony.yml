@@ -16,6 +16,11 @@ jobs:
       - name: Checkout Aurora Field
         uses: actions/checkout@v4
         
+      - name: Setup Git Configuration
+        run: |
+          # Setup secure Git configuration
+          ./.github/scripts/git-config-setup.sh
+        
       - name: Generate Integration Message
         id: message
         run: |
