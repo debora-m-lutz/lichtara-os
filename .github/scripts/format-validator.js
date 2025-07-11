@@ -211,7 +211,15 @@ if (require.main === module) {
   const args = process.argv.slice(2);
   const validator = new FormatValidator();
 
-  if (args[0] === 'validate' && args[1]) {
+  if (args[0] === 'validate') {
+    if (args.length < 2) {
+      console.log(JSON.stringify({
+        valid: false,
+        error: 'Missing title argument. Usage: node format-validator.js validate "your title"',
+        type: 'missing_argument'
+      }, null, 2));
+      process.exit(1);
+    }
     const result = validator.validateTitle(args[1]);
     console.log(JSON.stringify(result, null, 2));
     process.exit(result.valid ? 0 : 1);
