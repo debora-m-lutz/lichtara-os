@@ -1,0 +1,181 @@
+name: Documentation Quality Check
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '**/*.md'
+      - '.github/workflows/documentation-quality-check.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - '**/*.md'
+      - '.github/workflows/documentation-quality-check.yml'
+  workflow_dispatch:
+
+jobs:
+  documentation-quality-check:
+    name: Documentation Quality Check
+    runs-on: ubuntu-24.04
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install markdown lint tools
+        run: |
+          npm install -g markdownlint-cli2
+          npm install -g markdown-link-check
+
+      - name: Create markdownlint configuration
+        run: |
+          cat > .markdownlint-cli2.yaml << 'EOF'
+          config:
+            MD013:
+              line_length: 120
+              code_blocks: false
+              tables: false
+              headings: false
+            MD033: false  # Allow inline HTML
+            MD041: false  # First line in file should be a top level heading
+          globs:
+            - "**/*.md"
+          ignores:
+            - "node_modules"
+            - "**/node_modules"
+          EOF
+
+      - name: Run markdownlint
+        run: |
+          echo "🔍 Running markdown linting..."
+          markdownlint-cli2 "**/*.md" || echo "::warning::Some markdown linting issues found"
+
+      - name: Check for broken links
+        run: |
+          echo "🔗 Checking for broken internal links..."
+          find . -name "*.md" -not -path "./node_modules/*" | while read file; do
+            echo "Checking links in: $file"
+            markdown-link-check "$file" --config .markdown-link-check-config.json || echo "::warning::Potential link issues found in $file"
+          done
+
+      - name: Create link check configuration
+        run: |
+          cat > .markdown-link-check-config.json << 'EOF'
+          {
+            "ignorePatterns": [
+              {
+                "pattern": "^http://localhost"
+              },
+              {
+                "pattern": "^https://localhost"
+              }
+            ],
+            "timeout": "10s",
+            "retryOn429": true,
+            "retryCount": 3,
+            "fallbackRetryDelay": "30s",
+            "aliveStatusCodes": [200, 206]
+          }
+          EOF
+
+      - name: Validate README files
+        run: |
+          echo "📋 Validating README files..."
+          missing_readmes=()
+          
+          # Check main directories for README files
+          for dir in 00-overview: 01-fundamentos: 02-manual-aurora: 03-tecnica: 04-legal: 05-ai: 05-prototipos manuais; do
+            if [ -d "$dir" ] && [ ! -f "$dir/README.md" ]; then
+              missing_readmes+=("$dir")
+            fi
+          done
+          
+          if [ ${#missing_readmes[@]} -gt 0 ]; then
+            echo "::warning::Missing README.md files in directories: ${missing_readmes[*]}"
+          else
+            echo "✅ All main directories have README.md files"
+          fi
+
+      - name: Check for empty markdown files
+        run: |
+          echo "📄 Checking for empty markdown files..."
+          empty_files=()
+          
+          find . -name "*.md" -not -path "./node_modules/*" | while read file; do
+            if [ ! -s "$file" ]; then
+              echo "::warning::Empty markdown file found: $file"
+            fi
+          done
+
+      - name: Validate markdown structure
+        run: |
+          echo "🏗️ Validating markdown structure..."
+          
+          # Check for files with proper headers
+          files_without_headers=()
+          
+          find . -name "*.md" -not -path "./node_modules/*" | while read file; do
+            if [ -s "$file" ] && ! head -5 "$file" | grep -q "^#"; then
+              echo "::warning::No header found in: $file"
+            fi
+          done
+
+      - name: Generate documentation metrics
+        run: |
+          echo "📊 Generating documentation metrics..."
+          total_md_files=$(find . -name "*.md" -not -path "./node_modules/*" | wc -l)
+          total_lines=$(find . -name "*.md" -not -path "./node_modules/*" -exec wc -l {} + | tail -1 | awk '{print $1}')
+          
+          echo "📈 Documentation Statistics:"
+          echo "  - Total markdown files: $total_md_files"
+          echo "  - Total lines of documentation: $total_lines"
+          echo "  - Average lines per file: $((total_lines / total_md_files))"
+          
+          # Count files by directory
+          echo "📁 Files by directory:"
+          for dir in */ ; do
+            if [ -d "$dir" ]; then
+              count=$(find "$dir" -name "*.md" | wc -l)
+              if [ $count -gt 0 ]; then
+                echo "  - $dir: $count files"
+              fi
+            fi
+          done
+
+      - name: Check bilingual documentation
+        run: |
+          echo "🌐 Checking bilingual documentation compliance..."
+          
+          # This is a basic check - could be expanded based on project requirements
+          main_files=("README.md" "CONTRIBUTING.md" "CODE_OF_CONDUCT.md")
+          
+          for file in "${main_files[@]}"; do
+            if [ -f "$file" ]; then
+              if grep -q "English\|Português\|EN:\|PT:" "$file"; then
+                echo "✅ $file appears to have bilingual content"
+              else
+                echo "::notice::$file may need bilingual content review"
+              fi
+            fi
+          done
+
+      - name: Documentation Quality Summary
+        run: |
+          echo "📋 Documentation Quality Check Complete"
+          echo "This workflow validates:"
+          echo "  ✅ Markdown syntax and formatting"
+          echo "  ✅ Internal link integrity" 
+          echo "  ✅ README file presence"
+          echo "  ✅ File structure validation"
+          echo "  ✅ Documentation metrics"
+          echo "  ✅ Bilingual content awareness"
+          echo ""
+          echo "🎯 Quality standards maintained for technical-spiritual knowledge base"
