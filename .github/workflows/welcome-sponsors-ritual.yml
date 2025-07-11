@@ -20,8 +20,6 @@ jobs:
         run: |
           echo "🌟 The field has been activated. Thank you for answering the call."
       
-      - name: Cleanup git configurations
+      - name: Configure git safety and cleanup configurations
         if: always()
-        run: |
-          git config --local --unset-all http.https://github.com/.extraheader || true
-          git config --local --unset-all core.sshCommand || true
+        run: ./.github/scripts/git-config-setup.sh
