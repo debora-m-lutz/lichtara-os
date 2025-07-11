@@ -8,6 +8,9 @@ on:
     types: [opened, edited]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   spiritual-format-validation:
     runs-on: ubuntu-latest
@@ -16,11 +19,30 @@ jobs:
     steps:
     - name: 🌟 Checkout Aurora Field
       uses: actions/checkout@v4
+      with:
+        ssh-strict: true
+        ssh-user: git
+        persist-credentials: true
+        clean: true
+        sparse-checkout-cone-mode: true
+        fetch-depth: 1
+        fetch-tags: false
+        show-progress: true
+        lfs: false
+        submodules: false
+        set-safe-directory: true
       
     - name: 🔮 Setup Node.js for Validation
       uses: actions/setup-node@v4
       with:
         node-version: '18'
+        always-auth: false
+        check-latest: false
+        
+    - name: 📦 Install Dependencies
+      run: |
+        cd .github/scripts
+        npm install
         
     - name: 🌊 Validate Issue Title Format
       if: github.event_name == 'issues'
@@ -43,6 +65,12 @@ jobs:
           # Don't fail for issues - just provide guidance
         fi
         
+    - name: 🌀 Validate Branch Ancestry
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "🔍 Validating branch ancestry with main..."
+        ./.github/scripts/check-merge-base.sh
+        
     - name: 🌈 Validate Pull Request Title Format  
       if: github.event_name == 'pull_request'
       run: |
@@ -64,14 +92,47 @@ jobs:
           # Don't fail for PRs - just provide guidance
         fi
         
+    - name: 🌊 Validate Branch Ancestry
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "🔍 Validating branch ancestry with main..."
+        
+        # Ensure we have the latest main branch with proper remote tracking
+        git fetch origin main:origin/main || git fetch origin main
+        
+        # Check if current branch has common ancestor with main
+        if ! git merge-base --is-ancestor origin/main HEAD; then
+          echo "❌ No common ancestor between origin/main and HEAD."
+          echo "🔄 Please rebase your branch on the latest main branch:"
+          echo "   git fetch origin main"
+          echo "   git rebase origin/main"
+          echo ""
+          echo "💫 This ensures your changes integrate smoothly with the Aurora field."
+          exit 1
+        else
+          echo "✅ Branch ancestry validated successfully!"
+          echo "🌟 Your branch is properly aligned with the main timeline."
+        fi
+        
     - name: 🔄 Process Changed Files
       if: github.event_name == 'pull_request'
       run: |
         echo "🌊 Processing changed files for format consistency..."
         
-        # Get list of changed files
+        # Get list of changed files - handle cases where main branch comparison fails
         git fetch origin main
-        CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
+        
+        # Try different approaches to get changed files
+        if CHANGED_FILES=$(git diff --name-only main...HEAD 2>/dev/null); then
+          echo "📋 Using main...HEAD comparison"
+        elif CHANGED_FILES=$(git diff --name-only main..HEAD 2>/dev/null); then
+          echo "📋 Using main..HEAD comparison"
+        elif CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null); then
+          echo "📋 Using HEAD~1 comparison (fallback)"
+        else
+          echo "📋 Using git show for current commit (fallback)"
+          CHANGED_FILES=$(git show --name-only --pretty=format: HEAD | grep -v '^$' || echo "")
+        fi
         
         echo "Changed files:"
         echo "$CHANGED_FILES"
@@ -102,6 +163,7 @@ jobs:
           echo "🔄 PR: #${{ github.event.pull_request.number }}"
           echo "📝 Title: ${{ github.event.pull_request.title }}"
           echo "👤 Author: ${{ github.event.pull_request.user.login }}"
+          echo "🌀 Branch ancestry: Validated for Aurora field harmony"
         fi
         
         echo ""
@@ -117,3 +179,13 @@ jobs:
         echo "May each validation bridge worlds with wisdom."
         echo ""
         echo "🌟 Format guardian duties complete ✨"
+        
+    - name: Post-job cleanup
+      if: always()
+      run: |
+        echo "🧹 Performing post-job cleanup..."
+        git config --local --unset-all http.https://github.com/.extraheader || true
+        git config --local --unset-all core.sshCommand || true
+        git submodule foreach --recursive sh -c "git config --local --unset-all 'http.https://github.com/.extraheader' || true" || true
+        git submodule foreach --recursive sh -c "git config --local --unset-all 'core.sshCommand' || true" || true
+        echo "✨ Cleanup complete"

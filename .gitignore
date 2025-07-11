@@ -28,6 +28,10 @@ pids/
 *.seed
 *.pid.lock
 
+# Server manager files
+.server.pid
+.server.log
+
 # IDE and editor files
 .vscode/
 .idea/

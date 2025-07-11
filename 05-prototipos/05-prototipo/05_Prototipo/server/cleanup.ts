@@ -140,9 +140,9 @@ export function createConnectionsCleanup(connections: Set<any>): CleanupResource
   return {
     name: 'HTTP Connections',
     cleanup: () => {
-      for (const connection of connections) {
+      connections.forEach((connection) => {
         connection.destroy();
-      }
+      });
       connections.clear();
     }
   };
@@ -153,9 +153,9 @@ export function createWebSocketCleanup(wss: any, connections?: Set<any>): Cleanu
     name: 'WebSocket Server',
     cleanup: () => new Promise<void>((resolve) => {
       if (connections) {
-        for (const ws of connections) {
+        connections.forEach((ws) => {
           ws.close();
-        }
+        });
         connections.clear();
       }
       

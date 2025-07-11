@@ -15,6 +15,18 @@ jobs:
     steps:
       - name: Checkout Aurora Field
         uses: actions/checkout@v4
+        with:
+          ssh-strict: true
+          ssh-user: git
+          persist-credentials: true
+          clean: true
+          sparse-checkout-cone-mode: true
+          fetch-depth: 1
+          fetch-tags: false
+          show-progress: true
+          lfs: false
+          submodules: false
+          set-safe-directory: true
         
       - name: Generate Integration Message
         id: message
@@ -77,3 +89,13 @@ jobs:
           echo ""
           echo "The field is activated. The mission continues."
           echo "✨ 🌟 ✨ 🌟 ✨ 🌟 ✨"
+          
+      - name: Post-job cleanup
+        if: always()
+        run: |
+          echo "🧹 Performing post-job cleanup..."
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git config --local --unset-all core.sshCommand || true
+          git submodule foreach --recursive sh -c "git config --local --unset-all 'http.https://github.com/.extraheader' || true" || true
+          git submodule foreach --recursive sh -c "git config --local --unset-all 'core.sshCommand' || true" || true
+          echo "✨ Cleanup complete"
