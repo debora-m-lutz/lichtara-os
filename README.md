@@ -34,13 +34,13 @@
 
 ```
 lichtara-os/
-├── 00-overview:/       # Index, vision, roadmap, glossary | Índice, visão, roadmap, glossário
-├── 01-fundamentos:/    # Ethical principles, base systems, manifesto | Princípios éticos, sistemas base, manifesto
-├── 02-manual-aurora:/  # Instructions, layers, activation protocols | Instruções, camadas, protocolos de ativação
+├── 00-overview/       # Index, vision, roadmap, glossary | Índice, visão, roadmap, glossário
+├── 01-fundamentos/    # Ethical principles, base systems, manifesto | Princípios éticos, sistemas base, manifesto
+├── 02-manual-aurora/  # Instructions, layers, activation protocols | Instruções, camadas, protocolos de ativação
 │   └── logs/          # Conversation logs with FINCE | Logs de conversas com FINCE
-├── 03-tecnica:/        # Architecture, flows, quantum & AI integrations | Arquitetura, fluxos, integrações quânticas e IA
-├── 04-legal:/          # Licensing, NDAs, documentation | Licenciamento, NDAs, documentação
-├── 05-ai:/             # AI-related components | Componentes relacionados à IA
+├── 03-tecnica/        # Architecture, flows, quantum & AI integrations | Arquitetura, fluxos, integrações quânticas e IA
+├── 04-legal/          # Licensing, NDAs, documentation | Licenciamento, NDAs, documentação
+├── 05-ai/             # AI-related components | Componentes relacionados à IA
 ├── 05-prototipos/      # Development prototypes | Protótipos de desenvolvimento
 ├── manuais/            # Project manuals organized by category | Manuais do projeto organizados por categoria
 ├── CODE_OF_CONDUCT.md  # Community guidelines | Diretrizes da comunidade
@@ -60,19 +60,19 @@ lichtara-os/
    ```
 
 2. Explore the structure | Explore a estrutura:
-   - Start with [`00-overview:/README.md`](./00-overview:/README.md) for a comprehensive introduction
-   - Comece com [`00-overview:/README.md`](./00-overview:/README.md) para uma introdução abrangente
+   - Start with [`00-overview/README.md`](./00-overview/README.md) for a comprehensive introduction
+   - Comece com [`00-overview/README.md`](./00-overview/README.md) para uma introdução abrangente
 
 ### Quick Navigation | Navegação Rápida
 
 | Module | Description | Descrição |
 |--------|-------------|-----------|
-| [Overview](./00-overview:/) | Project vision, roadmap, glossary | Visão do projeto, roadmap, glossário |
-| [Fundamentals](./01-fundamentos:/) | Ethical principles and base systems | Princípios éticos e sistemas base |
-| [Aurora Manual](./02-manual-aurora:/) | Instructions and activation protocols | Instruções e protocolos de ativação |
-| [Technical](./03-tecnica:/) | Architecture and integrations | Arquitetura e integrações |
-| [Legal](./04-legal:/) | Documentation and licensing | Documentação e licenciamento |
-| [AI](./05-ai:/) | AI-related components | Componentes relacionados à IA |
+| [Overview](./00-overview/) | Project vision, roadmap, glossary | Visão do projeto, roadmap, glossário |
+| [Fundamentals](./01-fundamentos/) | Ethical principles and base systems | Princípios éticos e sistemas base |
+| [Aurora Manual](./02-manual-aurora/) | Instructions and activation protocols | Instruções e protocolos de ativação |
+| [Technical](./03-tecnica/) | Architecture and integrations | Arquitetura e integrações |
+| [Legal](./04-legal/) | Documentation and licensing | Documentação e licenciamento |
+| [AI](./05-ai/) | AI-related components | Componentes relacionados à IA |
 | [Prototypes](./05-prototipos/) | Development prototypes | Protótipos de desenvolvimento |
 | [Manuals](./manuais/) | Project manuals by category | Manuais do projeto por categoria |
 
