@@ -1,0 +1,116 @@
+name: Feature Request | Solicitação de Recurso
+description: Suggest an idea for this project | Sugira uma ideia para este projeto
+title: "[FEATURE] "
+labels: ["enhancement", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a new feature for Lichtara OS!
+        Obrigado por sugerir um novo recurso para o Lichtara OS!
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Description | Descrição do Problema
+      description: Is your feature request related to a problem? Please describe | Sua solicitação de recurso está relacionada a um problema? Por favor descreva
+      placeholder: I'm always frustrated when... | Sempre fico frustrado quando...
+    validations:
+      required: false
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution | Solução Proposta
+      description: Describe the solution you'd like | Descreva a solução que você gostaria
+      placeholder: A clear and concise description of what you want to happen | Uma descrição clara e concisa do que você quer que aconteça
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions | Soluções Alternativas
+      description: Describe any alternative solutions or features you've considered | Descreva soluções alternativas ou recursos que você considerou
+      placeholder: Alternative approaches... | Abordagens alternativas...
+    validations:
+      required: false
+
+  - type: textarea
+    id: spiritual-alignment
+    attributes:
+      label: Spiritual-Technical Alignment | Alinhamento Espiritual-Técnico
+      description: How does this feature align with the conscious integration mission? | Como este recurso se alinha com a missão de integração consciente?
+      placeholder: This feature supports consciousness integration by... | Este recurso apoia a integração de consciência ao...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority | Prioridade
+      description: How important is this feature to you? | Quão importante é este recurso para você?
+      options:
+        - Low - Would be nice to have | Baixa - Seria bom ter
+        - Medium - Would improve workflow | Média - Melhoraria o fluxo de trabalho
+        - High - Essential for project success | Alta - Essencial para o sucesso do projeto
+        - Critical - Blocking important work | Crítica - Bloqueando trabalho importante
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: project-area
+    attributes:
+      label: Project Area | Área do Projeto
+      description: Which area would this feature affect? | Qual área este recurso afetaria?
+      options:
+        - label: Documentation | Documentação
+        - label: Prototypes | Protótipos
+        - label: Spiritual Content | Conteúdo Espiritual
+        - label: Technical Architecture | Arquitetura Técnica
+        - label: Consciousness Protocols | Protocolos de Consciência
+        - label: Community Features | Recursos da Comunidade
+        - label: AI Integration | Integração de IA
+        - label: Development Tools | Ferramentas de Desenvolvimento
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation Ideas | Ideias de Implementação
+      description: Do you have ideas about how this could be implemented? | Você tem ideias sobre como isso poderia ser implementado?
+      placeholder: Technical approach, design considerations, etc. | Abordagem técnica, considerações de design, etc.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context | Contexto Adicional
+      description: Add any other context, screenshots, or examples | Adicione qualquer outro contexto, capturas de tela ou exemplos
+      placeholder: Links, mockups, related projects, etc. | Links, mockups, projetos relacionados, etc.
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution Interest | Interesse em Contribuição
+      description: Would you be interested in contributing to this feature? | Você estaria interessado em contribuir para este recurso?
+      options:
+        - label: I would like to work on this feature | Gostaria de trabalhar neste recurso
+        - label: I can provide feedback during development | Posso fornecer feedback durante o desenvolvimento
+        - label: I can help with testing | Posso ajudar com testes
+        - label: I can help with documentation | Posso ajudar com documentação
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist | Lista de Verificação
+      description: Please confirm the following | Por favor confirme o seguinte
+      options:
+        - label: I have searched for existing feature requests | Procurei por solicitações de recursos existentes
+          required: true
+        - label: I have read the project vision and roadmap | Li a visão e roadmap do projeto
+          required: true
+        - label: This feature aligns with the conscious integration mission | Este recurso se alinha com a missão de integração consciente
+          required: true

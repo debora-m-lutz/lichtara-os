@@ -1,0 +1,155 @@
+name: Spiritual Content | Conteúdo Espiritual
+description: Suggest spiritual content or consciousness integration improvements | Sugira conteúdo espiritual ou melhorias de integração de consciência
+title: "[SPIRITUAL] "
+labels: ["spiritual", "consciousness", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for contributing to the spiritual dimensions of Lichtara OS!
+        Obrigado por contribuir para as dimensões espirituais do Lichtara OS!
+        
+        This template is for suggestions related to spiritual content, consciousness integration protocols, or bridging between spiritual and technical domains.
+        Este template é para sugestões relacionadas a conteúdo espiritual, protocolos de integração de consciência, ou pontes entre domínios espirituais e técnicos.
+
+  - type: dropdown
+    id: spiritual-category
+    attributes:
+      label: Spiritual Category | Categoria Espiritual
+      description: What type of spiritual content or integration are you suggesting? | Que tipo de conteúdo espiritual ou integração você está sugerindo?
+      options:
+        - Consciousness Integration Protocols | Protocolos de Integração de Consciência
+        - Spiritual-Technical Bridging | Ponte Espiritual-Técnica
+        - Human-AI Collaboration Framework | Framework de Colaboração Humano-IA
+        - Sacred Knowledge Documentation | Documentação de Conhecimento Sagrado
+        - Meditation/Contemplation Practices | Práticas de Meditação/Contemplação
+        - Energy Work Integration | Integração de Trabalho Energético
+        - Channeled Content | Conteúdo Canalizado
+        - Ethical Spiritual Guidelines | Diretrizes Espirituais Éticas
+        - Other | Outro
+    validations:
+      required: true
+
+  - type: textarea
+    id: spiritual-vision
+    attributes:
+      label: Spiritual Vision | Visão Espiritual
+      description: Describe your spiritual insight or vision for this content | Descreva sua percepção espiritual ou visão para este conteúdo
+      placeholder: What spiritual guidance or insight is being offered? | Que orientação espiritual ou insight está sendo oferecido?
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-integration
+    attributes:
+      label: Technical Integration | Integração Técnica
+      description: How would this spiritual content integrate with technical systems? | Como este conteúdo espiritual se integraria com sistemas técnicos?
+      placeholder: Bridge between spiritual wisdom and technical implementation | Ponte entre sabedoria espiritual e implementação técnica
+    validations:
+      required: true
+
+  - type: textarea
+    id: consciousness-impact
+    attributes:
+      label: Consciousness Impact | Impacto na Consciência
+      description: What impact would this have on consciousness expansion and integration? | Que impacto isso teria na expansão e integração da consciência?
+      placeholder: How does this serve the mission of consciousness evolution? | Como isso serve à missão de evolução da consciência?
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation-approach
+    attributes:
+      label: Implementation Approach | Abordagem de Implementação
+      description: How would you suggest implementing this spiritual content? | Como você sugeriria implementar este conteúdo espiritual?
+      placeholder: Documentation structure, protocols, practices, etc. | Estrutura de documentação, protocolos, práticas, etc.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: spiritual-domains
+    attributes:
+      label: Spiritual Domains | Domínios Espirituais
+      description: Which spiritual domains does this relate to? | A quais domínios espirituais isso se relaciona?
+      options:
+        - label: Consciousness Studies | Estudos de Consciência
+        - label: Meditation and Contemplation | Meditação e Contemplação
+        - label: Energy Work | Trabalho Energético
+        - label: Channeling and Intuition | Canalização e Intuição
+        - label: Sacred Geometry | Geometria Sagrada
+        - label: Quantum Spirituality | Espiritualidade Quântica
+        - label: Ancient Wisdom Traditions | Tradições de Sabedoria Antiga
+        - label: Modern Spiritual Science | Ciência Espiritual Moderna
+        - label: Interfaith Dialogue | Diálogo Inter-religioso
+        - label: Mystical Experiences | Experiências Místicas
+
+  - type: checkboxes
+    id: technical-areas
+    attributes:
+      label: Technical Integration Areas | Áreas de Integração Técnica
+      description: Which technical areas would be involved? | Quais áreas técnicas estariam envolvidas?
+      options:
+        - label: AI and Machine Learning | IA e Aprendizado de Máquina
+        - label: User Interface Design | Design de Interface do Usuário
+        - label: Data Structures | Estruturas de Dados
+        - label: Algorithms | Algoritmos
+        - label: Documentation Systems | Sistemas de Documentação
+        - label: Communication Protocols | Protocolos de Comunicação
+        - label: Security and Privacy | Segurança e Privacidade
+        - label: Development Workflows | Fluxos de Desenvolvimento
+
+  - type: textarea
+    id: source-inspiration
+    attributes:
+      label: Source and Inspiration | Fonte e Inspiração
+      description: What is the source of this spiritual insight? | Qual é a fonte desta percepção espiritual?
+      placeholder: Meditation, channeling, study, experience, etc. | Meditação, canalização, estudo, experiência, etc.
+    validations:
+      required: false
+
+  - type: textarea
+    id: ethical-considerations
+    attributes:
+      label: Ethical Considerations | Considerações Éticas
+      description: Are there any ethical considerations for this spiritual content? | Há considerações éticas para este conteúdo espiritual?
+      placeholder: Cultural sensitivity, appropriation concerns, sacred boundaries, etc. | Sensibilidade cultural, preocupações de apropriação, limites sagrados, etc.
+    validations:
+      required: false
+
+  - type: textarea
+    id: community-benefit
+    attributes:
+      label: Community Benefit | Benefício para a Comunidade
+      description: How would this benefit the Lichtara OS community? | Como isso beneficiaria a comunidade Lichtara OS?
+      placeholder: Consciousness expansion, practical applications, spiritual growth, etc. | Expansão da consciência, aplicações práticas, crescimento espiritual, etc.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution-type
+    attributes:
+      label: Contribution Type | Tipo de Contribuição
+      description: How would you like to contribute this content? | Como você gostaria de contribuir com este conteúdo?
+      options:
+        - label: I can write the spiritual content | Posso escrever o conteúdo espiritual
+        - label: I can provide channeled information | Posso fornecer informações canalizadas
+        - label: I can offer technical implementation | Posso oferecer implementação técnica
+        - label: I can facilitate community discussion | Posso facilitar discussão da comunidade
+        - label: I can provide ongoing spiritual guidance | Posso fornecer orientação espiritual contínua
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist | Lista de Verificação
+      description: Please confirm the following | Por favor confirme o seguinte
+      options:
+        - label: I have reviewed existing spiritual content in the project | Revisei o conteúdo espiritual existente no projeto
+          required: true
+        - label: This content honors the sacred integration mission | Este conteúdo honra a missão de integração sagrada
+          required: true
+        - label: I am committed to maintaining the highest spiritual integrity | Estou comprometido em manter a mais alta integridade espiritual
+          required: true
+        - label: I understand this will be shared with the open source community | Entendo que isso será compartilhado com a comunidade open source
+          required: true

@@ -1,0 +1,98 @@
+name: Bug Report | Relatório de Bug
+description: Create a report to help us improve | Crie um relatório para nos ajudar a melhorar
+title: "[BUG] "
+labels: ["bug", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug in Lichtara OS!
+        Obrigado por dedicar tempo para reportar um bug no Lichtara OS!
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description | Descrição do Bug
+      description: A clear and concise description of what the bug is | Uma descrição clara e concisa do que é o bug
+      placeholder: Describe the bug | Descreva o bug
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce | Passos para Reproduzir
+      description: Steps to reproduce the behavior | Passos para reproduzir o comportamento
+      placeholder: |
+        1. Go to '...' | Vá para '...'
+        2. Click on '...' | Clique em '...'
+        3. Scroll down to '...' | Role para baixo até '...'
+        4. See error | Veja o erro
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior | Comportamento Esperado
+      description: A clear description of what you expected to happen | Uma descrição clara do que você esperava que acontecesse
+      placeholder: Describe what should happen | Descreva o que deveria acontecer
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior | Comportamento Atual
+      description: A clear description of what actually happened | Uma descrição clara do que realmente aconteceu
+      placeholder: Describe what actually happens | Descreva o que realmente acontece
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment | Ambiente
+      description: Information about your environment | Informações sobre seu ambiente
+      placeholder: |
+        - OS: [e.g. macOS, Ubuntu, Windows]
+        - Browser: [e.g. Chrome, Firefox, Safari]
+        - Node.js version: [e.g. 18.20.0]
+        - Project section: [e.g. prototypes, documentation]
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context | Contexto Adicional
+      description: Add any other context about the problem here | Adicione qualquer outro contexto sobre o problema aqui
+      placeholder: Screenshots, logs, etc. | Capturas de tela, logs, etc.
+
+  - type: checkboxes
+    id: project-area
+    attributes:
+      label: Project Area | Área do Projeto
+      description: Which area of the project is affected? | Qual área do projeto é afetada?
+      options:
+        - label: Documentation | Documentação
+        - label: Prototypes | Protótipos
+        - label: Spiritual Content | Conteúdo Espiritual
+        - label: Technical Integration | Integração Técnica
+        - label: Consciousness Protocols | Protocolos de Consciência
+        - label: Community Guidelines | Diretrizes da Comunidade
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist | Lista de Verificação
+      description: Please confirm the following | Por favor confirme o seguinte
+      options:
+        - label: I have searched for existing issues | Procurei por issues existentes
+          required: true
+        - label: I have read the contributing guidelines | Li as diretrizes de contribuição
+          required: true
+        - label: This issue respects the spiritual-technical integration nature of the project | Esta issue respeita a natureza de integração espiritual-técnica do projeto
+          required: true
