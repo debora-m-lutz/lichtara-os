@@ -1,0 +1,28 @@
+{
+  "name": "lichtara-os",
+  "version": "1.0.0",
+  "description": "Lichtara OS - A comprehensive operating system project with multiple prototypes",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/debora-m-lutz/lichtara-os.git"
+  },
+  "scripts": {
+    "install:prototypes": "npm run install:v1 && npm run install:v2",
+    "install:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm install",
+    "install:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm install",
+    "dev:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm run dev",
+    "dev:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm run dev",
+    "status": "node scripts/status.js"
+  },
+  "keywords": [
+    "operating-system",
+    "prototype",
+    "lichtara",
+    "os",
+    "react",
+    "typescript",
+    "vite"
+  ]
+}
