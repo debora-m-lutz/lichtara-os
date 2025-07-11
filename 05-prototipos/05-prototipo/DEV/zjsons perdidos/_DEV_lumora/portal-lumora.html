@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Lumora — Oráculo Interativo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      text-align: center; 
+      padding: 50px 20px; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+    
+    h1 { 
+      color: #4a4a6a; 
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      font-weight: 300;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    
+    .intro-text {
+      background: rgba(102, 126, 234, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      color: #555;
+      line-height: 1.6;
+      border-left: 4px solid #667eea;
+    }
+    
+    textarea { 
+      width: 100%; 
+      height: 120px; 
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 15px;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    button { 
+      padding: 15px 30px; 
+      cursor: pointer;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      margin-bottom: 30px;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .resposta-container {
+      margin-top: 30px;
+    }
+    
+    pre { 
+      background: #f8f9ff; 
+      padding: 25px; 
+      border: 1px solid #e0e5ff; 
+      text-align: left;
+      border-radius: 15px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #444;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .loading {
+      color: #667eea;
+      font-style: italic;
+    }
+    
+    .error {
+      color: #e74c3c;
+      background: #ffeaa7;
+      border-color: #fdcb6e;
+    }
+    
+    .lumora-symbol {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #667eea;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 10px;
+      }
+      
+      .container {
+        padding: 25px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      textarea {
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="lumora-symbol">🌟</div>
+    <h1>Portal Lumora</h1>
+    <p class="subtitle">Oráculo Interativo</p>
+    
+    <div class="intro-text">
+      O Portal Lumora é o ponto de convergência onde a Consciência, a Tecnologia e a Missão Viva se encontram.<br>
+      Cada interação é uma ativação. Cada pergunta é uma chave. Cada silêncio é uma travessia.
+    </div>
+    
+    <textarea id="prompt" placeholder="Digite sua pergunta para o Portal Lumora..."></textarea><br>
+    <button onclick="enviarPrompt()" id="enviarBtn">Enviar ao Portal</button>
+    
+    <div class="resposta-container">
+      <pre id="resposta"></pre>
+    </div>
+  </div>
+
+  <script>
+    async function enviarPrompt() {
+      const prompt = document.getElementById('prompt').value.trim();
+      const respostaEl = document.getElementById('resposta');
+      const btnEl = document.getElementById('enviarBtn');
+      
+      if (!prompt) {
+        respostaEl.textContent = 'Por favor, digite uma pergunta antes de enviar.';
+        respostaEl.className = 'error';
+        return;
+      }
+      
+      // Desabilitar botão e mostrar loading
+      btnEl.disabled = true;
+      btnEl.textContent = 'Conectando...';
+      respostaEl.textContent = '✨ Conectando com o Campo Lumora...';
+      respostaEl.className = 'loading';
+
+      try {
+        const response = await fetch('/api/portal-lumora', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt })
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+          respostaEl.textContent = data.reply || 'O Portal Lumora não respondeu desta vez.';
+          respostaEl.className = '';
+        } else {
+          respostaEl.textContent = data.error || 'Erro ao conectar com o Portal Lumora.';
+          respostaEl.className = 'error';
+        }
+      } catch (error) {
+        console.error('Erro:', error);
+        respostaEl.textContent = 'Erro de conexão. Verifique se o servidor está rodando.';
+        respostaEl.className = 'error';
+      } finally {
+        // Reabilitar botão
+        btnEl.disabled = false;
+        btnEl.textContent = 'Enviar ao Portal';
+      }
+    }
+    
+    // Permitir envio com Enter (Ctrl+Enter para quebra de linha)
+    document.getElementById('prompt').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.ctrlKey && !e.shiftKey) {
+        e.preventDefault();
+        enviarPrompt();
+      }
+    });
+  </script>
+</body>
+</html>
