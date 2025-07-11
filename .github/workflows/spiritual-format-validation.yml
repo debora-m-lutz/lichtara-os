@@ -71,9 +71,18 @@ jobs:
         
         # Get list of changed files
         git fetch origin main
-        CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
         
-        echo "Changed files:"
+        # Check if there's a merge base between origin/main and HEAD
+        if git merge-base --is-ancestor origin/main HEAD || git merge-base origin/main HEAD > /dev/null 2>&1; then
+          echo "📍 Found common ancestor, getting changed files..."
+          CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
+        else
+          echo "⚠️  No common ancestor found between origin/main and HEAD"
+          echo "🔍 Processing all markdown files instead of just changed ones..."
+          CHANGED_FILES=$(find . -name "*.md" -type f | grep -v '.git/' | sed 's|^\./||' | head -20)
+        fi
+        
+        echo "Files to process:"
         echo "$CHANGED_FILES"
         
         # Process markdown files for format validation
