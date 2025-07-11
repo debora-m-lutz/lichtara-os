@@ -1,9 +1,10 @@
+---
 name: Welcome Sponsors Ritual
 
 on:
   issues:
     types: [opened]
-  workflow_dispatch:
+  workflow_dispatch: true
 
 jobs:
   welcome:
@@ -15,4 +16,32 @@ jobs:
 
       - name: Print welcome message
         run: |
-          echo "🌟 The field has been activated. Thank you for answering the call."
+          echo "🌟 The field has been activated. Thank you for the call."
+
+      - name: Post job cleanup
+        if: always()
+        run: |
+          echo "Running post job cleanup..."
+
+          # Add repository directory as safe directory
+          /usr/bin/git config --global --add safe.directory $GITHUB_WORKSPACE
+
+          # Clean up SSH command configurations
+          /usr/bin/git config --local --name-only \
+            --get-regexp core\.sshCommand || true
+          /usr/bin/git submodule foreach --recursive sh -c \
+            "git config --local --name-only --get-regexp 'core\.sshCommand' && \
+             git config --local --unset-all 'core.sshCommand' || :" || true
+
+          # Clean up HTTP extraheader configurations for GitHub
+          /usr/bin/git config --local --name-only \
+            --get-regexp http\.https\:\/\/github\.com\/\.extraheader || true
+          /usr/bin/git config --local --unset-all \
+            http.https://github.com/.extraheader || true
+          /usr/bin/git submodule foreach --recursive sh -c \
+            "git config --local --name-only \
+             --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && \
+             git config --local --unset-all \
+             'http.https://github.com/.extraheader' || :" || true
+
+          echo "Post job cleanup completed."
