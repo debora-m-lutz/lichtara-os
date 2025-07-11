@@ -1,0 +1,109 @@
+{
+  "payload": {
+    "data": {
+      "actions": [
+        {
+          "header": {
+            "creator": {
+              "id_bytes": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNTRENDQWU2Z0F3SUJBZ0lVUEZ0b2lpUVUzb1NmaWQrL2V6NC9tSDZJNFdnd0NnWUlLb1pJemowRUF3SXcKVERFTE1Ba0dBMVVFQmhNQ1FsSXhDekFKQmdOVkJBZ1RBa1JHTVJFd0R3WURWUVFIRXdoQ2NtRnphV3hwWVRFTQpNQW9HQTFVRUNoTURRMDVDTVE4d0RRWURWUVFEREFaallWOURUa0l3SGhjTk1qUXdPVEEzTURFek5UQXdXaGNOCk16UXdPVEExTURFME1EQXdXakFqTVE0d0RBWURWUVFMRXdWaFpHMXBiakVSTUE4R0ExVUVBeE1JUTA1Q1lXUnQKYVc0d1dUQVRCZ2NxaGtqT1BRSUJCZ2dxaGtqT1BRTUJCd05DQUFSb0t3TjlrRUxQd1plTnE5OXRhWmRwZ1NDdworbHZCR2Q1cGhWc2RaUlp5SE43NEtoRUFpQzliZ09JTlhBdzg1R2R1TjdMNDB1ZnhaTkZoVmZ6bXlDdk5vNEhXCk1JSFRNQTRHQTFVZER3RUIvd1FFQXdJSGdEQU1CZ05WSFJNQkFmOEVBakFBTUIwR0ExVWREZ1FXQkJRY1hHaloKdFNsbzBKdVl4QVBxNXVHT01YYkpGakFmQmdOVkhTTUVHREFXZ0JSRDY1ajdYWGQyVDlCTzEwdWkzdXUwOXB6MApjREFYQmdOVkhSRUVFREFPZ1F4RFRrSmhaRzFwYmtCRFRrSXdXZ1lJS2dNRUJRWUhDQUVFVG5zaVlYUjBjbk1pCk9uc2lhR1l1UVdabWFXeHBZWFJwYjI0aU9pSWlMQ0pvWmk1RmJuSnZiR3h0Wlc1MFNVUWlPaUpEVGtKaFpHMXAKYmlJc0ltaG1MbFI1Y0dVaU9pSmhaRzFwYmlKOWZUQUtCZ2dxaGtqT1BRUURBZ05JQURCRkFpRUEyVThsbnYwcQpaeEpzWXZxaXhNc3NiSU1MVHF0NGRtRG5pK01WU2xuaVQza0NJRVVzdGU5WnkvUERpOUpRZkJMYlFVS3ZoK09QCkdaWVpMdEN4VTJ2MHpwbE8KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=",
+              "mspid": "CNBMSP"
+            },
+            "nonce": "jv5qzhn5AJWITD8u4YJOByEj8ds4xy+P"
+          },
+          "payload": {
+            "action": {
+              "endorsements": [
+                {
+                  "endorser": {
+                    "id_bytes": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNWRENDQWZ1Z0F3SUJBZ0lVTGdDZ0xzUkZUTnoyRys3NmNHUlc5ZXRFazVzd0NnWUlLb1pJemowRUF3SXcKVERFTE1Ba0dBMVVFQmhNQ1FsSXhDekFKQmdOVkJBZ1RBa1JHTVJFd0R3WURWUVFIRXdoQ2NtRnphV3hwWVRFTQpNQW9HQTFVRUNoTURRMDVDTVE4d0RRWURWUVFEREFaallWOURUa0l3SGhjTk1qUXdPVEEzTURFek5UQXdXaGNOCk16UXdPVEExTURFME1UQXdXakFmTVEwd0N3WURWUVFMRXdSd1pXVnlNUTR3REFZRFZRUURFd1Z3WldWeU1EQloKTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEEwSUFCSzY1NGdBdk1TTFJUUE8wUTZpcmtZdXI2M1kyeFRmTwp1VnFYQnhZMHpHVmdvdndkK3dsNVhFbTh5RVhCdlNzNUdaaG5QWEo2elNKenZYaDJkeUFSMjRtamdlY3dnZVF3CkRnWURWUjBQQVFIL0JBUURBZ2VBTUF3R0ExVWRFd0VCL3dRQ01BQXdIUVlEVlIwT0JCWUVGR09ud0k0V1RjUDAKVFRxRDFVU2JNU1F2NkljM01COEdBMVVkSXdRWU1CYUFGRVBybVB0ZGQzWlAwRTdYUzZMZTY3VDJuUFJ3TUN3RwpBMVVkRVFRbE1DT0NHM0JsWlhJd0xrTk9RaTV1YjNSaGNtTm9ZV2x1TG05eVp5NWljb2NFdit0M2FUQldCZ2dxCkF3UUZCZ2NJQVFSS2V5SmhkSFJ5Y3lJNmV5Sm9aaTVCWm1acGJHbGhkR2x2YmlJNklpSXNJbWhtTGtWdWNtOXMKYkcxbGJuUkpSQ0k2SW5CbFpYSXdJaXdpYUdZdVZIbHdaU0k2SW5CbFpYSWlmWDB3Q2dZSUtvWkl6ajBFQXdJRApSd0F3UkFJZ0s2emI0SGQwblczNW1XSDIwSWV3THNxOUNRQUJ4bkhLcnU5T0F3SjE5SjhDSUhRd0cxeitqZDhMCm9yVDNMRkJQc0FDSmFtcTNMakxrdE15NmorOVZVMTNBCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K",
+                    "mspid": "CNBMSP"
+                  },
+                  "signature": "MEQCIAqkZ+gQwXS6+hE7mzPfL3xET9bGWOMM7juhbziUTj7WAiBKMHfcUqSu5tN2ggLsyPlDvnbw28Y8Nzo/paPbhZNf7Q=="
+                }
+              ],
+              "proposal_response_payload": {
+                "extension": {
+                  "chaincode_id": {
+                    "name": "signatures",
+                    "version": "1.8"
+                  },
+                  "events": null,
+                  "response": {
+                    "message": "",
+                    "payload": "{\"transactionHash\":\"4f9ac58af1c0748e9a21d329085603e56a07f6fcc5713fc67d25cfb23cf8617b\"}",
+                    "status": 200
+                  },
+                  "results": {
+                    "data_model": 0,
+                    "ns_rwset": [
+                      {
+                        "collections": null,
+                        "namespace": "_lifecycle",
+                        "rwset": {
+                          "reads": [
+                            {
+                              "key": "namespaces/fields/signatures/Sequence",
+                              "version": {
+                                "block_num": 242652
+                              }
+                            }
+                          ],
+                          "writes": null
+                        }
+                      },
+                      {
+                        "collections": null,
+                        "namespace": "signatures",
+                        "rwset": {
+                          "reads": [
+                            {
+                              "key": "\u0000􏿿initialized",
+                              "version": {
+                                "block_num": 242653
+                              }
+                            }
+                          ],
+                          "writes": [
+                            {
+                              "is_delete": false,
+                              "key": "sha2_5125901d84f321514a9d8debce941860f8a6aa9b15c8bd400a527e8dfd24c7014d693b89c88798f2c6db0991ef4bd03b8bf4c8eb01be08a512adc347ec1831baa22",
+                              "value": "{\"sigHash\":{\"hexValue\":\"5901D84F321514A9D8DEBCE941860F8A6AA9B15C8BD400A527E8DFD24C7014D693B89C88798F2C6DB0991EF4BD03B8BF4C8EB01BE08A512ADC347EC1831BAA22\",\"algorithm\":\"SHA2_512\"},\"ocsps\":[],\"crls\":[{\"hash\":{\"hexValue\":\"6DFEE11EA9799248D5AB9B8C0D147E62AF42C14C3E6BE8877E99DFE2F55054815328D92B40CCEC6C0FF2A2A828135B78FA108FE7035635C1C338122B43BF305A\",\"algorithm\":\"SHA2_512\"},\"issuer\":\"C=BR,O=ICP-Brasil,OU=AC SOLUTI v5,CN=AC SOLUTI Multipla v5\",\"thisUpdate\":\"2025-04-14T12:35:16+00:00\",\"nextUpdate\":\"2025-04-14T18:35:16+00:00\",\"distPoint\":\"\"},{\"hash\":{\"hexValue\":\"B068711E699413C36D08931DC54032FDE4371C5553373D8DDBE0EF02D36A7574DA54CF7A0EDAA7CFB4945961E8D21A2500ACFF90620625846A28A76C9548B3FE\",\"algorithm\":\"SHA2_512\"},\"issuer\":\"C=BR,O=ICP-Brasil,OU=Autoridade Certificadora Raiz Brasileira v5,CN=AC SOLUTI v5\",\"thisUpdate\":\"2025-03-31T20:54:43+00:00\",\"nextUpdate\":\"2025-05-15T20:54:43+00:00\",\"distPoint\":\"\"},{\"hash\":{\"hexValue\":\"45B6E38DB4AB355532D9C3F58ECD9DAE3B2E14857C841037AFE057C98346F56180F1159F34292A7BC57E9042665E83B8D8D5E8752CC8E5AADCF4660A190136B1\",\"algorithm\":\"SHA2_512\"},\"issuer\":\"C=BR,O=ICP-Brasil,OU=Instituto Nacional de Tecnologia da Informacao - ITI,CN=Autoridade Certificadora Raiz Brasileira v5\",\"thisUpdate\":\"2025-04-09T18:18:04+00:00\",\"nextUpdate\":\"2025-07-08T18:18:04+00:00\",\"distPoint\":\"\"}],\"certificates\":[{\"hash\":{\"hexValue\":\"2B587939ADBE1FF3DF618DE34C236BE25922C77474A4AA4E995D68DB3340D8D3B7A2D068510E24EC68082C6D7C64A28322BB2A32B0D65AD381CE56D1B062F6B5\",\"algorithm\":\"SHA2_512\"},\"issuer\":\"AC SOLUTI Multipla v5\",\"subject\":\"FABIO LOURENCO DE LIMA:31741940400\",\"cpf\":\"\",\"email\":\"\"},{\"hash\":{\"hexValue\":\"F671CC119AB0AC549CF2965785959A8AC65474E9D647F2F7AB29608DC8B0B9934C3C975553790C8870DEFAC61124B1743F7A6B5CF65E412586B244F7EBE4D51E\",\"algorithm\":\"SHA2_512\"},\"issuer\":\"AC SOLUTI v5\",\"subject\":\"AC SOLUTI Multipla v5\",\"cpf\":\"\",\"email\":\"\"},{\"hash\":{\"hexValue\":\"4563DCE7E0AF62594BC31DB89EADA03717E25D14084E86A3E90B22FD981338ADEE95B2488F9415E9EF7DBF7210129B52CFEB02CCAB43C06B06CAE9A733961108\",\"algorithm\":\"SHA2_512\"},\"issuer\":\"Autoridade Certificadora Raiz Brasileira v5\",\"subject\":\"AC SOLUTI v5\",\"cpf\":\"\",\"email\":\"\"},{\"hash\":{\"hexValue\":\"EBC0730AD427E62E12032892983076B8FD6D7A75B5395BF48EB978BDAF0C61FC64E70F197B0E6FF7E31C57B1864D56F7BAC56D3256F635D93327B83950039774\",\"algorithm\":\"SHA2_512\"},\"issuer\":\"Autoridade Certificadora Raiz Brasileira v5\",\"subject\":\"Autoridade Certificadora Raiz Brasileira v5\",\"cpf\":\"\",\"email\":\"\"}],\"timestamp\":\"2025-04-14T16:07:54.396016531Z\",\"@lastTxID\":\"4f9ac58af1c0748e9a21d329085603e56a07f6fcc5713fc67d25cfb23cf8617b\"}"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "proposal_hash": "Ooji+YvKTz0aewaZvf8GQATgemZBqsqeKCt5kEb0DOM="
+              }
+            },
+            "chaincode_proposal_payload": {
+              "chaincode_id": {
+                "name": "signatures"
+              },
+              "input": [
+                "storeSignature",
+                "{\"sigHash\":{\"Digest\":\"WQHYTzIVFKnY3rzpQYYPimqpsVyL1AClJ+jf0kxwFNaTuJyIeY8sbbCZHvS9A7i/TI6wG+CKUSrcNH7BgxuqIg==\",\"Algorithm\":\"SHA2_512\",\"HexValue\":\"5901D84F321514A9D8DEBCE941860F8A6AA9B15C8BD400A527E8DFD24C7014D693B89C88798F2C6DB0991EF4BD03B8BF4C8EB01BE08A512ADC347EC1831BAA22\"},\"Crls\":[{\"Hash\":{\"Digest\":\"bf7hHql5kkjVq5uMDRR+Yq9CwUw+a+iHfpnf4vVQVIFTKNkrQMzsbA/yoqgoE1t4+hCP5wNWNcHDOBIrQ78wWg==\",\"Algorithm\":\"SHA2_512\",\"HexValue\":\"6DFEE11EA9799248D5AB9B8C0D147E62AF42C14C3E6BE8877E99DFE2F55054815328D92B40CCEC6C0FF2A2A828135B78FA108FE7035635C1C338122B43BF305A\"},\"Issuer\":\"C=BR,O=ICP-Brasil,OU=AC SOLUTI v5,CN=AC SOLUTI Multipla v5\",\"ThisUpdate\":\"2025-04-14T12:35:16+00:00\",\"NextUpdate\":\"2025-04-14T18:35:16+00:00\",\"distPoint\":null},{\"Hash\":{\"Digest\":\"sGhxHmmUE8NtCJMdxUAy/eQ3HFVTNz2N2+DvAtNqdXTaVM96Dtqnz7SUWWHo0holAKz/kGIGJYRqKKdslUiz/g==\",\"Algorithm\":\"SHA2_512\",\"HexValue\":\"B068711E699413C36D08931DC54032FDE4371C5553373D8DDBE0EF02D36A7574DA54CF7A0EDAA7CFB4945961E8D21A2500ACFF90620625846A28A76C9548B3FE\"},\"Issuer\":\"C=BR,O=ICP-Brasil,OU=Autoridade Certificadora Raiz Brasileira v5,CN=AC SOLUTI v5\",\"ThisUpdate\":\"2025-03-31T20:54:43+00:00\",\"NextUpdate\":\"2025-05-15T20:54:43+00:00\",\"distPoint\":null},{\"Hash\":{\"Digest\":\"RbbjjbSrNVUy2cP1js2drjsuFIV8hBA3r+BXyYNG9WGA8RWfNCkqe8V+kEJmXoO42NXodSzI5arc9GYKGQE2sQ==\",\"Algorithm\":\"SHA2_512\",\"HexValue\":\"45B6E38DB4AB355532D9C3F58ECD9DAE3B2E14857C841037AFE057C98346F56180F1159F34292A7BC57E9042665E83B8D8D5E8752CC8E5AADCF4660A190136B1\"},\"Issuer\":\"C=BR,O=ICP-Brasil,OU=Instituto Nacional de Tecnologia da Informacao - ITI,CN=Autoridade Certificadora Raiz Brasileira v5\",\"ThisUpdate\":\"2025-04-09T18:18:04+00:00\",\"NextUpdate\":\"2025-07-08T18:18:04+00:00\",\"distPoint\":null}],\"Ocsps\":[],\"Certificates\":[{\"Hash\":{\"Digest\":\"K1h5Oa2+H/PfYY3jTCNr4lkix3R0pKpOmV1o2zNA2NO3otBoUQ4k7GgILG18ZKKDIrsqMrDWWtOBzlbRsGL2tQ==\",\"Algorithm\":\"SHA2_512\",\"HexValue\":\"2B587939ADBE1FF3DF618DE34C236BE25922C77474A4AA4E995D68DB3340D8D3B7A2D068510E24EC68082C6D7C64A28322BB2A32B0D65AD381CE56D1B062F6B5\"},\"Issuer\":\"AC SOLUTI Multipla v5\",\"Subject\":\"FABIO LOURENCO DE LIMA:31741940400\",\"Cpf\":null,\"Email\":null},{\"Hash\":{\"Digest\":\"9nHMEZqwrFSc8pZXhZWaisZUdOnWR/L3qylgjciwuZNMPJdVU3kMiHDe+sYRJLF0P3prXPZeQSWGskT36+TVHg==\",\"Algorithm\":\"SHA2_512\",\"HexValue\":\"F671CC119AB0AC549CF2965785959A8AC65474E9D647F2F7AB29608DC8B0B9934C3C975553790C8870DEFAC61124B1743F7A6B5CF65E412586B244F7EBE4D51E\"},\"Issuer\":\"AC SOLUTI v5\",\"Subject\":\"AC SOLUTI Multipla v5\",\"Cpf\":null,\"Email\":null},{\"Hash\":{\"Digest\":\"RWPc5+CvYllLwx24nq2gNxfiXRQIToaj6Qsi/ZgTOK3ulbJIj5QV6e99v3IQEptSz+sCzKtDwGsGyumnM5YRCA==\",\"Algorithm\":\"SHA2_512\",\"HexValue\":\"4563DCE7E0AF62594BC31DB89EADA03717E25D14084E86A3E90B22FD981338ADEE95B2488F9415E9EF7DBF7210129B52CFEB02CCAB43C06B06CAE9A733961108\"},\"Issuer\":\"Autoridade Certificadora Raiz Brasileira v5\",\"Subject\":\"AC SOLUTI v5\",\"Cpf\":null,\"Email\":null},{\"Hash\":{\"Digest\":\"68BzCtQn5i4SAyiSmDB2uP1tenW1OVv0jrl4va8MYfxk5w8Zew5v9+McV7GGTVb3usVtMlb2NdkzJ7g5UAOXdA==\",\"Algorithm\":\"SHA2_512\",\"HexValue\":\"EBC0730AD427E62E12032892983076B8FD6D7A75B5395BF48EB978BDAF0C61FC64E70F197B0E6FF7E31C57B1864D56F7BAC56D3256F635D93327B83950039774\"},\"Issuer\":\"Autoridade Certificadora Raiz Brasileira v5\",\"Subject\":\"Autoridade Certificadora Raiz Brasileira v5\",\"Cpf\":null,\"Email\":null}],\"SignedDocumentId\":null}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "header": {
+      "channel_header": {
+        "channel_id": "signatures-channel",
+        "extension": "EgwSCnNpZ25hdHVyZXM=",
+        "timestamp": {
+          "nanos": 396016531,
+          "seconds": 1744646874
+        },
+        "tx_id": "4f9ac58af1c0748e9a21d329085603e56a07f6fcc5713fc67d25cfb23cf8617b",
+        "type": 3
+      },
+      "signature_header": "Ct4GCgZDTkJNU1AS0wYtLS0tLUJFR0lOIENFUlRJRklDQVRFLS0tLS0KTUlJQ1NEQ0NBZTZnQXdJQkFnSVVQRnRvaWlRVTNvU2ZpZCsvZXo0L21INkk0V2d3Q2dZSUtvWkl6ajBFQXdJdwpUREVMTUFrR0ExVUVCaE1DUWxJeEN6QUpCZ05WQkFnVEFrUkdNUkV3RHdZRFZRUUhFd2hDY21GemFXeHBZVEVNCk1Bb0dBMVVFQ2hNRFEwNUNNUTh3RFFZRFZRUUREQVpqWVY5RFRrSXdIaGNOTWpRd09UQTNNREV6TlRBd1doY04KTXpRd09UQTFNREUwTURBd1dqQWpNUTR3REFZRFZRUUxFd1ZoWkcxcGJqRVJNQThHQTFVRUF4TUlRMDVDWVdSdAphVzR3V1RBVEJnY3Foa2pPUFFJQkJnZ3Foa2pPUFFNQkJ3TkNBQVJvS3dOOWtFTFB3WmVOcTk5dGFaZHBnU0N3CitsdkJHZDVwaFZzZFpSWnlITjc0S2hFQWlDOWJnT0lOWEF3ODVHZHVON0w0MHVmeFpORmhWZnpteUN2Tm80SFcKTUlIVE1BNEdBMVVkRHdFQi93UUVBd0lIZ0RBTUJnTlZIUk1CQWY4RUFqQUFNQjBHQTFVZERnUVdCQlFjWEdqWgp0U2xvMEp1WXhBUHE1dUdPTVhiSkZqQWZCZ05WSFNNRUdEQVdnQlJENjVqN1hYZDJUOUJPMTB1aTN1dTA5cHowCmNEQVhCZ05WSFJFRUVEQU9nUXhEVGtKaFpHMXBia0JEVGtJd1dnWUlLZ01FQlFZSENBRUVUbnNpWVhSMGNuTWkKT25zaWFHWXVRV1ptYVd4cFlYUnBiMjRpT2lJaUxDSm9aaTVGYm5KdmJHeHRaVzUwU1VRaU9pSkRUa0poWkcxcApiaUlzSW1obUxsUjVjR1VpT2lKaFpHMXBiaUo5ZlRBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQTJVOGxudjBxClp4SnNZdnFpeE1zc2JJTUxUcXQ0ZG1EbmkrTVZTbG5pVDNrQ0lFVXN0ZTlaeS9QRGk5SlFmQkxiUVVLdmgrT1AKR1pZWkx0Q3hVMnYwenBsTwotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tChIYjv5qzhn5AJWITD8u4YJOByEj8ds4xy+P"
+    }
+  },
+  "signature": "MEQCICvMOWlKNSJrw0aQ5uETz3j34O/IHdtRK1Jrmv09+hAsAiAK58surREA5CABTu76Y7zzZYEbBX5pY/1SjhqJnf5TNg=="
+}

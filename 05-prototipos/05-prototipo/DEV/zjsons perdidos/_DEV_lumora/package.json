@@ -1,0 +1,22 @@
+{
+  "name": "arina-lumora",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "openai": "^4.97.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "description": ""
+}
