@@ -53,6 +53,9 @@ git rebase -i main
 
 # Verificar commits antes do push
 git log --oneline main..HEAD
+
+# Aplicar proteção de ramificação automaticamente
+./scripts/apply-branch-protection.sh
 ```
 
 ---
@@ -110,6 +113,9 @@ git rebase -i main
 
 # Check commits before push
 git log --oneline main..HEAD
+
+# Apply branch protection automatically
+./scripts/apply-branch-protection.sh
 ```
 
 ---

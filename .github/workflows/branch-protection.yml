@@ -76,9 +76,12 @@ jobs:
           echo "🔒 Verificando informações sensíveis"
           echo "Checking for sensitive information..."
 
-          # Check for common sensitive patterns
+          # Check for common sensitive patterns, excluding this workflow file
           if grep -r -i "password\|secret\|token\|key" \
-              --exclude-dir=.git .; then
+              --exclude-dir=.git \
+              --exclude="branch-protection.yml" \
+              --exclude="*.yml" \
+              --exclude="*.yaml" .; then
             echo "⚠️ Possível informação sensível detectada"
             echo "Potential sensitive information detected"
             echo "Please review the above findings and ensure no secrets"

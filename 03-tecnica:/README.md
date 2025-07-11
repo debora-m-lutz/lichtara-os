@@ -11,6 +11,11 @@ This section contains technical documentation for the Aurorabridge project.
 - [Arquitetura | Architecture](./arquitetura/)
 - [Fluxos | Flows](./flux/)
 
+### Scripts de Automação | Automation Scripts
+
+- [Scripts | Scripts](../scripts/) - Scripts para automação de tarefas
+- [Aplicar Proteção | Apply Protection](../scripts/apply-branch-protection.sh)
+
 ### Configuração do Repositório | Repository Configuration
 
 - **Proteção de Ramificação**: Regras automatizadas para proteger ramificações importantes
