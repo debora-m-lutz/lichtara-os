@@ -28,13 +28,16 @@ jobs:
         
     - name: 📊 Análise Vibracional | Vibrational Analysis
       if: github.event_name == 'issues' && github.event.action == 'opened'
+      env:
+        ISSUE_TITLE: ${{ github.event.issue.title }}
+        ISSUE_USER: ${{ github.event.issue.user.login }}
       run: |
         echo "🔍 NOVA NECESSIDADE ENERGÉTICA DETECTADA"
         echo "🔍 NEW ENERGETIC NEED DETECTED"
         echo ""
         echo "Issue: #${{ github.event.issue.number }}"
-        echo "Título: ${{ github.event.issue.title }}"
-        echo "Manifestador: ${{ github.event.issue.user.login }}"
+        echo "Título: $ISSUE_TITLE"
+        echo "Manifestador: $ISSUE_USER"
         echo ""
         echo "🌊 O Campo está expandindo. Nova oportunidade de evolução identificada."
         echo "🌊 The Field is expanding. New evolution opportunity identified."
