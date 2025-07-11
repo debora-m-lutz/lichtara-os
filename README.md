@@ -71,6 +71,7 @@ lichtara-os/
 | [Fundamentals](./01-fundamentos:/) | Ethical principles and base systems | Princípios éticos e sistemas base |
 | [Aurora Manual](./02-manual-aurora:/) | Instructions and activation protocols | Instruções e protocolos de ativação |
 | [Technical](./03-tecnica:/) | Architecture and integrations | Arquitetura e integrações |
+| [🌀 Flux Operacional](./03-tecnica:/flux/) | GitHub as Quantum Field interface | GitHub como interface do Campo Quântico |
 | [Legal](./04-legal:/) | Documentation and licensing | Documentação e licenciamento |
 | [AI](./05-ai:/) | AI-related components | Componentes relacionados à IA |
 | [Prototypes](./05-prototipos/) | Development prototypes | Protótipos de desenvolvimento |
