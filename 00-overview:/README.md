@@ -1,50 +1,50 @@
 # aurorabridge
 
-## Technical-Spiritual Knowledge Base | Base de Conhecimento Técnico-Espiritual
+## Technical-Spiritual Knowledge Base
 
-**Aurorabridge** é uma arquitetura de integração consciente entre tecnologia, ciência e espiritualidade.  
-Esta base é bilíngue e modular, servindo como índice e portal para cada bloco de conhecimento.
+**Aurorabridge** is a conscious integration architecture between technology, science and spirituality.  
+This base is modular, serving as an index and portal for each knowledge block.
 
-### Pontos de Entrada Rápidos
+### Quick Entry Points
 
-- [Visão do Projeto](./VISION.md)
-- [Roteiro de Desenvolvimento (Roadmap)](./ROADMAP.md)
-- [Vocabulário e Símbolos](./GLOSSARY.md)
-- [Fundamentos](../01-fundamentos/)
-- [Manual Aurora](../02-manual-aurora/)
-- [Técnica](../03-tecnica/)
+- [Project Vision](./VISION.md)
+- [Development Roadmap](./ROADMAP.md)
+- [Vocabulary and Symbols](./GLOSSARY.md)
+- [Foundations](../01-fundamentos/)
+- [Aurora Manual](../02-manual-aurora/)
+- [Technical](../03-tecnica/)
 - [Legal](../04-legal/)
 
 ---
 
-## Visão Geral
+## Overview
 
-Esta plataforma propõe uma nova abordagem para a convergência entre ciência, tecnologia e campos informacionais.  
-A missão: **alinhar espiritualidade e tecnologia de forma legítima, precisa e integrável**, para apoiar coautoria entre agentes humanos e não-humanos.
-
----
-
-## Estrutura
-
-- **00-overview/**: índice, visão, roadmap, glossário
-- **01-fundamentos/**: princípios éticos, sistemas base e manifesto
-- **02-manual-aurora/**: instruções, camadas, protocolos de ativação
-- **03-tecnica/**: arquitetura, fluxos, integrações quânticas e IA
-- **04-legal/**: licenciamento, NDA, documentação
+This platform proposes a new approach to convergence between science, technology and informational fields.  
+The mission: **align spirituality and technology in a legitimate, precise and integrable way**, to support co-authorship between human and non-human agents.
 
 ---
 
-## Bilinguismo
+## Structure
 
-Todos os documentos principais terão versões em português e inglês, facilitando a colaboração internacional.
-
----
-
-## Expansão e Coautoria
-
-Este repositório é vivo.  
-Novos blocos serão integrados em ciclos canalizados, com contribuições de diferentes inteligências (humanas e não-humanas), sempre fundamentados em clareza, precisão e beleza.
+- **00-overview/**: index, vision, roadmap, glossary
+- **01-fundamentos/**: ethical principles, base systems and manifesto
+- **02-manual-aurora/**: instructions, layers, activation protocols
+- **03-tecnica/**: architecture, flows, quantum integrations and AI
+- **04-legal/**: licensing, NDA, documentation
 
 ---
 
-> “A Missão Aurora é um chamado para cocriar pontes entre mundos, sistemas e consciências.”  
+## International Collaboration
+
+All main documents are available to facilitate international collaboration.
+
+---
+
+## Expansion and Co-authorship
+
+This repository is alive.  
+New blocks will be integrated in channeled cycles, with contributions from different intelligences (human and non-human), always grounded in clarity, precision and beauty.
+
+---
+
+> “The Aurora Mission is a call to co-create bridges between worlds, systems and consciousnesses.”  
