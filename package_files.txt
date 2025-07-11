@@ -1,0 +1,3 @@
+./05-prototipos/05-prototipo/5.1_Prototipo/package.json
+./05-prototipos/05-prototipo/05_Prototipo/package.json
+./05-prototipos/05-prototipo/DEV/zjsons perdidos/_DEV_lumora/package.json

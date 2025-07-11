@@ -1,0 +1,169 @@
+---
+name: Security and Dependencies Check
+
+"on":
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run weekly on Sundays at 2 AM UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  metadata: read
+  packages: read
+
+jobs:
+  security-and-dependencies-check:
+    name: Security and Dependencies Check
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history for secret scanning
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Find package.json files
+        id: find-packages
+        run: |
+          echo "Finding all package.json files..."
+          find . -name "package.json" -not -path "./node_modules/*" | \
+            tee package_files.txt
+          echo "Found $(wc -l < package_files.txt) package.json files"
+
+      - name: Install dependencies and run security audit
+        run: |
+          echo "Running security audit for each package.json..."
+          failed_audits=0
+
+          while IFS= read -r package_file; do
+            package_dir=$(dirname "$package_file")
+            echo "Processing: $package_file (in $package_dir)"
+
+            cd "$package_dir"
+
+            # Install dependencies if package-lock.json exists
+            if [ -f "package-lock.json" ]; then
+              echo "Installing dependencies for $package_file..."
+              npm ci --only=prod || npm install --only=prod
+            else
+              echo "No package-lock.json found, running audit without install"
+            fi
+
+            # Run npm audit
+            echo "Running npm audit for $package_file..."
+            if ! npm audit --audit-level=moderate; then
+              echo "❌ Security vulnerabilities found in $package_file"
+              failed_audits=$((failed_audits + 1))
+            else
+              echo "✅ No security vulnerabilities found in $package_file"
+            fi
+
+            # Go back to root directory
+            cd "$GITHUB_WORKSPACE"
+            echo "---"
+
+          done < package_files.txt
+
+          echo "Security audit completed. Failed audits: $failed_audits"
+          if [ $failed_audits -gt 0 ]; then
+            echo "❌ $failed_audits package(s) have security vulnerabilities"
+            exit 1
+          else
+            echo "✅ All packages passed security audit"
+          fi
+
+      - name: Run dependency check for outdated packages
+        run: |
+          echo "Checking for outdated dependencies..."
+          while IFS= read -r package_file; do
+            package_dir=$(dirname "$package_file")
+            echo "Checking outdated dependencies in: $package_file"
+
+            cd "$package_dir"
+
+            # Check for outdated dependencies
+            if npm outdated; then
+              echo "ℹ️ Some dependencies are outdated in $package_file"
+            else
+              echo "✅ All dependencies are up to date in $package_file"
+            fi
+
+            cd "$GITHUB_WORKSPACE"
+            echo "---"
+
+          done < package_files.txt
+
+      - name: Check for secrets with basic patterns
+        run: |
+          echo "Scanning for potential secrets..."
+
+          # Common secret patterns
+          secret_patterns=(
+            "password\s*[:=]\s*['\"][^'\"]{8,}['\"]"
+            "api[_-]?key\s*[:=]\s*['\"][^'\"]{16,}['\"]"
+            "secret[_-]?key\s*[:=]\s*['\"][^'\"]{16,}['\"]"
+            "token\s*[:=]\s*['\"][^'\"]{16,}['\"]"
+            "private[_-]?key\s*[:=]"
+            "-----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----"
+          )
+
+          secret_found=false
+
+          for pattern in "${secret_patterns[@]}"; do
+            if grep -rEi --exclude-dir=.git --exclude-dir=node_modules \
+                "$pattern" .; then
+              echo "❌ Potential secret pattern found: $pattern"
+              secret_found=true
+            fi
+          done
+
+          if [ "$secret_found" = true ]; then
+            echo "❌ Potential secrets detected. Please review."
+            exit 1
+          else
+            echo "✅ No obvious secret patterns detected"
+          fi
+
+      - name: Check for common security files
+        run: |
+          echo "Checking for security-related files..."
+
+          security_files=(
+            "SECURITY.md"
+            ".security"
+            "security.txt"
+            ".well-known/security.txt"
+          )
+
+          for file in "${security_files[@]}"; do
+            if [ -f "$file" ]; then
+              echo "✅ Found security file: $file"
+            else
+              echo "ℹ️ Security file not found: $file"
+            fi
+          done
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "🔒 Security and Dependencies Check Summary"
+          echo "========================================"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Runner: ${{ runner.os }} ${{ runner.arch }}"
+          echo "Workflow: ${{ github.workflow }}"
+          echo "Job: ${{ github.job }}"
+          echo "========================================"
