@@ -1,0 +1,25 @@
+# Ignore server temporary files
+.server.pid
+.server.log
+
+# Node.js dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
