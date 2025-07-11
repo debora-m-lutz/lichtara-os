@@ -20,6 +20,14 @@
   *Visualização interativa do sistema em operação*  
   *Interactive visualization of the system in operation*
 
+- **[📊 Configuração do Project Board](./projeto-board-config.md)**  
+  *Setup do radar de sincronicidades em tempo real*  
+  *Real-time synchronicity radar setup*
+
+- **[🚀 Guia de Ativação](./guia-ativacao.md)**  
+  *Como usar o sistema na prática diária*  
+  *How to use the system in daily practice*
+
 ### 🌊 Como o Flux Opera | How Flux Operates
 
 ```
