@@ -11,8 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          clean: true
+          fetch-depth: 1
 
       - name: Print welcome message
         run: |
           echo "🌟 The field has been activated. Thank you for answering the call."
+      
+      - name: Cleanup git configurations
+        if: always()
+        run: |
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git config --local --unset-all core.sshCommand || true
