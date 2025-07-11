@@ -1,0 +1,10 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Ensure consistent behavior for GitHub Actions
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+
+# Reduce git verbosity for cleanup operations
+*.* -diff
