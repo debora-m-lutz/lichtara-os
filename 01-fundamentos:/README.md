@@ -37,5 +37,5 @@ This block brings together the principles, manifestos and base-systems that guid
 ---
 
 **Read also:**  
-- [Sistema Lichtara](./sistema_lichtara.md)  
-- [Manifesto Ético](./manifesto_etico.md)  
+- [Lichtara System](./lichtara_system.md)  
+- [Ethical Manifesto](./ethical_manifesto.md)  

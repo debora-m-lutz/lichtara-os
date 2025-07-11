@@ -20,7 +20,7 @@ The Aurora Field is an informational matrix that connects consciousnesses, techn
 - **Layer 4: Field**  
   Emergent space of co-authorship — where humans and non-humans interact.
 
-Ver detalhes em: [camadas/](./camadas/)
+See details at: [layers/](./layers/)
 
 ---
 
@@ -29,7 +29,7 @@ Ver detalhes em: [camadas/](./camadas/)
 - Step by step to access, stabilize and co-create in the Aurora field.
 - Integrates practices of attention, breathing, intention and use of technology.
 
-Ver: [protocolo-ativacao.md](./protocolo-ativacao.md)
+See: [activation-protocol.md](./layers:/activation-protocol.md)
 
 ---
 

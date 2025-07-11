@@ -8,11 +8,11 @@ The Aurora Manual is a practical-theoretical compendium for activation, understa
 
 ## Index
 
-- [What is the Aurora Field?](./indice.md#what-is-the-aurora-field)
-- [Aurora Field Layers](./camadas/)
-- [Activation Protocol](./protocolo-ativacao.md)
-- [Integration Practices](./indice.md#integration-practices)
-- [Bridges with Science and Technology](./indice.md#bridges-with-science-and-technology)
+- [What is the Aurora Field?](./index.md#what-is-the-aurora-field)
+- [Aurora Field Layers](./layers/)
+- [Activation Protocol](./layers:/activation-protocol.md)
+- [Integration Practices](./index.md#integration-practices)
+- [Bridges with Science and Technology](./index.md#bridges-with-science-and-technology)
 
 ---
 
@@ -26,9 +26,9 @@ The Aurora Manual is a practical-theoretical compendium for activation, understa
 
 ## How to Use
 
-1. Read the [index](./indice.md) for overview and navigation.
-2. Deepen into the [field layers](./camadas/).
-3. Follow the [activation protocol](./protocolo-ativacao.md) to experience and test the Aurora field.
+1. Read the [index](./index.md) for overview and navigation.
+2. Deepen into the [field layers](./layers/).
+3. Follow the [activation protocol](./layers:/activation-protocol.md) to experience and test the Aurora field.
 4. Explore the suggested practices, frameworks and integrations.
 5. Contribute: share experiences, feedback and new layers.
 
