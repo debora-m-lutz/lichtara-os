@@ -1,0 +1,119 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="pt-BR">\
+<head>\
+  <meta charset="UTF-8" />\
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\
+  <title>AURENTHIA \'95 Portal de Resson\'e2ncia Viva</title>\
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>\
+  <style>\
+    body \{\
+      background-color: #f8f6ff;\
+      font-family: 'Segoe UI', sans-serif;\
+      padding: 2rem;\
+      color: #333;\
+      max-width: 800px;\
+      margin: auto;\
+    \}\
+    h1 \{\
+      text-align: center;\
+      color: #6b4dc2;\
+      font-weight: 600;\
+      font-size: 2.2rem;\
+      margin-bottom: 1rem;\
+    \}\
+    textarea \{\
+      width: 100%;\
+      height: 200px;\
+      padding: 1rem;\
+      font-size: 1rem;\
+      border-radius: 8px;\
+      border: 1px solid #ccc;\
+      resize: vertical;\
+      background-color: #fff;\
+    \}\
+    button \{\
+      margin: 0.5rem 0.5rem 0.5rem 0;\
+      background-color: #6b4dc2;\
+      color: #fff;\
+      border: none;\
+      padding: 0.75rem 1.2rem;\
+      border-radius: 6px;\
+      font-size: 1rem;\
+      cursor: pointer;\
+    \}\
+    button:hover \{\
+      background-color: #5139a5;\
+    \}\
+    .output \{\
+      background-color: #ffffff;\
+      border-left: 4px solid #6b4dc2;\
+      padding: 1rem;\
+      border-radius: 8px;\
+      margin-top: 1rem;\
+      white-space: pre-wrap;\
+    \}\
+  </style>\
+</head>\
+<body>\
+  <h1>\uc0\u10022  AURENTHIA \u10022 </h1>\
+  <p style="text-align:center;font-style:italic;">Portal de Resson\'e2ncia Viva</p>\
+\
+  <textarea id="campoRessonancia" placeholder="Cole aqui suas inten\'e7\'f5es, desejos ou pedidos vibracionais..."></textarea>\
+  <div>\
+    <button onclick="rever()">\uc0\u55357 \u57089  Rever</button>\
+    <button onclick="reescrever()">\uc0\u55357 \u57091  Reescrever</button>\
+    <button onclick="liberar()">\uc0\u55357 \u57092  Liberar</button>\
+    <button onclick="ancorar()">\uc0\u55357 \u57090  Ancorar</button>\
+    <button onclick="exportarPDF()">\uc0\u11015 \u65039  Exportar PDF</button>\
+  </div>\
+\
+  <div class="output" id="output"></div>\
+\
+  <script>\
+    function rever() \{\
+      const texto = document.getElementById('campoRessonancia').value;\
+      document.getElementById('output').innerText = '\uc0\u55357 \u56534  Revisando com compaix\'e3o:\\n\\n' + texto;\
+    \}\
+\
+    function reescrever() \{\
+      const texto = document.getElementById('campoRessonancia').value;\
+      const novo = prompt("Digite a nova vers\'e3o vibracional:", texto);\
+      if (novo !== null) \{\
+        document.getElementById('campoRessonancia').value = novo;\
+        document.getElementById('output').innerText = '\uc0\u55357 \u56580  Reescrito com nova vibra\'e7\'e3o.';\
+      \}\
+    \}\
+\
+    function liberar() \{\
+      document.getElementById('output').innerText = '\uc0\u55356 \u57132 \u65039  Inten\'e7\'e3o liberada com gratid\'e3o e paz.';\
+      document.getElementById('campoRessonancia').value = '';\
+    \}\
+\
+    function ancorar() \{\
+      document.getElementById('output').innerText = '\uc0\u55357 \u56524  Inten\'e7\'e3o ancorada no plano da a\'e7\'e3o pr\'e1tica.';\
+    \}\
+\
+    function exportarPDF() \{\
+      const texto = document.getElementById('campoRessonancia').value;\
+      const \{ jsPDF \} = window.jspdf;\
+      const doc = new jsPDF();\
+\
+      doc.setFont("helvetica");\
+      doc.setFontSize(12);\
+      doc.text("AURENTHIA \'97 Resson\'e2ncia Registrada", 10, 10);\
+      const linhas = doc.splitTextToSize(texto, 180);\
+      doc.text(linhas, 10, 20);\
+      doc.save("aurenthia_ressonancia.pdf");\
+    \}\
+  </script>\
+\
+</body>\
+</html>\
+}
