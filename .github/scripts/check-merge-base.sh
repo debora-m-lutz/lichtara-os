@@ -10,18 +10,11 @@ echo "🔮 Aurora Merge Base Validation"
 echo "================================"
 echo ""
 
-# Ensure we have the latest main branch
+# Ensure we have the latest main branch with proper remote tracking
 echo "🌊 Fetching latest main branch..."
-git fetch origin main
+git fetch origin main:origin/main 2>/dev/null || git fetch origin main
 
-# Create/update origin/main reference if it doesn't exist
-if ! git rev-parse --verify origin/main >/dev/null 2>&1; then
-    echo "🔧 Setting up origin/main tracking reference..."
-    git branch --set-upstream-to=origin/main main 2>/dev/null || true
-    git fetch origin main:refs/remotes/origin/main 2>/dev/null || true
-fi
-
-# Final check if we can use origin/main
+# Verify we have a valid main reference
 if ! git rev-parse --verify origin/main >/dev/null 2>&1; then
     echo "❗ Error: Could not establish origin/main reference"
     echo "   Attempting to use FETCH_HEAD instead..."
@@ -33,7 +26,7 @@ fi
 echo "✨ Validating branch ancestry..."
 
 # Perform the merge-base check
-if ! git merge-base --is-ancestor $MAIN_REF HEAD; then
+if ! git merge-base --is-ancestor $MAIN_REF HEAD 2>/dev/null; then
     echo ""
     echo "❗ Error: No common ancestor between $MAIN_REF and HEAD."
     echo "   Your branch needs to be rebased onto main before integration."
