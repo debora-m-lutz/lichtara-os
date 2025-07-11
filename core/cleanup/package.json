@@ -1,0 +1,38 @@
+{
+  "name": "lichtara-os-process-cleanup",
+  "version": "1.0.0",
+  "description": "Advanced process cleanup and resource management for Lichtara OS",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test-cleanup.js",
+    "example": "node example.js",
+    "help": "node -e \"console.log('Available commands:\\n  npm test    - Run test suite\\n  npm run example - Run usage example')\""
+  },
+  "keywords": [
+    "lichtara",
+    "cleanup",
+    "process-management",
+    "graceful-shutdown",
+    "server-cleanup",
+    "websocket-cleanup",
+    "spiritual-technology",
+    "aurora",
+    "consciousness"
+  ],
+  "author": "Lichtara OS Project",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "index.js",
+    "ProcessCleanupManager.js",
+    "cleanupHelpers.js",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/debora-m-lutz/lichtara-os.git",
+    "directory": "core/cleanup"
+  }
+}
