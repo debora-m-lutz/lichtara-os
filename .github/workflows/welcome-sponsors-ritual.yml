@@ -1,0 +1,18 @@
+name: Welcome Sponsors Ritual
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+
+jobs:
+  welcome:
+    if: github.event.issue.labels.*.name contains 'activation'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Print welcome message
+        run: |
+          echo "🌟 The field has been activated. Thank you for answering the call."
