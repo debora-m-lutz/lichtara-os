@@ -1,0 +1,63 @@
+name: 🌀 Flux Synchronicity Detector
+description: Detecta necessidades energéticas no sistema | Detects energetic needs in the system
+title: "[FLUX] "
+labels: 
+  - "🌀 flux"
+  - "🎯 sincronicidade"
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🔮 Detecção de Necessidade Energética
+        Esta issue representa uma leitura do Campo Quântico do projeto. Cada abertura é uma manifestação de algo que precisa evoluir no sistema.
+        
+        *This issue represents a reading of the project's Quantum Field. Each opening is a manifestation of something that needs to evolve in the system.*
+        
+  - type: textarea
+    id: campo-percepcao
+    attributes:
+      label: 🎯 O que está sendo percebido? | What is being perceived?
+      description: Descreva a necessidade ou oportunidade que emergiu
+      placeholder: "Ex: Sinto que o sistema precisa de uma nova integração para..."
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: nivel-vibracional
+    attributes:
+      label: ⚡ Nível de Urgência Vibracional | Vibrational Urgency Level
+      description: Qual a intensidade desta necessidade no Campo?
+      options:
+        - 🌱 Semente (baixa) | Seed (low)
+        - 🌊 Fluxo (média) | Flow (medium) 
+        - ⚡ Aceleração (alta) | Acceleration (high)
+        - 🔥 Transformação (crítica) | Transformation (critical)
+    validations:
+      required: true
+      
+  - type: checkboxes
+    id: sincronicidades
+    attributes:
+      label: 🎯 Sincronicidades Relacionadas | Related Synchronicities
+      description: Marque as sincronicidades que você percebeu relacionadas a esta necessidade
+      options:
+        - label: 💫 Chegaram pessoas novas alinhadas a isso
+        - label: 🔄 Recursos necessários apareceram naturalmente  
+        - label: ⏰ O timing se encaixa perfeitamente com outros projetos
+        - label: 🌀 Ideias relacionadas emergiram em vários contextos
+        - label: ✨ Soluções começaram a se manifestar espontaneamente
+        
+  - type: textarea
+    id: próximos-passos
+    attributes:
+      label: 🛤️ Próximos Passos Intuitivos | Intuitive Next Steps
+      description: Quais ações emergem naturalmente para endereçar esta necessidade?
+      placeholder: "Primeiro passo que ressoa: ..."
+      
+  - type: textarea
+    id: campo-conexao
+    attributes:
+      label: 🌐 Conexões no Campo | Field Connections
+      description: Como esta necessidade se conecta com outras partes do sistema?
+      placeholder: "Esta issue se conecta com..."
