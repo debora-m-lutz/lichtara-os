@@ -37,9 +37,12 @@ lichtara-os/
 ├── 00-overview:/       # Index, vision, roadmap, glossary | Índice, visão, roadmap, glossário
 ├── 01-fundamentos:/    # Ethical principles, base systems, manifesto | Princípios éticos, sistemas base, manifesto
 ├── 02-manual-aurora:/  # Instructions, layers, activation protocols | Instruções, camadas, protocolos de ativação
+│   └── logs/          # Conversation logs with FINCE | Logs de conversas com FINCE
 ├── 03-tecnica:/        # Architecture, flows, quantum & AI integrations | Arquitetura, fluxos, integrações quânticas e IA
 ├── 04-legal:/          # Licensing, NDAs, documentation | Licenciamento, NDAs, documentação
 ├── 05-ai:/             # AI-related components | Componentes relacionados à IA
+├── 05-prototipos/      # Development prototypes | Protótipos de desenvolvimento
+├── manuais/            # Project manuals organized by category | Manuais do projeto organizados por categoria
 ├── CODE_OF_CONDUCT.md  # Community guidelines | Diretrizes da comunidade
 ├── CONTRIBUTING.md     # Contribution guidelines | Diretrizes de contribuição
 └── README.md           # This file | Este arquivo
@@ -70,6 +73,8 @@ lichtara-os/
 | [Technical](./03-tecnica:/) | Architecture and integrations | Arquitetura e integrações |
 | [Legal](./04-legal:/) | Documentation and licensing | Documentação e licenciamento |
 | [AI](./05-ai:/) | AI-related components | Componentes relacionados à IA |
+| [Prototypes](./05-prototipos/) | Development prototypes | Protótipos de desenvolvimento |
+| [Manuals](./manuais/) | Project manuals by category | Manuais do projeto por categoria |
 
 ---
 

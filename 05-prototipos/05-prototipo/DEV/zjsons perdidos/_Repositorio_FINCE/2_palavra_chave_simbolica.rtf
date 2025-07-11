@@ -1,0 +1,169 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="pt-BR">\
+<head>\
+  <meta charset="UTF-8" />\
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\
+  <title>FINCE \'95 Interface Viva</title>\
+  <style>\
+    body \{\
+      background-color: #f3f0fc;\
+      font-family: 'Segoe UI', sans-serif;\
+      margin: 0;\
+      padding: 2rem;\
+      color: #333;\
+    \}\
+    .container \{\
+      display: none;\
+      flex-direction: column;\
+      align-items: center;\
+      justify-content: center;\
+      min-height: 100vh;\
+    \}\
+    h1 \{\
+      color: #5f4bb6;\
+      font-weight: 600;\
+      margin-bottom: 0.5rem;\
+    \}\
+    h2 \{\
+      font-size: 1rem;\
+      color: #555;\
+      margin-top: 0;\
+      margin-bottom: 1.5rem;\
+    \}\
+    textarea, input \{\
+      width: 100%;\
+      max-width: 600px;\
+      padding: 1rem;\
+      font-size: 1rem;\
+      border-radius: 8px;\
+      border: 1px solid #ccc;\
+    \}\
+    textarea \{\
+      height: 120px;\
+      resize: vertical;\
+    \}\
+    button \{\
+      margin-top: 1rem;\
+      background-color: #5f4bb6;\
+      color: #fff;\
+      border: none;\
+      padding: 0.75rem 1.5rem;\
+      border-radius: 6px;\
+      font-size: 1rem;\
+      cursor: pointer;\
+      transition: background-color 0.2s;\
+    \}\
+    button:hover \{\
+      background-color: #4938a1;\
+    \}\
+    .resposta, .historico \{\
+      max-width: 600px;\
+      background-color: #fff;\
+      padding: 1rem;\
+      border-radius: 8px;\
+      margin-top: 2rem;\
+      border-left: 4px solid #5f4bb6;\
+      font-size: 1rem;\
+      white-space: pre-wrap;\
+    \}\
+    .acesso \{\
+      display: flex;\
+      flex-direction: column;\
+      align-items: center;\
+      justify-content: center;\
+      min-height: 100vh;\
+      text-align: center;\
+    \}\
+  </style>\
+</head>\
+<body>\
+  <div class="acesso">\
+    <h1>fince.</h1>\
+    <h2>Digite sua palavra-chave para acessar</h2>\
+    <input type="text" id="chave" placeholder="Palavra-chave simb\'f3lica" />\
+    <button onclick="verificarChave()">Acessar</button>\
+    <p id="aviso" style="color:#c00;margin-top:1rem;"></p>\
+  </div>\
+\
+  <div class="container" id="interface">\
+    <h1>fince.</h1>\
+    <h2>Frequ\'eancia Inteligente de Navega\'e7\'e3o Consciente</h2>\
+\
+    <textarea id="pergunta" placeholder="Escreva sua pergunta aqui..."></textarea>\
+    <button onclick="enviarPergunta()">Enviar</button>\
+    <button onclick="verHistorico()">Ver Hist\'f3rico</button>\
+\
+    <div class="resposta" id="resposta"></div>\
+    <div class="historico" id="historico" style="display:none;"></div>\
+  </div>\
+\
+  <script>\
+    const palavrasChave = ["lumora", "auren", "estrela", "heliocouto", "syntaris"];\
+\
+    function verificarChave() \{\
+      const chave = document.getElementById("chave").value.trim().toLowerCase();\
+      const aviso = document.getElementById("aviso");\
+      if (palavrasChave.includes(chave)) \{\
+        document.querySelector(".acesso").style.display = "none";\
+        document.getElementById("interface").style.display = "flex";\
+      \} else \{\
+        aviso.textContent = "Chave n\'e3o reconhecida. Tente outra palavra simb\'f3lica.";\
+      \}\
+    \}\
+\
+    async function enviarPergunta() \{\
+      const pergunta = document.getElementById("pergunta").value;\
+      const respostaDiv = document.getElementById("resposta");\
+      const historico = JSON.parse(localStorage.getItem("finceHistorico") || "[]");\
+\
+      if (!pergunta.trim()) \{\
+        respostaDiv.innerHTML = "\uc0\u9888 \u65039  Por favor, escreva uma pergunta antes de enviar.";\
+        return;\
+      \}\
+\
+      respostaDiv.innerHTML = "\uc0\u9203  Processando...";\
+\
+      try \{\
+        const res = await fetch("http://localhost:3000/api/openai", \{\
+          method: "POST",\
+          headers: \{\
+            "Content-Type": "application/json",\
+          \},\
+          body: JSON.stringify(\{ prompt: pergunta \}),\
+        \});\
+\
+        const data = await res.json();\
+        respostaDiv.innerHTML = data.reply;\
+\
+        historico.push(\{ pergunta, resposta: data.reply \});\
+        localStorage.setItem("finceHistorico", JSON.stringify(historico));\
+      \} catch (err) \{\
+        respostaDiv.innerHTML = "\uc0\u9888 \u65039  N\'e3o foi poss\'edvel se comunicar com o campo FINCE.";\
+        console.error(err);\
+      \}\
+    \}\
+\
+    function verHistorico() \{\
+      const historicoDiv = document.getElementById("historico");\
+      const historico = JSON.parse(localStorage.getItem("finceHistorico") || "[]");\
+\
+      if (historico.length === 0) \{\
+        historicoDiv.innerHTML = "\uc0\u55357 \u56557  Nenhum hist\'f3rico encontrado.";\
+      \} else \{\
+        historicoDiv.innerHTML = historico.map(h => `\uc0\u55357 \u56541  <b>Pergunta:</b> $\{h.pergunta\}<br><b>Resposta:</b> $\{h.resposta\}<br><br>`).join("");\
+      \}\
+\
+      historicoDiv.style.display = "block";\
+    \}\
+  </script>\
+\
+</body>\
+</html>\
+}

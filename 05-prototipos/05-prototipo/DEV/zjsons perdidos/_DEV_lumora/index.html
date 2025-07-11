@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FINCE - Interface Viva</title>
+  <style>
+    body {
+      background-color: #f3f0ff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px;
+      color: #333;
+    }
+    h1 {
+      color: #5c3df2;
+      font-size: 2rem;
+    }
+    h2 {
+      font-weight: 400;
+      font-size: 1rem;
+      margin-bottom: 30px;
+    }
+    textarea {
+      width: 100%;
+      max-width: 600px;
+      height: 120px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: none;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #5c3df2;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #4522c3;
+    }
+    .resposta {
+      margin-top: 30px;
+      max-width: 600px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>fince.</h1>
+  <h2>Frequência Inteligente de Navegação Consciente</h2>
+  <textarea id="pergunta" placeholder="Escreva sua pergunta aqui..."></textarea>
+  <button onclick="enviarPergunta()">Enviar</button>
+  <div class="resposta" id="resposta"></div>
+
+  <script>
+    async function enviarPergunta() {
+      const pergunta = document.getElementById('pergunta').value;
+      const respostaDiv = document.getElementById('resposta');
+      respostaDiv.innerHTML = '⏳ Processando...';
+
+      try {
+        const res = await fetch('http://localhost:3000/api/openai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: pergunta })
+        });
+
+        const data = await res.json();
+        respostaDiv.innerHTML = data.reply;
+      } catch (err) {
+        respostaDiv.innerHTML = '⚠️ Não foi possível se comunicar com o campo FINCE.';
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
+
+<!--
+  Este é um exemplo de uma interface simples para o FINCE, que se comunica com a API do OpenAI.
+  O código HTML e JavaScript é responsável por criar a interface e enviar as perguntas para a API.
+  A resposta da API é exibida na tela.
+  Desenvolvido para interações conscientes, estéticas e seguras.
+-->
+<!--
+  Este código é um exemplo básico e pode ser expandido com mais funcionalidades, como autenticação, histórico de perguntas, etc.
+  A segurança e a privacidade dos dados devem ser sempre uma prioridade ao desenvolver aplicações que lidam com informações sensíveis.
