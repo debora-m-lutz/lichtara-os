@@ -29,6 +29,8 @@ Um wrapper seguro em torno do `git push --force-with-lease` que fornece verifica
 - ✅ Bilingual output (English/Portuguese)
 - ✅ Automatic upstream configuration
 - ✅ Helpful error messages and guidance
+- ✅ `git push-safe` alias for `git push --force-with-lease`
+- ✅ `git push-current` alias for `git push --force-with-lease origin $(git branch --show-current)`
 
 ## ⚙️ Git Configuration Setup | Configuração do Git
 
