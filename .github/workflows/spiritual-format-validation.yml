@@ -117,3 +117,13 @@ jobs:
         echo "May each validation bridge worlds with wisdom."
         echo ""
         echo "🌟 Format guardian duties complete ✨"
+        
+    - name: Post-job cleanup
+      if: always()
+      run: |
+        echo "🧹 Performing post-job cleanup..."
+        git config --local --unset-all http.https://github.com/.extraheader || true
+        git config --local --unset-all core.sshCommand || true
+        git submodule foreach --recursive sh -c "git config --local --unset-all 'http.https://github.com/.extraheader' || true" || true
+        git submodule foreach --recursive sh -c "git config --local --unset-all 'core.sshCommand' || true" || true
+        echo "✨ Cleanup complete"

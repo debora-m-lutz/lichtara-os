@@ -20,8 +20,12 @@ jobs:
         run: |
           echo "🌟 The field has been activated. Thank you for answering the call."
       
-      - name: Cleanup git configurations
+      - name: Post-job cleanup
         if: always()
         run: |
+          echo "🧹 Performing post-job cleanup..."
           git config --local --unset-all http.https://github.com/.extraheader || true
           git config --local --unset-all core.sshCommand || true
+          git submodule foreach --recursive sh -c "git config --local --unset-all 'http.https://github.com/.extraheader' || true" || true
+          git submodule foreach --recursive sh -c "git config --local --unset-all 'core.sshCommand' || true" || true
+          echo "✨ Cleanup complete"
