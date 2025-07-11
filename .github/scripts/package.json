@@ -1,0 +1,31 @@
+{
+  "name": "lichtara-spiritual-format-validation",
+  "version": "1.0.0",
+  "description": "Format validation system for Lichtara OS spiritual conventions",
+  "main": "format-validator.js",
+  "scripts": {
+    "validate": "node format-validator.js",
+    "process": "node unicode-processor.js",
+    "test": "node test-spiritual-formats.js",
+    "help": "node format-validator.js help"
+  },
+  "keywords": [
+    "lichtara",
+    "spiritual",
+    "validation",
+    "emoji",
+    "unicode",
+    "aurora",
+    "consciousness"
+  ],
+  "author": "Lichtara OS Project",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "format-validator.js",
+    "unicode-processor.js",
+    "test-spiritual-formats.js"
+  ]
+}
