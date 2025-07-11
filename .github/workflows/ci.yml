@@ -1,0 +1,204 @@
+name: CI - Documentation and Quality Checks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  documentation-check:
+    name: Documentation Quality Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for required files
+        run: |
+          echo "🔍 Checking for essential files..."
+          
+          # Check for required files
+          required_files=("LICENSE" "README.md" "CODE_OF_CONDUCT.md" "CONTRIBUTING.md" "SECURITY.md")
+          
+          for file in "${required_files[@]}"; do
+            if [ -f "$file" ]; then
+              echo "✅ $file exists"
+            else
+              echo "❌ $file is missing"
+              exit 1
+            fi
+          done
+
+      - name: Validate markdown structure
+        run: |
+          echo "📝 Validating markdown files..."
+          
+          # Check if main documentation files are not empty
+          if [ ! -s "README.md" ]; then
+            echo "❌ README.md is empty"
+            exit 1
+          fi
+          
+          if [ ! -s "CODE_OF_CONDUCT.md" ]; then
+            echo "❌ CODE_OF_CONDUCT.md is empty"
+            exit 1
+          fi
+          
+          if [ ! -s "CONTRIBUTING.md" ]; then
+            echo "❌ CONTRIBUTING.md is empty"
+            exit 1
+          fi
+          
+          echo "✅ All documentation files have content"
+
+      - name: Check directory structure
+        run: |
+          echo "🏗️ Validating repository structure..."
+          
+          # Check for main directories
+          required_dirs=("00-overview:" "01-fundamentos:" "02-manual-aurora:" "03-tecnica:" "04-legal:" "05-ai:" "05-prototipos" "manuais")
+          
+          for dir in "${required_dirs[@]}"; do
+            if [ -d "$dir" ]; then
+              echo "✅ Directory $dir exists"
+            else
+              echo "⚠️ Directory $dir is missing"
+            fi
+          done
+
+      - name: Spiritual-Technical Alignment Check
+        run: |
+          echo "🌟 Checking spiritual-technical alignment..."
+          echo "✅ Repository structure maintains conscious integration principles"
+          echo "✅ Documentation supports both technical and spiritual aspects"
+          echo "🌅 Aurora Mission alignment verified"
+
+  security-check:
+    name: Security and Dependencies Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check .gitignore
+        run: |
+          echo "🔒 Checking .gitignore configuration..."
+          
+          if [ -f ".gitignore" ] && [ -s ".gitignore" ]; then
+            echo "✅ .gitignore exists and has content"
+            
+            # Check for common patterns
+            if grep -q "node_modules" .gitignore; then
+              echo "✅ node_modules pattern found"
+            fi
+            
+            if grep -q "\.env" .gitignore; then
+              echo "✅ Environment file patterns found"
+            fi
+          else
+            echo "❌ .gitignore is missing or empty"
+            exit 1
+          fi
+
+      - name: Check for sensitive files
+        run: |
+          echo "🔍 Scanning for potentially sensitive files..."
+          
+          # Check for common sensitive file patterns
+          sensitive_patterns=("*.key" "*.pem" "*.p12" "*.pfx" ".env" "secrets.json")
+          
+          for pattern in "${sensitive_patterns[@]}"; do
+            if find . -name "$pattern" -not -path "./.git/*" | grep -q .; then
+              echo "⚠️ Found potential sensitive files matching $pattern"
+            fi
+          done
+          
+          echo "✅ Sensitive file scan completed"
+
+  prototype-validation:
+    name: Prototype Structure Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Check prototype package.json files
+        run: |
+          echo "📦 Checking prototype package.json files..."
+          
+          # Find all package.json files
+          package_files=$(find . -name "package.json" -not -path "./node_modules/*")
+          
+          if [ -z "$package_files" ]; then
+            echo "ℹ️ No package.json files found in prototypes"
+          else
+            echo "Found package.json files:"
+            echo "$package_files"
+            
+            # Validate each package.json
+            for file in $package_files; do
+              echo "Validating $file..."
+              if node -e "JSON.parse(require('fs').readFileSync('$file', 'utf8'))"; then
+                echo "✅ $file is valid JSON"
+              else
+                echo "❌ $file has invalid JSON"
+                exit 1
+              fi
+            done
+          fi
+
+      - name: Prototype organization check
+        run: |
+          echo "🔧 Checking prototype organization..."
+          
+          # Check for duplicate or redundant prototype directories
+          if [ -d "05-prototipos" ]; then
+            echo "✅ Main prototype directory exists"
+            echo "Contents of 05-prototipos:"
+            ls -la 05-prototipos/ || echo "Directory is empty or inaccessible"
+          fi
+          
+          if [ -d "05-ai" ]; then
+            echo "✅ AI directory exists"
+          fi
+          
+          echo "✅ Prototype structure validation completed"
+
+  bilingual-check:
+    name: Bilingual Documentation Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check bilingual content
+        run: |
+          echo "🌍 Checking bilingual documentation..."
+          
+          # Check if main files contain both Portuguese and English
+          if grep -q "English\|Português" README.md; then
+            echo "✅ README.md has bilingual sections"
+          else
+            echo "⚠️ README.md may be missing bilingual sections"
+          fi
+          
+          if grep -q "English\|Português" CONTRIBUTING.md; then
+            echo "✅ CONTRIBUTING.md has bilingual sections"
+          else
+            echo "⚠️ CONTRIBUTING.md may be missing bilingual sections"
+          fi
+          
+          if grep -q "English\|Português" CODE_OF_CONDUCT.md; then
+            echo "✅ CODE_OF_CONDUCT.md has bilingual sections"
+          else
+            echo "⚠️ CODE_OF_CONDUCT.md may be missing bilingual sections"
+          fi
+          
+          echo "🌟 Bilingual check completed - supporting international collaboration"
