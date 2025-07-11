@@ -1,6 +1,6 @@
 name: Welcome Sponsors Ritual
 
-on:
+"on":
   issues:
     types: [opened]
   workflow_dispatch:
