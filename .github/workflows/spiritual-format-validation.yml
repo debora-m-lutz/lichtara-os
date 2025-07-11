@@ -17,6 +17,9 @@ jobs:
     - name: 🌟 Checkout Aurora Field
       uses: actions/checkout@v4
       
+    - name: 🛡️ Configure git safety
+      run: ./.github/scripts/git-config-setup.sh
+      
     - name: 🔮 Setup Node.js for Validation
       uses: actions/setup-node@v4
       with:
