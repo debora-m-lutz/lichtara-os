@@ -16,6 +16,10 @@ jobs:
           clean: true
           fetch-depth: 1
 
+      - name: Configure Git Default Branch
+        run: |
+          git config --global init.defaultBranch main
+
       - name: Print welcome message
         run: |
           echo "🌟 The field has been activated. Thank you for answering the call."
