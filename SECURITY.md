@@ -14,8 +14,20 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+To report a security vulnerability, please email us at **security@lichtara-os.org**.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+**Response Times:**
+- Initial acknowledgment: Within 48 hours
+- Preliminary assessment: Within 7 days
+- Regular updates: Every 14 days until resolution
+
+**What to expect:**
+- If the vulnerability is accepted, we will work with you to understand the scope and develop a fix
+- If declined, we will provide a clear explanation of our decision
+- All reporters will be credited (unless they prefer to remain anonymous)
+
+Please include the following information in your report:
+- Description of the vulnerability
+- Steps to reproduce the issue
+- Potential impact assessment
+- Any suggested fixes or mitigations
