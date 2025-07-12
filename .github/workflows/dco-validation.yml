@@ -1,0 +1,186 @@
+name: 🔏 DCO Validation | Validação DCO
+description: Validates Developer Certificate of Origin compliance in pull requests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
+jobs:
+  dco-validation:
+    runs-on: ubuntu-latest
+    name: 🔏 DCO Guardian | Guardião DCO
+    
+    steps:
+    - name: 🌟 Checkout Aurora Field | Verificar Campo Aurora
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history needed for DCO check
+        
+    - name: 🔍 Validate DCO Compliance | Validar Conformidade DCO
+      run: |
+        echo "🔏 Starting DCO validation | Iniciando validação DCO..."
+        echo "🌊 Analyzing commits for Developer Certificate of Origin compliance"
+        echo "🌊 Analisando commits para conformidade do Certificado de Origem do Desenvolvedor"
+        echo ""
+        
+        # Get the base branch for comparison
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          echo "🔄 PR mode: Checking commits from $BASE_SHA to $HEAD_SHA"
+          echo "🔄 Modo PR: Verificando commits de $BASE_SHA para $HEAD_SHA"
+          
+          # Get commits in this PR
+          COMMITS=$(git rev-list --reverse $BASE_SHA..$HEAD_SHA)
+        else
+          # For push events, check the last commit
+          HEAD_SHA="${{ github.sha }}"
+          COMMITS="$HEAD_SHA"
+          echo "📤 Push mode: Checking commit $HEAD_SHA"
+          echo "📤 Modo Push: Verificando commit $HEAD_SHA"
+        fi
+        
+        DCO_FAILED=false
+        MISSING_DCO_COMMITS=""
+        TOTAL_COMMITS=0
+        SIGNED_COMMITS=0
+        
+        # Check each commit for DCO sign-off
+        for commit in $COMMITS; do
+          TOTAL_COMMITS=$((TOTAL_COMMITS + 1))
+          echo "🔍 Checking commit: $commit"
+          
+          # Get commit message
+          COMMIT_MSG=$(git log --format="%B" -n 1 $commit)
+          COMMIT_TITLE=$(git log --format="%s" -n 1 $commit)
+          COMMIT_AUTHOR=$(git log --format="%an <%ae>" -n 1 $commit)
+          
+          echo "  📝 Title: $COMMIT_TITLE"
+          echo "  👤 Author: $COMMIT_AUTHOR"
+          
+          # Check for Signed-off-by line
+          if echo "$COMMIT_MSG" | grep -q "^Signed-off-by: "; then
+            SIGNED_BY=$(echo "$COMMIT_MSG" | grep "^Signed-off-by: " | tail -1)
+            echo "  ✅ DCO: $SIGNED_BY"
+            SIGNED_COMMITS=$((SIGNED_COMMITS + 1))
+          else
+            echo "  ❌ DCO: Missing Signed-off-by line"
+            echo "  ❌ DCO: Faltando linha Signed-off-by"
+            DCO_FAILED=true
+            MISSING_DCO_COMMITS="$MISSING_DCO_COMMITS $commit"
+          fi
+          echo ""
+        done
+        
+        echo "📊 DCO Validation Summary | Resumo da Validação DCO"
+        echo "=================================================="
+        echo "📈 Total commits analyzed | Total de commits analisados: $TOTAL_COMMITS"
+        echo "✅ Commits with DCO | Commits com DCO: $SIGNED_COMMITS"
+        echo "❌ Commits missing DCO | Commits sem DCO: $((TOTAL_COMMITS - SIGNED_COMMITS))"
+        echo ""
+        
+        if [ "$DCO_FAILED" = true ]; then
+          echo "💔 DCO validation failed | Validação DCO falhou"
+          echo "🔧 The following commits are missing DCO sign-off:"
+          echo "🔧 Os seguintes commits estão sem assinatura DCO:"
+          echo ""
+          
+          for commit in $MISSING_DCO_COMMITS; do
+            COMMIT_TITLE=$(git log --format="%s" -n 1 $commit)
+            echo "  📍 $commit: $COMMIT_TITLE"
+          done
+          
+          echo ""
+          echo "🛠️  How to fix | Como corrigir:"
+          echo "   1. Amend your commits with DCO sign-off | Corrija seus commits com assinatura DCO:"
+          echo "      git commit --amend -s --no-edit"
+          echo ""
+          echo "   2. For multiple commits | Para múltiplos commits:"
+          echo "      git rebase --exec 'git commit --amend --no-edit -s' HEAD~$TOTAL_COMMITS"
+          echo ""
+          echo "   3. Force push safely | Push forçado seguro:"
+          echo "      git push --force-with-lease"
+          echo ""
+          echo "📚 See DCO.md for complete instructions | Veja DCO.md para instruções completas"
+          echo "🔗 https://github.com/${{ github.repository }}/blob/main/DCO.md"
+          
+          exit 1
+        else
+          echo "🌟 All commits are properly signed with DCO!"
+          echo "🌟 Todos os commits estão devidamente assinados com DCO!"
+          echo "✨ Developer Certificate of Origin validation passed"
+          echo "✨ Validação do Certificado de Origem do Desenvolvedor aprovada"
+        fi
+        
+    - name: 📋 Create DCO Status Comment | Criar Comentário de Status DCO
+      if: failure() && github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const comment = `## 🔏 DCO Validation Failed | Validação DCO Falhou
+          
+          This pull request contains commits that are missing the required **Developer Certificate of Origin (DCO)** sign-off.
+          
+          Este pull request contém commits que estão sem a assinatura obrigatória do **Certificado de Origem do Desenvolvedor (DCO)**.
+          
+          ### 🛠️ How to fix | Como corrigir:
+          
+          1. **Amend your commits with DCO sign-off | Corrija seus commits com assinatura DCO:**
+             \`\`\`bash
+             git commit --amend -s --no-edit
+             \`\`\`
+          
+          2. **For multiple commits | Para múltiplos commits:**
+             \`\`\`bash
+             git rebase --exec 'git commit --amend --no-edit -s' HEAD~<number-of-commits>
+             \`\`\`
+          
+          3. **Force push safely | Push forçado seguro:**
+             \`\`\`bash
+             git push --force-with-lease
+             \`\`\`
+          
+          ### 📚 Learn more | Saiba mais:
+          - [DCO Documentation](https://github.com/${{ github.repository }}/blob/main/DCO.md)
+          - [Contributing Guidelines](https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md)
+          
+          ### 🌟 What is DCO? | O que é DCO?
+          The Developer Certificate of Origin is a way to certify that you have the right to contribute the code you're submitting.
+          
+          O Certificado de Origem do Desenvolvedor é uma forma de certificar que você tem o direito de contribuir com o código que está submetendo.
+          
+          ---
+          *This comment was generated automatically by the DCO validation workflow.*
+          *Este comentário foi gerado automaticamente pelo workflow de validação DCO.*`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+          
+    - name: 🌟 DCO Success Celebration | Celebração de Sucesso DCO
+      if: success()
+      run: |
+        echo "🎉 DCO Validation Successful | Validação DCO Bem-sucedida!"
+        echo ""
+        echo "🙏 Aurora Blessing for Legal Clarity | Bênção Aurora para Clareza Legal:"
+        echo ""
+        echo "May each signature honor creative authorship,"
+        echo "May each commit respect intellectual freedom,"
+        echo "May each contribution flow with legal harmony."
+        echo ""
+        echo "Que cada assinatura honre a autoria criativa,"
+        echo "Que cada commit respeite a liberdade intelectual,"
+        echo "Que cada contribuição flua com harmonia legal."
+        echo ""
+        echo "🔏 DCO Guardian duties complete ✨"
+        echo "🔏 Deveres do Guardião DCO completos ✨"
