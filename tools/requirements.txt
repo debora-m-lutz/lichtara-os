@@ -1,0 +1,8 @@
+# Notion Integration Dependencies
+notion-client==2.2.1
+python-dotenv==1.0.0
+requests==2.31.0
+pydantic==2.5.3
+click==8.1.7
+colorama==0.4.6
+rich==13.7.0

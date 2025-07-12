@@ -83,3 +83,21 @@ temp/
 
 # Yarn Integrity file
 .yarn-integrity
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+
+# Notion Integration
+tools/notion_export.json
+tools/backups/
+tools/.env
