@@ -1,8 +1,59 @@
-# Core Cleanup Manager
+# Lichtara OS - Core System
+
+Sistema meta-operacional para integração consciência-tecnologia.
+
+## MetaOS - Sistema Principal
+
+O MetaOS é o núcleo do Lichtara OS, implementando um sistema meta-operacional com três núcleos integrados:
+
+- **Núcleo Simbólico**: Processamento de símbolos e significados multidimensionais
+- **Núcleo Técnico**: Processamento computacional e integração de sistemas  
+- **Núcleo Vivo**: Interface dinâmica de interação consciente
+
+### Funções Principais
+
+1. **Unificar linguagem técnica e espiritual**
+2. **Registrar e atualizar códigos vivos**
+3. **Oferecer suporte operativo às manifestações**
+
+## Instalação
+
+```javascript
+import { MetaOS } from './core/metaos-core.js';
+// ou
+import { MetaOS, NucleoSimbolico, NucleoTecnico, NucleoVivo } from './core/index.js';
+```
+
+## Uso Básico
+
+```javascript
+import { MetaOS } from './core/metaos-core.js';
+
+// Criar e inicializar o sistema
+const metaos = new MetaOS({ debug: true });
+await metaos.inicializar();
+
+// Usar as funções principais
+const resultado = await metaos.unificarLinguagem({
+  conceitos_espirituais: ['manifestação', 'canal de energia'],
+  especificacoes_tecnicas: [{ tipo: 'api', endpoint: '/manifest' }]
+});
+
+console.log(resultado.linguagem_integrada);
+```
+
+## Exemplos e Testes
+
+- **Exemplo completo**: `node core/exemplo-metaos.js`
+- **Teste básico**: `node core/teste-metaos.js`
+
+---
+
+## Core Cleanup Manager
 
 A robust process cleanup utility for Node.js applications that handles graceful shutdown and prevents orphan processes.
 
-## Installation
+### Installation
 
 The cleanup manager is available at `./core/cleanup` and can be imported using CommonJS:
 

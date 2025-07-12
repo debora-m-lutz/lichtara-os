@@ -16,7 +16,10 @@
     "build:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm run build",
     "build:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm run build",
     "start:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm start",
-    "start:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm start"
+    "start:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm start",
+    "metaos:example": "node core/exemplo-metaos.js",
+    "metaos:test": "node core/teste-metaos.js",
+    "metaos:demo": "npm run metaos:test && echo '\\n\\n=== RUNNING EXAMPLE ===\\n' && npm run metaos:example"
   },
   "keywords": [
     "ai",
