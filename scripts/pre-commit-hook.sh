@@ -33,11 +33,11 @@ print_success() {
 echo "Checking for potential API keys..."
 
 # Check each pattern
-for pattern in "sk-[a-zA-Z0-9]{20,}" "OPENAI_API_KEY.*=.*sk-" "Bearer sk-" "apikey.*sk-" "api_key.*sk-" "token.*sk-"; do
-    if git diff --cached --name-only 2>/dev/null | xargs grep -l "$pattern" 2>/dev/null; then
+for pattern in "sk-" "OPENAI_API_KEY.*=.*sk-" "Bearer sk-" "apikey.*sk-" "api_key.*sk-" "token.*sk-"; do
+    if git diff --cached 2>/dev/null | grep -q "$pattern"; then
         print_error "Potential API key found with pattern: $pattern"
         echo "Files containing potential secrets:"
-        git diff --cached --name-only 2>/dev/null | xargs grep -l "$pattern" 2>/dev/null | sed 's/^/  /'
+        git diff --cached --name-only 2>/dev/null | xargs grep -l "$pattern" 2>/dev/null | sed 's/^/  /' || echo "  (check git diff for details)"
         echo ""
         echo "To fix this:"
         echo "1. Remove the hardcoded API key from the code"
