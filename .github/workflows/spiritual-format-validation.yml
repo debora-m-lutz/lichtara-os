@@ -44,6 +44,10 @@ jobs:
         cd .github/scripts
         npm install
         
+        # Install jq for JSON processing in reports
+        sudo apt-get update -qq
+        sudo apt-get install -y jq
+        
     - name: 🌊 Validate Issue Title Format
       if: github.event_name == 'issues'
       run: |
@@ -155,15 +159,113 @@ jobs:
         echo "⏰ Timestamp: $(date)"
         echo ""
         
+        # Initialize validation results
+        TITLE_VALID="unknown"
+        TITLE_FORMAT="unknown"
+        TITLE_EMOJI=""
+        TITLE_MEANING=""
+        
         if [ "${{ github.event_name }}" = "issues" ]; then
           echo "📋 Issue: #${{ github.event.issue.number }}"
           echo "📝 Title: ${{ github.event.issue.title }}"
           echo "👤 Author: ${{ github.event.issue.user.login }}"
+          echo ""
+          
+          # Detailed validation for issue title
+          echo "🔍 Detailed Issue Title Validation:"
+          VALIDATION_RESULT=$(node .github/scripts/format-validator.js validate "${{ github.event.issue.title }}" 2>/dev/null || echo '{"valid": false, "error": "Validation failed"}')
+          echo "$VALIDATION_RESULT" | jq -r '
+            if .valid then
+              "✅ Format: Valid (" + .format + ")"
+            else
+              "⚠️  Format: " + (.error // "Invalid")
+            end'
+          
+          if echo "$VALIDATION_RESULT" | jq -e '.valid' > /dev/null 2>&1; then
+            TITLE_VALID="true"
+            TITLE_FORMAT=$(echo "$VALIDATION_RESULT" | jq -r '.format // "unknown"')
+            TITLE_EMOJI=$(echo "$VALIDATION_RESULT" | jq -r '.emoji // ""')
+            TITLE_MEANING=$(echo "$VALIDATION_RESULT" | jq -r '.meaning // ""')
+            
+            if [ -n "$TITLE_EMOJI" ]; then
+              echo "✨ Emoji: $TITLE_EMOJI ($TITLE_MEANING)"
+            fi
+            echo "📖 Content: $(echo "$VALIDATION_RESULT" | jq -r '.content // "${{ github.event.issue.title }}"')"
+          else
+            TITLE_VALID="false"
+            echo "💡 Suggestion: $(echo "$VALIDATION_RESULT" | jq -r '.suggestion // "Consider using spiritual emoji prefixes"')"
+          fi
+          
         elif [ "${{ github.event_name }}" = "pull_request" ]; then
           echo "🔄 PR: #${{ github.event.pull_request.number }}"
           echo "📝 Title: ${{ github.event.pull_request.title }}"
           echo "👤 Author: ${{ github.event.pull_request.user.login }}"
           echo "🌀 Branch ancestry: Validated for Aurora field harmony"
+          echo ""
+          
+          # Detailed validation for PR title
+          echo "🔍 Detailed PR Title Validation:"
+          VALIDATION_RESULT=$(node .github/scripts/format-validator.js validate "${{ github.event.pull_request.title }}" 2>/dev/null || echo '{"valid": false, "error": "Validation failed"}')
+          echo "$VALIDATION_RESULT" | jq -r '
+            if .valid then
+              "✅ Format: Valid (" + .format + ")"
+            else
+              "⚠️  Format: " + (.error // "Invalid")
+            end'
+            
+          if echo "$VALIDATION_RESULT" | jq -e '.valid' > /dev/null 2>&1; then
+            TITLE_VALID="true"
+            TITLE_FORMAT=$(echo "$VALIDATION_RESULT" | jq -r '.format // "unknown"')
+            TITLE_EMOJI=$(echo "$VALIDATION_RESULT" | jq -r '.emoji // ""')
+            TITLE_MEANING=$(echo "$VALIDATION_RESULT" | jq -r '.meaning // ""')
+            
+            if [ -n "$TITLE_EMOJI" ]; then
+              echo "✨ Emoji: $TITLE_EMOJI ($TITLE_MEANING)"
+            fi
+            echo "📖 Content: $(echo "$VALIDATION_RESULT" | jq -r '.content // "${{ github.event.pull_request.title }}"')"
+          else
+            TITLE_VALID="false"
+            echo "💡 Suggestion: $(echo "$VALIDATION_RESULT" | jq -r '.suggestion // "Consider using spiritual emoji prefixes"')"
+          fi
+        fi
+        
+        echo ""
+        echo "📈 Validation Summary:"
+        echo "- Title Format: $TITLE_FORMAT"
+        echo "- Validation Status: $TITLE_VALID"
+        if [ -n "$TITLE_EMOJI" ]; then
+          echo "- Spiritual Energy: $TITLE_EMOJI ($TITLE_MEANING)"
+        fi
+        
+        # Include file processing results for PRs
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          echo ""
+          echo "📄 File Processing Summary:"
+          
+          # Get list of changed files using same logic as the file processing step
+          git fetch origin main 2>/dev/null || true
+          
+          if CHANGED_FILES=$(git diff --name-only main...HEAD 2>/dev/null); then
+            COMPARISON="main...HEAD"
+          elif CHANGED_FILES=$(git diff --name-only main..HEAD 2>/dev/null); then
+            COMPARISON="main..HEAD"
+          elif CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null); then
+            COMPARISON="HEAD~1 comparison (fallback)"
+          else
+            CHANGED_FILES=$(git show --name-only --pretty=format: HEAD | grep -v '^$' || echo "")
+            COMPARISON="git show (fallback)"
+          fi
+          
+          TOTAL_FILES=$(echo "$CHANGED_FILES" | wc -l)
+          MD_FILES=$(echo "$CHANGED_FILES" | grep -c '\.md$' || echo "0")
+          
+          echo "- Total Files Changed: $TOTAL_FILES"
+          echo "- Markdown Files: $MD_FILES"
+          echo "- Comparison Method: $COMPARISON"
+          
+          if [ "$MD_FILES" -gt 0 ]; then
+            echo "- Markdown files processed for spiritual format compliance"
+          fi
         fi
         
         echo ""
