@@ -100,6 +100,77 @@ Como deseja prosseguir?
   res.send(mensagem);
 });
 
+// OAuth 2.0 authorization code flow endpoint
+app.post('/oauth/token', (req, res) => {
+  try {
+    const { grant_type, client_id, client_secret, code, redirect_uri } = req.body;
+    
+    // Validate required parameters
+    if (!grant_type || !client_id || !client_secret || !code || !redirect_uri) {
+      return res.status(400).json({ 
+        error: 'invalid_request',
+        error_description: 'Missing required parameters: grant_type, client_id, client_secret, code, redirect_uri' 
+      });
+    }
+
+    // Validate grant_type
+    if (grant_type !== 'authorization_code') {
+      return res.status(400).json({ 
+        error: 'unsupported_grant_type',
+        error_description: 'Only authorization_code grant type is supported' 
+      });
+    }
+
+    // Validate redirect_uri format for OpenAI GPT integrations
+    const openaiGptPattern = /^https:\/\/chat\.openai\.com\/aip\/\{g-[A-Za-z0-9_-]+\}\/oauth\/callback$/;
+    if (!openaiGptPattern.test(redirect_uri)) {
+      return res.status(400).json({ 
+        error: 'invalid_request',
+        error_description: 'Invalid redirect_uri format. Expected: https://chat.openai.com/aip/{g-YOUR-GPT-ID-HERE}/oauth/callback' 
+      });
+    }
+
+    // Simulate authorization code validation
+    // In a real implementation, this would validate the code against stored authorization codes
+    if (code.length < 6) {
+      return res.status(400).json({ 
+        error: 'invalid_grant',
+        error_description: 'Invalid authorization code' 
+      });
+    }
+
+    // Simulate client credentials validation
+    // In a real implementation, this would validate against stored client credentials
+    if (client_id === 'YOUR_CLIENT_ID' || client_secret === 'YOUR_CLIENT_SECRET') {
+      return res.status(400).json({ 
+        error: 'invalid_client',
+        error_description: 'Invalid client credentials. Please provide valid client_id and client_secret' 
+      });
+    }
+
+    // Generate access token (simplified for demonstration)
+    const access_token = `lichtara_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const refresh_token = `refresh_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Return successful token response
+    res.json({
+      access_token,
+      token_type: 'Bearer',
+      expires_in: 3600, // 1 hour
+      refresh_token,
+      scope: 'lichtara:portal lichtara:ai-integration',
+      issued_at: new Date().toISOString()
+    });
+    
+  } catch (error) {
+    console.error('Error in OAuth token endpoint:', error);
+    res.status(500).json({ 
+      error: 'server_error',
+      error_description: 'Internal server error processing OAuth request' 
+    });
+  }
+});
+
 // OpenAI API endpoint for interactive responses
 app.post('/api/openai', async (req, res) => {
   try {
