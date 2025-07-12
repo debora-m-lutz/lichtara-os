@@ -93,24 +93,33 @@ lichtara-os/
    cd lichtara-os
    ```
 
-2. Install all prototypes | Instale todos os protótipos:
+2. **NEW: Test the MetaOS Core System | NOVO: Teste o Sistema MetaOS:**
+   ```bash
+   npm run metaos:test    # Run core system tests | Execute testes do sistema
+   npm run metaos:example # Run comprehensive example | Execute exemplo completo
+   npm run metaos:demo    # Run full demonstration | Execute demonstração completa
+   ```
+
+3. Install all prototypes | Instale todos os protótipos:
    ```bash
    npm run install:prototypes
    ```
 
-3. Run current prototype (recommended) | Execute o protótipo atual (recomendado):
+4. Run current prototype (recommended) | Execute o protótipo atual (recomendado):
    ```bash
    npm run dev:v2
    ```
 
-4. Check project status | Verifique o status do projeto:
+5. Check project status | Verifique o status do projeto:
    ```bash
    npm run status
    ```
 
-5. Explore the structure | Explore a estrutura:
+6. Explore the structure | Explore a estrutura:
    - Start with [`00-overview:/README.md`](./00-overview:/README.md) for a comprehensive introduction
+   - **NEW:** Check [`METAOS_IMPLEMENTATION.md`](./METAOS_IMPLEMENTATION.md) for MetaOS technical details
    - Comece com [`00-overview:/README.md`](./00-overview:/README.md) para uma introdução abrangente
+   - **NOVO:** Veja [`METAOS_IMPLEMENTATION.md`](./METAOS_IMPLEMENTATION.md) para detalhes técnicos do MetaOS
 
 ### 🛠️ Available Scripts | Scripts Disponíveis
 
@@ -122,10 +131,35 @@ lichtara-os/
 | `npm run status` | Check installation status of all prototypes | Verifica o status de instalação de todos os protótipos |
 | `npm run build:v1` | Build prototype v1 for production | Compila o protótipo v1 para produção |
 | `npm run build:v2` | Build prototype v2 for production | Compila o protótipo v2 para produção |
+| `npm run metaos:test` | Run MetaOS core system tests | Executa testes do sistema MetaOS |
+| `npm run metaos:example` | Run MetaOS comprehensive example | Executa exemplo completo do MetaOS |
+| `npm run metaos:demo` | Run tests + example demo | Executa testes + demonstração completa |
 
 **Prototype Details | Detalhes dos Protótipos:**
 - **v1 (05_Prototipo)**: Full-stack React + Express application with WebSocket support
 - **v2 (5.1_Prototipo)**: Frontend-only React application running on Vite
+- **MetaOS Core**: Meta-operational system for consciousness-technology integration
+
+### 🌟 MetaOS - Meta Operating System | Sistema Meta-Operacional
+
+Lichtara OS now includes a **MetaOS** - a meta-operational system that implements the core consciousness-technology integration capabilities:
+
+**Three Core Modules | Três Módulos Centrais:**
+- **Núcleo Simbólico**: Processes symbols and spiritual concepts
+- **Núcleo Técnico**: Handles technical processing and system integration  
+- **Núcleo Vivo**: Manages dynamic conscious interaction
+
+**Three Main Functions | Três Funções Principais:**
+1. **Unify technical and spiritual language** | Unificar linguagem técnica e espiritual
+2. **Register and update living codes** | Registrar e atualizar códigos vivos
+3. **Provide operative support for manifestations** | Oferecer suporte operativo às manifestações
+
+```bash
+# Quick MetaOS Demo | Demonstração Rápida do MetaOS
+npm run metaos:demo
+```
+
+See [`METAOS_IMPLEMENTATION.md`](./METAOS_IMPLEMENTATION.md) for complete technical details.
 
 ### Quick Navigation | Navegação Rápida
 
