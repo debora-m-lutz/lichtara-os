@@ -9,7 +9,7 @@ echo ""
 
 # Fetch the latest main branch
 echo "📡 Fetching latest main branch..."
-git fetch origin main:origin/main 2>/dev/null || git fetch origin main
+git fetch origin main
 
 # Get current branch name
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -19,8 +19,17 @@ echo "🌟 Current branch: $CURRENT_BRANCH"
 echo ""
 echo "🔍 Checking branch ancestry with main..."
 
-if ! git merge-base --is-ancestor origin/main HEAD; then
-  echo "❌ No common ancestor between origin/main and HEAD."
+# Use explicit remote reference to avoid ambiguity
+MAIN_REF="refs/remotes/origin/main"
+
+# Check if remote reference exists
+if ! git rev-parse --verify $MAIN_REF >/dev/null 2>&1; then
+  echo "🔧 Remote reference not found, using FETCH_HEAD..."
+  MAIN_REF="FETCH_HEAD"
+fi
+
+if ! git merge-base --is-ancestor $MAIN_REF HEAD; then
+  echo "❌ No common ancestor between $MAIN_REF and HEAD."
   echo ""
   echo "🔄 To fix this, rebase your branch on the latest main:"
   echo "   git fetch origin main"
