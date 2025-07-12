@@ -122,6 +122,9 @@ lichtara-os/
 | `npm run status` | Check installation status of all prototypes | Verifica o status de instalação de todos os protótipos |
 | `npm run build:v1` | Build prototype v1 for production | Compila o protótipo v1 para produção |
 | `npm run build:v2` | Build prototype v2 for production | Compila o protótipo v2 para produção |
+| `npm run push` | Safe push to current branch with --force-with-lease | Push seguro para branch atual com --force-with-lease |
+| `npm run push:safe` | Direct access to safe push script | Acesso direto ao script de push seguro |
+| `npm run deploy` | Alias for push command | Alias para comando push |
 
 **Prototype Details | Detalhes dos Protótipos:**
 - **v1 (05_Prototipo)**: Full-stack React + Express application with WebSocket support
