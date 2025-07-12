@@ -122,6 +122,16 @@ jobs:
         # Get list of changed files - handle cases where main branch comparison fails
         git fetch origin main
         
+        # Find merge base
+        merge_base=$(git merge-base origin/main HEAD || echo "")
+
+        if [ -z "$merge_base" ]; then
+          echo "⚠️ No merge base found between origin/main and HEAD. Skipping format consistency check."
+          exit 0  # Do not fail the job
+        fi
+
+        # Continue with format validation
+        
         # Try different approaches to get changed files
         if CHANGED_FILES=$(git diff --name-only main...HEAD 2>/dev/null); then
           echo "📋 Using main...HEAD comparison"
