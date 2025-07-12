@@ -53,10 +53,14 @@ configure_safe_defaults() {
     print_message $BLUE "🔧 Configurando padrões seguros do git..."
     echo ""
     
-    # Create alias for safe force push
+    # Create aliases for safe force push
     print_message $YELLOW "📌 Creating alias 'push-safe' for --force-with-lease"
     print_message $YELLOW "📌 Criando alias 'push-safe' para --force-with-lease"
     git config --local alias.push-safe 'push --force-with-lease'
+    
+    print_message $YELLOW "📌 Creating alias 'push-current' for current branch safe push"
+    print_message $YELLOW "📌 Criando alias 'push-current' para push seguro da branch atual"
+    git config --local alias.push-current '!git push --force-with-lease origin $(git branch --show-current)'
     
     # Set up other safety configurations
     print_message $YELLOW "📌 Enabling automatic cleanup of remote tracking branches"
@@ -77,6 +81,8 @@ configure_safe_defaults() {
     echo ""
     print_message $BLUE "📋 Available commands | Comandos disponíveis:"
     print_message $BLUE "   git push-safe           # Same as git push --force-with-lease"
+    print_message $BLUE "   git push-current        # Same as git push --force-with-lease origin \$(git branch --show-current)"
+    print_message $BLUE "   ./git-push-safe-current.sh  # Interactive version of push-current"
     print_message $BLUE "   ./.github/scripts/safe-push.sh  # Interactive safe push tool"
     echo ""
 }
@@ -89,6 +95,7 @@ reset_configuration() {
     echo ""
     
     git config --local --unset alias.push-safe || true
+    git config --local --unset alias.push-current || true
     git config --local --unset fetch.prune || true
     git config --local --unset push.default || true
     git config --local --unset color.ui || true

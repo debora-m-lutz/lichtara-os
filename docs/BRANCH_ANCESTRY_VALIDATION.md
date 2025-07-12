@@ -44,7 +44,13 @@ If the ancestry validation fails, follow these steps:
 
 3. **Push the rebased branch:**
    ```bash
-   git push --force-with-lease
+   git push --force-with-lease origin $(git branch --show-current)
+   ```
+   
+   Or use the convenient aliases:
+   ```bash
+   git push-current        # Git alias
+   ./git-push-safe-current.sh  # Interactive script
    ```
 
 ## Testing locally
