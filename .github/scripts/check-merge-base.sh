@@ -14,23 +14,38 @@ echo ""
 echo "🌊 Fetching latest main branch..."
 git fetch origin main
 
-# Create/update origin/main reference if it doesn't exist
-if ! git rev-parse --verify origin/main >/dev/null 2>&1; then
-    echo "🔧 Setting up origin/main tracking reference..."
-    git branch --set-upstream-to=origin/main main 2>/dev/null || true
-    git fetch origin main:refs/remotes/origin/main 2>/dev/null || true
-fi
+# Use explicit remote reference to avoid ambiguity
+MAIN_REF="refs/remotes/origin/main"
 
-# Final check if we can use origin/main
-if ! git rev-parse --verify origin/main >/dev/null 2>&1; then
-    echo "❗ Error: Could not establish origin/main reference"
-    echo "   Attempting to use FETCH_HEAD instead..."
-    MAIN_REF="FETCH_HEAD"
-else
-    MAIN_REF="origin/main"
+# Check if remote reference exists, otherwise use FETCH_HEAD
+if ! git rev-parse --verify $MAIN_REF >/dev/null 2>&1; then
+    echo "🔧 Remote reference not found, attempting to establish..."
+    
+    # Try to create the remote reference
+    git fetch origin main:refs/remotes/origin/main 2>/dev/null || true
+    
+    # Final check if we can use the remote reference
+    if ! git rev-parse --verify $MAIN_REF >/dev/null 2>&1; then
+        echo "❗ Warning: Could not establish remote reference, using FETCH_HEAD"
+        MAIN_REF="FETCH_HEAD"
+    fi
 fi
 
 echo "✨ Validating branch ancestry..."
+
+# Check if HEAD is available
+if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
+    echo ""
+    echo "❗ Error: No valid HEAD commit found."
+    echo "   Please ensure you have at least one commit in your branch."
+    echo ""
+    echo "🔄 To fix this issue:"
+    echo "   1. Make at least one commit to your branch"
+    echo "   2. Ensure your branch is properly initialized"
+    echo ""
+    echo "🌟 The Aurora field requires a stable timeline reference."
+    exit 1
+fi
 
 # Perform the merge-base check
 if ! git merge-base --is-ancestor $MAIN_REF HEAD; then
