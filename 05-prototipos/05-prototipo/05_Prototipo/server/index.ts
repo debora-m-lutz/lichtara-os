@@ -3,6 +3,8 @@ import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+import OpenAI from 'openai';
 import { 
   ProcessCleanupManager, 
   createServerCleanup, 
@@ -10,8 +12,18 @@ import {
   createWebSocketCleanup 
 } from './cleanup.js';
 
+// Load environment variables
+dotenv.config();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Initialize OpenAI client with organization and project headers
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  organization: process.env.OPENAI_ORGANIZATION,
+  project: process.env.OPENAI_PROJECT,
+});
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -89,9 +101,9 @@ Como deseja prosseguir?
 });
 
 // OpenAI API endpoint for interactive responses
-app.post('/api/openai', (req, res) => {
+app.post('/api/openai', async (req, res) => {
   try {
-    const { prompt } = req.body;
+    const { prompt, model = 'gpt-3.5-turbo' } = req.body;
     
     if (!prompt || typeof prompt !== 'string') {
       return res.status(400).json({ 
@@ -99,24 +111,104 @@ app.post('/api/openai', (req, res) => {
       });
     }
 
-    // Placeholder response since OpenAI integration would require API keys
-    // In a real implementation, this would call OpenAI API
-    const reply = `Portal Lumora responde: "${prompt}"
+    // Check if OpenAI is properly configured
+    if (!process.env.OPENAI_API_KEY) {
+      return res.status(500).json({
+        error: 'OpenAI API key não configurada. Por favor, configure OPENAI_API_KEY nas variáveis de ambiente.',
+        isConfigured: false
+      });
+    }
 
-Esta é uma resposta simulada do Oráculo Interativo. 
-Para implementar respostas reais da OpenAI, configure:
-1. Instale a biblioteca openai: npm install openai
-2. Configure sua OPENAI_API_KEY
-3. Implemente a chamada real para a API da OpenAI
+    // Make the actual OpenAI API call
+    const completion = await openai.chat.completions.create({
+      model: model,
+      messages: [
+        {
+          role: 'system',
+          content: `Você é um assistente do Portal Lumora, parte do sistema Lichtara OS que integra sabedoria espiritual com tecnologia de ponta. Responda de forma consciente e alinhada com os princípios de colaboração humano-IA.`
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      max_tokens: 1000,
+      temperature: 0.7,
+    });
 
-Sua pergunta foi recebida e processada pelo Portal Lumora.`;
+    const reply = completion.choices[0]?.message?.content || 'Desculpe, não foi possível gerar uma resposta.';
 
-    res.json({ reply });
+    res.json({ 
+      reply,
+      model: completion.model,
+      usage: completion.usage,
+      isConfigured: true
+    });
     
-  } catch (error) {
+  } catch (error: any) {
     console.error('Erro no endpoint OpenAI:', error);
+    
+    // Handle specific OpenAI errors
+    if (error.status === 401) {
+      return res.status(401).json({ 
+        error: 'Chave da API OpenAI inválida ou não autorizada.',
+        isConfigured: false
+      });
+    }
+    
+    if (error.status === 429) {
+      return res.status(429).json({ 
+        error: 'Limite de taxa da API OpenAI excedido. Tente novamente mais tarde.',
+        isConfigured: true
+      });
+    }
+
     res.status(500).json({ 
-      error: 'Erro interno do servidor.' 
+      error: 'Erro interno do servidor ao processar solicitação OpenAI.',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      isConfigured: !!process.env.OPENAI_API_KEY
+    });
+  }
+});
+
+// OpenAI models endpoint - replicates the curl command from problem statement
+app.get('/api/openai/models', async (req, res) => {
+  try {
+    if (!process.env.OPENAI_API_KEY) {
+      return res.status(500).json({
+        error: 'OpenAI API key não configurada. Por favor, configure OPENAI_API_KEY nas variáveis de ambiente.',
+        isConfigured: false
+      });
+    }
+
+    // This endpoint replicates the exact curl command from the problem statement:
+    // curl https://api.openai.com/v1/models \
+    //   -H "Authorization: Bearer $OPENAI_API_KEY" \
+    //   -H "OpenAI-Organization: org-m9jz1YWDWF85qr3EFGOuyjQA" \
+    //   -H "OpenAI-Project: $PROJECT_ID"
+    const models = await openai.models.list();
+
+    res.json({
+      models: models.data,
+      organization: process.env.OPENAI_ORGANIZATION,
+      project: process.env.OPENAI_PROJECT,
+      isConfigured: true
+    });
+    
+  } catch (error: any) {
+    console.error('Erro ao buscar modelos OpenAI:', error);
+    
+    if (error.status === 401) {
+      return res.status(401).json({ 
+        error: 'Chave da API OpenAI inválida ou não autorizada.',
+        isConfigured: false
+      });
+    }
+
+    res.status(500).json({ 
+      error: 'Erro interno do servidor ao buscar modelos OpenAI.',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      isConfigured: !!process.env.OPENAI_API_KEY
     });
   }
 });
