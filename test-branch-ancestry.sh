@@ -9,7 +9,7 @@ echo ""
 
 # Fetch the latest main branch
 echo "📡 Fetching latest main branch..."
-git fetch origin main:origin/main 2>/dev/null || git fetch origin main
+git fetch origin main 2>/dev/null || git fetch origin main
 
 # Get current branch name
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
