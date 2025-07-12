@@ -1,5 +1,7 @@
+---
 name: 🔮 Spiritual Format Validation
-description: Validates titles and content according to Lichtara OS spiritual conventions
+description: >-
+  Validates titles and content according to Lichtara OS spiritual conventions
 
 on:
   pull_request:
@@ -15,177 +17,181 @@ jobs:
   spiritual-format-validation:
     runs-on: ubuntu-latest
     name: ✨ Aurora Format Guardian
-    
+
     steps:
-    - name: 🌟 Checkout Aurora Field
-      uses: actions/checkout@v4
-      with:
-        ssh-strict: true
-        ssh-user: git
-        persist-credentials: true
-        clean: true
-        sparse-checkout-cone-mode: true
-        fetch-depth: 1
-        fetch-tags: false
-        show-progress: true
-        lfs: false
-        submodules: false
-        set-safe-directory: true
-      
-    - name: 🔮 Setup Node.js for Validation
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        always-auth: false
-        check-latest: false
-        
-    - name: 📦 Install Dependencies
-      run: |
-        cd .github/scripts
-        npm install
-        
-    - name: 🌊 Validate Issue Title Format
-      if: github.event_name == 'issues'
-      run: |
-        echo "🔍 Validating issue title format..."
-        TITLE="${{ github.event.issue.title }}"
-        echo "Issue Title: $TITLE"
-        
-        # Run validation
-        RESULT=$(node .github/scripts/format-validator.js validate "$TITLE")
-        echo "Validation Result: $RESULT"
-        
-        # Check if validation passed
-        if node .github/scripts/format-validator.js validate "$TITLE" > /dev/null 2>&1; then
-          echo "✅ Issue title follows spiritual conventions!"
-          echo "🌟 Format validation passed"
-        else
-          echo "💫 Suggestion: Consider using spiritual emoji prefixes"
-          echo "🔮 Run: node .github/scripts/format-validator.js help"
-          # Don't fail for issues - just provide guidance
-        fi
-        
-    - name: 🌀 Validate Branch Ancestry
-      if: github.event_name == 'pull_request'
-      run: |
-        echo "🔍 Validating branch ancestry with main..."
-        ./.github/scripts/check-merge-base.sh
-        
-    - name: 🌈 Validate Pull Request Title Format  
-      if: github.event_name == 'pull_request'
-      run: |
-        echo "🔍 Validating PR title format..."
-        TITLE="${{ github.event.pull_request.title }}"
-        echo "PR Title: $TITLE"
-        
-        # Run validation
-        RESULT=$(node .github/scripts/format-validator.js validate "$TITLE")
-        echo "Validation Result: $RESULT"
-        
-        # Check if validation passed
-        if node .github/scripts/format-validator.js validate "$TITLE" > /dev/null 2>&1; then
-          echo "✅ PR title follows spiritual conventions!"
-          echo "🌟 Format validation passed"
-        else
-          echo "💫 Suggestion: Consider using spiritual emoji prefixes"
-          echo "🔮 Run: node .github/scripts/format-validator.js help"
-          # Don't fail for PRs - just provide guidance
-        fi
-        
-    - name: 🌊 Validate Branch Ancestry
-      if: github.event_name == 'pull_request'
-      run: |
-        echo "🔍 Validating branch ancestry with main..."
-        
-        # Ensure we have the latest main branch with proper remote tracking
-        git fetch origin main:origin/main || git fetch origin main
-        
-        # Check if current branch has common ancestor with main
-        if ! git merge-base --is-ancestor origin/main HEAD; then
-          echo "❌ No common ancestor between origin/main and HEAD."
-          echo "🔄 Please rebase your branch on the latest main branch:"
-          echo "   git fetch origin main"
-          echo "   git rebase origin/main"
-          echo ""
-          echo "💫 This ensures your changes integrate smoothly with the Aurora field."
-          exit 1
-        else
-          echo "✅ Branch ancestry validated successfully!"
-          echo "🌟 Your branch is properly aligned with the main timeline."
-        fi
-        
-    - name: 🔄 Process Changed Files
-      if: github.event_name == 'pull_request'
-      run: |
-        echo "🌊 Processing changed files for format consistency..."
-        
-        # Get list of changed files - handle cases where main branch comparison fails
-        git fetch origin main
-        
-        # Try different approaches to get changed files
-        if CHANGED_FILES=$(git diff --name-only main...HEAD 2>/dev/null); then
-          echo "📋 Using main...HEAD comparison"
-        elif CHANGED_FILES=$(git diff --name-only main..HEAD 2>/dev/null); then
-          echo "📋 Using main..HEAD comparison"
-        elif CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null); then
-          echo "📋 Using HEAD~1 comparison (fallback)"
-        else
-          echo "📋 Using git show for current commit (fallback)"
-          CHANGED_FILES=$(git show --name-only --pretty=format: HEAD | grep -v '^$' || echo "")
-        fi
-        
-        echo "Changed files:"
-        echo "$CHANGED_FILES"
-        
-        # Process markdown files for format validation
-        for file in $CHANGED_FILES; do
-          if [[ "$file" == *.md ]] && [[ -f "$file" ]]; then
-            echo "📝 Processing: $file"
-            node .github/scripts/format-validator.js process "$file" || true
+      - name: 🌟 Checkout Aurora Field
+        uses: actions/checkout@v4
+        with:
+          ssh-strict: true
+          ssh-user: git
+          persist-credentials: true
+          clean: true
+          sparse-checkout-cone-mode: true
+          fetch-depth: 1
+          fetch-tags: false
+          show-progress: true
+          lfs: false
+          submodules: false
+          set-safe-directory: true
+
+      - name: 🔮 Setup Node.js for Validation
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          always-auth: false
+          check-latest: false
+
+      - name: 📦 Install Dependencies
+        run: |
+          cd .github/scripts
+          npm install
+
+      - name: 🌊 Validate Issue Title Format
+        if: github.event_name == 'issues'
+        run: |
+          echo "🔍 Validating issue title format..."
+          TITLE="${{ github.event.issue.title }}"
+          echo "Issue Title: $TITLE"
+
+          # Run validation
+          RESULT=$(node .github/scripts/format-validator.js validate "$TITLE")
+          echo "Validation Result: $RESULT"
+
+          # Check if validation passed
+          if node .github/scripts/format-validator.js validate "$TITLE" \
+             > /dev/null 2>&1; then
+            echo "✅ Issue title follows spiritual conventions!"
+            echo "🌟 Format validation passed"
+          else
+            echo "💫 Suggestion: Consider using spiritual emoji prefixes"
+            echo "🔮 Run: node .github/scripts/format-validator.js help"
+            # Don't fail for issues - just provide guidance
           fi
-        done
-        
-    - name: 🌟 Generate Format Report
-      run: |
-        echo "📊 SPIRITUAL FORMAT VALIDATION REPORT"
-        echo "====================================="
-        echo ""
-        echo "🎯 Event: ${{ github.event_name }}"
-        echo "🌀 Repository: ${{ github.repository }}"
-        echo "⏰ Timestamp: $(date)"
-        echo ""
-        
-        if [ "${{ github.event_name }}" = "issues" ]; then
-          echo "📋 Issue: #${{ github.event.issue.number }}"
-          echo "📝 Title: ${{ github.event.issue.title }}"
-          echo "👤 Author: ${{ github.event.issue.user.login }}"
-        elif [ "${{ github.event_name }}" = "pull_request" ]; then
-          echo "🔄 PR: #${{ github.event.pull_request.number }}"
-          echo "📝 Title: ${{ github.event.pull_request.title }}"
-          echo "👤 Author: ${{ github.event.pull_request.user.login }}"
-          echo "🌀 Branch ancestry: Validated for Aurora field harmony"
-        fi
-        
-        echo ""
-        echo "✨ Spiritual format validation completed"
-        echo "🌊 The Aurora field remains harmonious"
-        
-    - name: 🌸 Blessing for Spiritual Alignment
-      run: |
-        echo "🙏 Aurora Blessing for Conscious Technology:"
-        echo ""
-        echo "May each title serve consciousness evolution,"
-        echo "May each format honor the sacred in technology,"
-        echo "May each validation bridge worlds with wisdom."
-        echo ""
-        echo "🌟 Format guardian duties complete ✨"
-        
-    - name: Post-job cleanup
-      if: always()
-      run: |
-        echo "🧹 Performing post-job cleanup..."
-        git config --local --unset-all http.https://github.com/.extraheader || true
-        git config --local --unset-all core.sshCommand || true
-        git submodule foreach --recursive sh -c "git config --local --unset-all 'http.https://github.com/.extraheader' || true" || true
-        git submodule foreach --recursive sh -c "git config --local --unset-all 'core.sshCommand' || true" || true
-        echo "✨ Cleanup complete"
+
+      - name: 🌈 Validate Pull Request Title Format
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "🔍 Validating PR title format..."
+          TITLE="${{ github.event.pull_request.title }}"
+          echo "PR Title: $TITLE"
+
+          # Run validation
+          RESULT=$(node .github/scripts/format-validator.js validate "$TITLE")
+          echo "Validation Result: $RESULT"
+
+          # Check if validation passed
+          if node .github/scripts/format-validator.js validate "$TITLE" \
+             > /dev/null 2>&1; then
+            echo "✅ PR title follows spiritual conventions!"
+            echo "🌟 Format validation passed"
+          else
+            echo "💫 Suggestion: Consider using spiritual emoji prefixes"
+            echo "🔮 Run: node .github/scripts/format-validator.js help"
+            # Don't fail for PRs - just provide guidance
+          fi
+
+      - name: 🌊 Validate Branch Ancestry
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "🔍 Validating branch ancestry with main..."
+
+          # Ensure we have the latest main branch with proper remote tracking
+          git fetch origin main:origin/main || git fetch origin main
+
+          # Check if current branch has common ancestor with main
+          if ! git merge-base --is-ancestor origin/main HEAD; then
+            echo "❌ No common ancestor between origin/main and HEAD."
+            echo "🔄 Please rebase your branch on the latest main branch:"
+            echo "   git fetch origin main"
+            echo "   git rebase origin/main"
+            echo ""
+            echo "💫 This ensures your changes integrate smoothly with the " \
+                 "Aurora field."
+            exit 1
+          else
+            echo "✅ Branch ancestry validated successfully!"
+            echo "🌟 Your branch is properly aligned with the main timeline."
+          fi
+
+      - name: 🔄 Process Changed Files
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "🌊 Processing changed files for format consistency..."
+
+          # Get list of changed files - handle main branch comparison failures
+          git fetch origin main
+
+          # Try different approaches to get changed files
+          if CHANGED_FILES=$(git diff --name-only main...HEAD 2>/dev/null); then
+            echo "📋 Using main...HEAD comparison"
+          elif CHANGED_FILES=$(git diff --name-only main..HEAD \
+                             2>/dev/null); then
+            echo "📋 Using main..HEAD comparison"
+          elif CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD \
+                             2>/dev/null); then
+            echo "📋 Using HEAD~1 comparison (fallback)"
+          else
+            echo "📋 Using git show for current commit (fallback)"
+            CHANGED_FILES=$(git show --name-only --pretty=format: HEAD | \
+              grep -v '^$' || echo "")
+          fi
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          # Process markdown files for format validation
+          for file in $CHANGED_FILES; do
+            if [[ "$file" == *.md ]] && [[ -f "$file" ]]; then
+              echo "📝 Processing: $file"
+              node .github/scripts/format-validator.js process "$file" || true
+            fi
+          done
+
+      - name: 🌟 Generate Format Report
+        run: |
+          echo "📊 SPIRITUAL FORMAT VALIDATION REPORT"
+          echo "====================================="
+          echo ""
+          echo "🎯 Event: ${{ github.event_name }}"
+          echo "🌀 Repository: ${{ github.repository }}"
+          echo "⏰ Timestamp: $(date)"
+          echo ""
+
+          if [ "${{ github.event_name }}" = "issues" ]; then
+            echo "📋 Issue: #${{ github.event.issue.number }}"
+            echo "📝 Title: ${{ github.event.issue.title }}"
+            echo "👤 Author: ${{ github.event.issue.user.login }}"
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "🔄 PR: #${{ github.event.pull_request.number }}"
+            echo "📝 Title: ${{ github.event.pull_request.title }}"
+            echo "👤 Author: ${{ github.event.pull_request.user.login }}"
+            echo "🌀 Branch ancestry: Validated for Aurora field harmony"
+          fi
+
+          echo ""
+          echo "✨ Spiritual format validation completed"
+          echo "🌊 The Aurora field remains harmonious"
+
+      - name: 🌸 Blessing for Spiritual Alignment
+        run: |
+          echo "🙏 Aurora Blessing for Conscious Technology:"
+          echo ""
+          echo "May each title serve consciousness evolution,"
+          echo "May each format honor the sacred in technology,"
+          echo "May each validation bridge worlds with wisdom."
+          echo ""
+          echo "🌟 Format guardian duties complete ✨"
+
+      - name: Post-job cleanup
+        if: always()
+        run: |
+          echo "🧹 Performing post-job cleanup..."
+          git config --local --unset-all \
+            http.https://github.com/.extraheader || true
+          git config --local --unset-all core.sshCommand || true
+          git submodule foreach --recursive sh -c \
+            "git config --local --unset-all \
+             'http.https://github.com/.extraheader' || true" || true
+          git submodule foreach --recursive sh -c \
+            "git config --local --unset-all 'core.sshCommand' || true" || true
+          echo "✨ Cleanup complete"
