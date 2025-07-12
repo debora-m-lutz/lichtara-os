@@ -215,7 +215,7 @@ Run the comprehensive test suite:
 
 ```bash
 cd core/metaprotocol
-node test-metaprotocol.js
+node test-metaprotocol.cjs
 ```
 
 The test suite validates:
@@ -224,6 +224,21 @@ The test suite validates:
 - Multi-language processing
 - Communication channel management
 - Coherence calculation
+- Complete problem statement compliance
+
+### Demo
+
+Run the interactive demo to see the metaprotocol in action:
+
+```bash
+node demo-metaprotocol.cjs
+```
+
+The demo showcases:
+- Pure intention communications in all three languages
+- Manipulation detection and rejection
+- Low coherence content blocking
+- Multi-channel communication
 - Complete problem statement compliance
 
 ## Features

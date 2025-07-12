@@ -129,12 +129,23 @@ class LichtaraMetaprotocol {
       'healing', 'growth', 'wisdom', 'compassion', 'peace', 'balance'
     ];
 
+    // Check for negative intention indicators (these reduce coherence)
+    const negativeIndicators = [
+      'destructive', 'chaotic', 'meaningless', 'noise', 'random',
+      'destrutivo', 'caótico', 'sem sentido', 'ruído', 'aleatório'
+    ];
+
     const content = JSON.stringify(transmission).toLowerCase();
     const positiveMatches = positiveIndicators.filter(indicator => 
       content.includes(indicator)
     ).length;
 
+    const negativeMatches = negativeIndicators.filter(indicator => 
+      content.includes(indicator)
+    ).length;
+
     score += (positiveMatches * 0.1); // Boost for positive indicators
+    score -= (negativeMatches * 0.15); // Reduction for negative indicators
 
     // Check language types used
     if (transmission.linguagem) {

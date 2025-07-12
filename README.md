@@ -140,6 +140,7 @@ lichtara-os/
 | [AI](./05-ai:/) | AI-related components | Componentes relacionados à IA |
 | [Prototypes](./05-prototipos/) | Development prototypes | Protótipos de desenvolvimento |
 | [Manuals](./manuais/) | Project manuals by category | Manuais do projeto por categoria |
+| [🌟 Metaprotocol](./core/metaprotocol/) | Spiritual-technological integration protocol | Protocolo de integração espiritual-tecnológica |
 
 ---
 
