@@ -31,17 +31,49 @@ jobs:
         always-auth: false
         check-latest: false
         
+    - name: 🎯 Cache npm dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ matrix.prototype }}-${{ hashFiles('05-prototipos/05-prototipo/${{ matrix.prototype }}/package*.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-${{ matrix.prototype }}-
+          ${{ runner.os }}-node-
+        
     - name: 📦 Install Dependencies for ${{ matrix.prototype }}
+      timeout-minutes: 10
       run: |
         cd 05-prototipos/05-prototipo/${{ matrix.prototype }}
         if [ -f package.json ]; then
           echo "🌊 Installing dependencies for ${{ matrix.prototype }}..."
-          npm install
+          
+          # Configure npm for better CI performance
+          npm config set audit false
+          npm config set progress false
+          npm config set fund false
+          
+          # Generate package-lock.json if it doesn't exist (for faster installs)
+          if [ ! -f package-lock.json ]; then
+            echo "🔧 Generating package-lock.json for caching..."
+            npm install --package-lock-only --no-optional
+          fi
+          
+          # Use npm ci if package-lock.json exists, otherwise npm install
+          if [ -f package-lock.json ]; then
+            echo "🚀 Using npm ci for fast, reliable install..."
+            npm ci --no-optional
+          else
+            echo "⚡ Using npm install..."
+            npm install --no-optional
+          fi
+          
+          echo "✅ Dependencies installed successfully for ${{ matrix.prototype }}"
         else
           echo "⚠️ No package.json found for ${{ matrix.prototype }}"
         fi
         
     - name: 🔍 TypeScript Check for ${{ matrix.prototype }}
+      timeout-minutes: 5
       run: |
         cd 05-prototipos/05-prototipo/${{ matrix.prototype }}
         if [ -f package.json ]; then
@@ -56,6 +88,7 @@ jobs:
         fi
         
     - name: 🏗️ Build Check for ${{ matrix.prototype }}
+      timeout-minutes: 5
       run: |
         cd 05-prototipos/05-prototipo/${{ matrix.prototype }}
         if [ -f package.json ]; then
