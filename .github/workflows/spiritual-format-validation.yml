@@ -48,7 +48,8 @@ jobs:
       if: github.event_name == 'issues'
       run: |
         echo "🔍 Validating issue title format..."
-        TITLE="${{ github.event.issue.title }}"
+        echo "${{ github.event.issue.title }}" > title.txt
+        TITLE=$(cat title.txt)
         echo "Issue Title: $TITLE"
         
         # Run validation
