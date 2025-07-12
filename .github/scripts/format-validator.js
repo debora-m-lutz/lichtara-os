@@ -47,6 +47,21 @@ class FormatValidator {
   }
 
   /**
+   * Safely escape HTML entities to prevent XSS
+   * @param {string} text - Text to escape
+   * @returns {string} - Escaped text
+   */
+  escapeHtml(text) {
+    if (typeof text !== 'string') return '';
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  /**
    * Validates if a title follows Lichtara OS format conventions
    * @param {string} title - The title to validate
    * @returns {object} - Validation result with success flag and details
@@ -60,8 +75,20 @@ class FormatValidator {
       };
     }
 
+    // Sanitize the title to prevent XSS
+    const sanitizedTitle = this.escapeHtml(title.trim());
+    
+    // Limit title length for security
+    if (sanitizedTitle.length > 500) {
+      return {
+        valid: false,
+        error: 'Title too long (maximum 500 characters)',
+        type: 'invalid_length'
+      };
+    }
+
     // Check for emoji prefix - need to handle multi-byte emojis properly
-    const emojiMatch = title.match(/^([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}])/u);
+    const emojiMatch = sanitizedTitle.match(/^([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}])/u);
     
     if (emojiMatch) {
       const firstEmoji = emojiMatch[1];
@@ -71,29 +98,29 @@ class FormatValidator {
           format: 'emoji_prefixed',
           emoji: firstEmoji,
           meaning: SUPPORTED_FORMATS[firstEmoji],
-          content: title.substring(firstEmoji.length).trim()
+          content: sanitizedTitle.substring(firstEmoji.length).trim()
         };
       }
     }
 
     // Check for bracket prefix format like [FLUX] or [INTEGRAÇÃO]
-    const bracketMatch = title.match(/^\[([A-Z\u00C0-\u017F]+)\]/i);
+    const bracketMatch = sanitizedTitle.match(/^\[([A-Z\u00C0-\u017F]+)\]/i);
     if (bracketMatch) {
       return {
         valid: true,
         format: 'bracket_prefixed',
         prefix: bracketMatch[1],
-        content: title.substring(bracketMatch[0].length).trim()
+        content: sanitizedTitle.substring(bracketMatch[0].length).trim()
       };
     }
 
     // For institutional or standard titles, allow them but mark as standard
-    if (title.length > 5 && !title.startsWith('fix:') && !title.startsWith('feat:')) {
+    if (sanitizedTitle.length > 5 && !sanitizedTitle.startsWith('fix:') && !sanitizedTitle.startsWith('feat:')) {
       return {
         valid: true,
         format: 'standard',
-        content: title,
-        suggestion: `Consider prefixing with spiritual emoji like: ✨ ${title}`
+        content: sanitizedTitle,
+        suggestion: `Consider prefixing with spiritual emoji like: ✨ ${sanitizedTitle}`
       };
     }
 

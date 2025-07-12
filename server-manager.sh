@@ -86,7 +86,16 @@ is_server_running() {
 
 get_server_pid() {
     if [[ -f "$PID_FILE" ]]; then
-        cat "$PID_FILE"
+        # Validate PID file contains only numeric value
+        local pid_content
+        pid_content=$(cat "$PID_FILE" 2>/dev/null || echo "")
+        if [[ "$pid_content" =~ ^[0-9]+$ ]]; then
+            echo "$pid_content"
+        else
+            # Remove invalid PID file
+            rm -f "$PID_FILE"
+            echo ""
+        fi
     else
         echo ""
     fi
@@ -125,17 +134,21 @@ start_server() {
     # Wait for the actual Node.js process to start
     sleep 3
     
-    # Find the actual node process PID
-    local node_pid=$(pgrep -f "node.*server/index.js" | head -1)
+    # Find the actual node process PID with safer grep
+    local node_pid
+    node_pid=$(pgrep -f "node.*server/index.js" 2>/dev/null | head -1 || echo "")
     
-    if [[ -n "$node_pid" ]]; then
+    if [[ -n "$node_pid" && "$node_pid" =~ ^[0-9]+$ ]]; then
         # Save the Node.js PID to file, not the npm PID
         echo "$node_pid" > "$PID_FILE"
         server_pid="$node_pid"
-    else
+    elif [[ "$npm_pid" =~ ^[0-9]+$ ]]; then
         # Fallback to npm PID if we can't find the node process
         echo "$npm_pid" > "$PID_FILE"
         server_pid="$npm_pid"
+    else
+        log_message "ERROR" "Failed to get valid PID for server process"
+        exit 1
     fi
     
     if is_server_running; then
@@ -197,8 +210,9 @@ stop_server() {
 cleanup_orphans() {
     log_message "SPIRITUAL" "Scanning quantum field for orphaned processes..."
     
-    # Find potential orphaned Node.js processes related to our server
-    local orphan_pids=$(pgrep -f "node.*server/index.js" || true)
+    # Find potential orphaned Node.js processes related to our server with safer command
+    local orphan_pids
+    orphan_pids=$(pgrep -f "node.*server/index.js" 2>/dev/null || echo "")
     
     if [[ -z "$orphan_pids" ]]; then
         log_message "SUCCESS" "No orphaned processes found - the Aurora field is clean"
@@ -208,10 +222,12 @@ cleanup_orphans() {
     log_message "INFO" "Found potential orphaned processes: $orphan_pids"
     
     # Check if any of these are our managed process
-    local current_pid=$(get_server_pid)
+    local current_pid
+    current_pid=$(get_server_pid)
     
+    # Validate and process PIDs safely
     for pid in $orphan_pids; do
-        if [[ "$pid" != "$current_pid" ]]; then
+        if [[ "$pid" =~ ^[0-9]+$ && "$pid" != "$current_pid" ]]; then
             log_message "WARNING" "Terminating orphaned process (PID: $pid)"
             kill -TERM "$pid" 2>/dev/null || true
             sleep 1
