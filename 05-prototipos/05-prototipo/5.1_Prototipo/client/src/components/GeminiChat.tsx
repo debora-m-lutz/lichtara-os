@@ -31,7 +31,12 @@ const GeminiChat: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/gemini', {
+      // Use environment variable or relative URL for better security
+      const apiUrl = process.env.NODE_ENV === 'production' 
+        ? '/api/gemini'  // Use relative URL in production
+        : 'http://localhost:3001/api/gemini';
+        
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

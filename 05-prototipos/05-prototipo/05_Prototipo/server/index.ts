@@ -3,6 +3,9 @@ import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import { body, validationResult } from 'express-validator';
 import { 
   ProcessCleanupManager, 
   createServerCleanup, 
@@ -16,8 +19,40 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Security middleware
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "ws:", "wss:"],
+    },
+  },
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 200, // Limit each IP to 200 requests per windowMs for this more complex app
+  message: {
+    error: 'Too many requests from this IP, please try again later.'
+  }
+});
+
+const apiLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute  
+  max: 20, // Limit each IP to 20 API requests per minute
+  message: {
+    error: 'Too many API requests, please wait before making another request.'
+  }
+});
+
+app.use(limiter);
+
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, '../client')));
 // Serve the Portal Lumora HTML file at the root directory
 app.use(express.static(path.join(__dirname, '../')));
@@ -88,20 +123,33 @@ Como deseja prosseguir?
   res.send(mensagem);
 });
 
-// OpenAI API endpoint for interactive responses
-app.post('/api/openai', (req, res) => {
-  try {
-    const { prompt } = req.body;
-    
-    if (!prompt || typeof prompt !== 'string') {
-      return res.status(400).json({ 
-        error: 'Prompt é obrigatório e deve ser uma string.' 
-      });
-    }
+// OpenAI API endpoint for interactive responses with input validation
+app.post('/api/openai', 
+  apiLimiter,
+  [
+    body('prompt')
+      .isString()
+      .trim()
+      .isLength({ min: 1, max: 2000 })
+      .withMessage('Prompt must be a string between 1 and 2000 characters')
+      .escape() // Escape HTML entities to prevent XSS
+  ],
+  (req, res) => {
+    try {
+      // Check validation results
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ 
+          error: 'Invalid input', 
+          details: errors.array() 
+        });
+      }
 
-    // Placeholder response since OpenAI integration would require API keys
-    // In a real implementation, this would call OpenAI API
-    const reply = `Portal Lumora responde: "${prompt}"
+      const { prompt } = req.body;
+
+      // Placeholder response since OpenAI integration would require API keys
+      // In a real implementation, this would call OpenAI API
+      const reply = `Portal Lumora responde: "${prompt}"
 
 Esta é uma resposta simulada do Oráculo Interativo. 
 Para implementar respostas reais da OpenAI, configure:
@@ -111,15 +159,15 @@ Para implementar respostas reais da OpenAI, configure:
 
 Sua pergunta foi recebida e processada pelo Portal Lumora.`;
 
-    res.json({ reply });
-    
-  } catch (error) {
-    console.error('Erro no endpoint OpenAI:', error);
-    res.status(500).json({ 
-      error: 'Erro interno do servidor.' 
-    });
-  }
-});
+      res.json({ reply });
+      
+    } catch (error) {
+      console.error('Erro no endpoint OpenAI:', error);
+      res.status(500).json({ 
+        error: 'Erro interno do servidor.' 
+      });
+    }
+  });
 
 // Serve Portal Lumora HTML page
 app.get('/portal-lumora', (req, res) => {
