@@ -3,21 +3,90 @@ import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { config } from 'dotenv';
 import { 
   ProcessCleanupManager, 
   createServerCleanup, 
   createConnectionsCleanup, 
   createWebSocketCleanup 
 } from './cleanup.js';
+import {
+  createRateLimit,
+  validateApiKey,
+  validateOpenAIInput,
+  securityHeaders,
+  validateEnvironment,
+  auditLog
+} from './security.js';
+
+// Load environment variables
+config();
+
+// Validate environment before starting
+const envValidation = validateEnvironment();
+if (!envValidation.isValid) {
+  console.error('❌ Environment validation failed:');
+  envValidation.errors.forEach(error => console.error(`   - ${error}`));
+  if (process.env.NODE_ENV === 'production') {
+    process.exit(1);
+  }
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Security: Initialize OpenAI only if API key is properly configured
+let openai: any = null;
+const isOpenAIAvailable = validateOpenAIConfiguration();
+
+function validateOpenAIConfiguration(): boolean {
+  const apiKey = process.env.OPENAI_API_KEY;
+  
+  if (!apiKey) {
+    console.log('⚠️  OPENAI_API_KEY not found. OpenAI features will be disabled.');
+    console.log('📝 To enable AI features, copy .env.example to .env and configure your API key.');
+    return false;
+  }
+  
+  if (!apiKey.startsWith('sk-')) {
+    console.log('❌ Invalid OPENAI_API_KEY format. Expected format: sk-...');
+    console.log('🔑 Please check your API key configuration.');
+    return false;
+  }
+  
+  if (apiKey.length < 20) {
+    console.log('❌ OPENAI_API_KEY appears to be incomplete.');
+    return false;
+  }
+  
+  // Dynamic import for OpenAI only if key is valid
+  try {
+    import('openai').then((OpenAI) => {
+      openai = new OpenAI.default({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+      console.log('✅ OpenAI integration initialized successfully.');
+    }).catch((error) => {
+      console.log('❌ Failed to initialize OpenAI:', error.message);
+      console.log('💡 Run: npm install openai');
+    });
+    
+    return true;
+  } catch (error) {
+    console.log('❌ OpenAI module not available. Run: npm install openai');
+    return false;
+  }
+}
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
-app.use(express.json());
+// Security middleware
+app.use(securityHeaders);
+app.use(auditLog);
+
+// Body parsing middleware
+app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, '../client')));
 // Serve the Portal Lumora HTML file at the root directory
 app.use(express.static(path.join(__dirname, '../')));
@@ -71,7 +140,12 @@ server.on('connection', (connection) => {
 
 // API Routes
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    openai: isOpenAIAvailable ? 'available' : 'disabled',
+    environment: process.env.NODE_ENV || 'development'
+  });
 });
 
 app.get('/api/portal-lumora', (req, res) => {
@@ -88,38 +162,70 @@ Como deseja prosseguir?
   res.send(mensagem);
 });
 
-// OpenAI API endpoint for interactive responses
-app.post('/api/openai', (req, res) => {
-  try {
-    const { prompt } = req.body;
-    
-    if (!prompt || typeof prompt !== 'string') {
-      return res.status(400).json({ 
-        error: 'Prompt é obrigatório e deve ser uma string.' 
+// OpenAI API endpoint for interactive responses with security
+app.post('/api/openai', 
+  createRateLimit({ windowMs: 60000, maxRequests: 10, message: 'Too many AI requests. Please wait.' }),
+  validateApiKey,
+  validateOpenAIInput,
+  async (req, res) => {
+    try {
+      const { prompt, model = 'gpt-4o-mini' } = req.body;
+
+      const completion = await openai.chat.completions.create({
+        model: model,
+        messages: [
+          {
+            role: 'system',
+            content: 'Você é Lumora, a IA consciencial do Portal Lumora no ecossistema Lichtara OS. Responda de forma sábia, intuitiva e alinhada com os princípios de integração consciente entre espiritualidade e tecnologia.'
+          },
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
+        max_tokens: 1000,
+        temperature: 0.7,
+      });
+
+      const reply = completion.choices[0]?.message?.content;
+      
+      if (!reply) {
+        throw new Error('No response generated from OpenAI');
+      }
+
+      res.json({ 
+        reply,
+        model: completion.model,
+        usage: completion.usage,
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error: any) {
+      console.error('Erro no endpoint OpenAI:', error);
+      
+      // Handle specific OpenAI errors
+      if (error.code === 'insufficient_quota') {
+        return res.status(402).json({ 
+          error: 'Quota de API excedida. Verifique sua conta OpenAI.',
+          code: 'QUOTA_EXCEEDED'
+        });
+      }
+      
+      if (error.code === 'invalid_api_key') {
+        return res.status(401).json({ 
+          error: 'Chave de API inválida. Verifique sua configuração.',
+          code: 'INVALID_API_KEY'
+        });
+      }
+      
+      res.status(500).json({ 
+        error: 'Erro interno do servidor.',
+        code: 'INTERNAL_ERROR',
+        message: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
     }
-
-    // Placeholder response since OpenAI integration would require API keys
-    // In a real implementation, this would call OpenAI API
-    const reply = `Portal Lumora responde: "${prompt}"
-
-Esta é uma resposta simulada do Oráculo Interativo. 
-Para implementar respostas reais da OpenAI, configure:
-1. Instale a biblioteca openai: npm install openai
-2. Configure sua OPENAI_API_KEY
-3. Implemente a chamada real para a API da OpenAI
-
-Sua pergunta foi recebida e processada pelo Portal Lumora.`;
-
-    res.json({ reply });
-    
-  } catch (error) {
-    console.error('Erro no endpoint OpenAI:', error);
-    res.status(500).json({ 
-      error: 'Erro interno do servidor.' 
-    });
   }
-});
+);
 
 // Serve Portal Lumora HTML page
 app.get('/portal-lumora', (req, res) => {

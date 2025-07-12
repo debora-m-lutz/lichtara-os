@@ -16,7 +16,9 @@
     "build:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm run build",
     "build:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm run build",
     "start:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm start",
-    "start:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm start"
+    "start:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm start",
+    "setup:security": "./scripts/setup-security.sh",
+    "security:scan": "./scripts/pre-commit-hook.sh || true"
   },
   "keywords": [
     "ai",

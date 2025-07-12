@@ -122,6 +122,38 @@ lichtara-os/
 | `npm run status` | Check installation status of all prototypes | Verifica o status de instalação de todos os protótipos |
 | `npm run build:v1` | Build prototype v1 for production | Compila o protótipo v1 para produção |
 | `npm run build:v2` | Build prototype v2 for production | Compila o protótipo v2 para produção |
+| `npm run setup:security` | 🔒 Setup security measures and pre-commit hooks | Configura medidas de segurança e hooks pré-commit |
+| `npm run security:scan` | 🔍 Run security scan on current files | Executa verificação de segurança nos arquivos atuais |
+
+### 🔒 Security Setup | Configuração de Segurança
+
+**IMPORTANT**: Before working with API integrations, set up security measures:
+
+```bash
+# Run security setup (one-time)
+npm run setup:security
+
+# Copy environment template and configure your API keys
+cp .env.example .env
+# Edit .env with your actual API keys - NEVER commit this file!
+
+# Run security scan anytime
+npm run security:scan
+```
+
+**IMPORTANTE**: Antes de trabalhar com integrações de API, configure as medidas de segurança:
+
+```bash
+# Execute a configuração de segurança (uma vez)
+npm run setup:security
+
+# Copie o template de ambiente e configure suas chaves de API
+cp .env.example .env
+# Edite .env com suas chaves reais - NUNCA commit este arquivo!
+
+# Execute verificação de segurança a qualquer momento
+npm run security:scan
+```
 
 **Prototype Details | Detalhes dos Protótipos:**
 - **v1 (05_Prototipo)**: Full-stack React + Express application with WebSocket support
@@ -140,6 +172,7 @@ lichtara-os/
 | [AI](./05-ai:/) | AI-related components | Componentes relacionados à IA |
 | [Prototypes](./05-prototipos/) | Development prototypes | Protótipos de desenvolvimento |
 | [Manuals](./manuais/) | Project manuals by category | Manuais do projeto por categoria |
+| [🔒 Security Guide](./SECURITY_GUIDE.md) | **Security best practices and API key management** | **Guia de segurança e gerenciamento de chaves de API** |
 
 ---
 
