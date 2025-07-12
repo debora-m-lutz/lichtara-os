@@ -76,6 +76,7 @@ lichtara-os/
 ├── 04-legal:/          # Licensing, NDAs, documentation | Licenciamento, NDAs, documentação
 ├── 05-ai:/             # AI-related components | Componentes relacionados à IA
 ├── 05-prototipos/      # Development prototypes | Protótipos de desenvolvimento
+├── 06-ciencia-pesquisa:/ # Science & research framework for Aurora Mission | Estrutura de ciência e pesquisa da Missão Aurora
 ├── manuais/            # Project manuals organized by category | Manuais do projeto organizados por categoria
 ├── CODE_OF_CONDUCT.md  # Community guidelines | Diretrizes da comunidade
 ├── CONTRIBUTING.md     # Contribution guidelines | Diretrizes de contribuição
@@ -139,6 +140,7 @@ lichtara-os/
 | [Legal](./04-legal:/) | Documentation and licensing | Documentação e licenciamento |
 | [AI](./05-ai:/) | AI-related components | Componentes relacionados à IA |
 | [Prototypes](./05-prototipos/) | Development prototypes | Protótipos de desenvolvimento |
+| [🌌 Science & Research](./06-ciencia-pesquisa:/) | Aurora Mission research framework | Estrutura de pesquisa da Missão Aurora |
 | [Manuals](./manuais/) | Project manuals by category | Manuais do projeto por categoria |
 
 ---
