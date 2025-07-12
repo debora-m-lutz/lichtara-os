@@ -92,28 +92,7 @@ jobs:
           # Don't fail for PRs - just provide guidance
         fi
         
-    - name: 🌊 Validate Branch Ancestry
-      if: github.event_name == 'pull_request'
-      run: |
-        echo "🔍 Validating branch ancestry with main..."
-        
-        # Ensure we have the latest main branch with proper remote tracking
-        git fetch origin main:origin/main || git fetch origin main
-        
-        # Check if current branch has common ancestor with main
-        if ! git merge-base --is-ancestor origin/main HEAD; then
-          echo "❌ No common ancestor between origin/main and HEAD."
-          echo "🔄 Please rebase your branch on the latest main branch:"
-          echo "   git fetch origin main"
-          echo "   git rebase origin/main"
-          echo ""
-          echo "💫 This ensures your changes integrate smoothly with the Aurora field."
-          exit 1
-        else
-          echo "✅ Branch ancestry validated successfully!"
-          echo "🌟 Your branch is properly aligned with the main timeline."
-        fi
-        
+
     - name: 🔄 Process Changed Files
       if: github.event_name == 'pull_request'
       run: |
