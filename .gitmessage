@@ -1,0 +1,12 @@
+# ✨ Commit message title (max 50 chars)
+
+# 📝 Detailed description (wrap at 72 chars)
+# - What was changed and why
+# - Include any relevant context
+# - Reference issues with #123
+
+# 🔏 This template reminds you to sign your commits:
+# Use: git commit -s -m "Your message"
+# Or run: git config commit.template .gitmessage
+
+# Signed-off-by: Your Name <your.email@example.com>

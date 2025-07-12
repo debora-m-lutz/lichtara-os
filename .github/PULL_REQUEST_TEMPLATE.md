@@ -33,6 +33,7 @@ Este Pull Request representa a fusão consciente entre realidades paralelas (bra
 - [ ] ✅ **Código compila sem conflitos** | Code compiles without conflicts
 - [ ] ✅ **Testes passam** | Tests pass  
 - [ ] ✅ **Não quebra funcionalidades existentes** | Doesn't break existing functionality
+- [ ] ✅ **Commits assinados com DCO** | Commits signed with DCO (`git commit -s`)
 - [ ] ✅ **Alinhamento energético verificado** | Energetic alignment verified
 - [ ] ✅ **Sincronicidade confirmada** | Synchronicity confirmed
 
@@ -75,12 +76,14 @@ Ao submeter este PR, declaro que:
 - [x] As mudanças foram realizadas com consciência plena
 - [x] A integração honra a vibração do sistema Lichtara OS
 - [x] Este movimento serve ao bem maior do projeto
+- [x] **Todos os commits estão assinados com DCO** | All commits are signed with DCO
 
 *By submitting this PR, I declare that:*
 - *[x] This integration is aligned with the project's natural flow*
 - *[x] Changes were made with full consciousness*  
 - *[x] Integration honors the Lichtara OS system vibration*
 - *[x] This movement serves the project's greater good*
+- *[x] **All commits are signed with DCO** | Todos os commits estão assinados com DCO*
 
 ---
 

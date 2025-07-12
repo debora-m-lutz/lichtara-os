@@ -57,6 +57,7 @@ O Lichtara OS opera nos princípios de **Clareza, Precisão e Beleza** em todas 
 - Fork the repository
 - Create a feature branch with a descriptive name
 - Make your changes following our guidelines
+- **Sign your commits** with DCO (Developer Certificate of Origin)
 - Submit a Pull Request with our vibrational template
 
 ---
@@ -68,6 +69,21 @@ O Lichtara OS opera nos princípios de **Clareza, Precisão e Beleza** em todas 
 - **Precision**: Solutions should be efficient and targeted
 - **Beauty**: Follow consistent styling and elegant patterns
 - **Testing**: Include appropriate tests for new functionality
+
+### 🔏 Developer Certificate of Origin (DCO) | Certificado de Origem do Desenvolvedor
+All contributions must be signed with the Developer Certificate of Origin. This ensures the legal integrity of our project and protects both contributors and users.
+
+Todas as contribuições devem ser assinadas com o Certificado de Origem do Desenvolvedor. Isso garante a integridade legal do nosso projeto e protege tanto contribuidores quanto usuários.
+
+**Required for all commits:**
+- Add `Signed-off-by` line to every commit
+- Use `git commit -s` to automatically sign commits
+- See [DCO.md](./DCO.md) for complete instructions
+
+**Obrigatório para todos os commits:**
+- Adicione linha `Signed-off-by` a cada commit
+- Use `git commit -s` para assinar commits automaticamente
+- Veja [DCO.md](./DCO.md) para instruções completas
 
 ### Documentation Standards | Padrões de Documentação
 - **Bilingual**: Main documents should support PT/EN
@@ -103,8 +119,8 @@ git checkout -b feature/your-feature-name
 # 3. Make your changes with conscious intention
 # Follow our coding standards and test thoroughly
 
-# 4. Commit with meaningful messages
-git commit -m "✨ Add conscious AI integration feature"
+# 4. Commit with meaningful messages and DCO sign-off
+git commit -s -m "✨ Add conscious AI integration feature"
 
 # 5. Push and create PR
 git push origin feature/your-feature-name
