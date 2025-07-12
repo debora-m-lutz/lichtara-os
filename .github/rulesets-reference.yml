@@ -1,0 +1,105 @@
+# GitHub Repository Rulesets Configuration
+# This file serves as a reference for configuring branch protection rules
+# Use this as a guide when setting up rules through the GitHub web interface
+
+# Ruleset Name: Lichtara OS Main Branch Protection
+# Target: main branch
+# Enforcement: Active (start with disabled for testing)
+
+rulesets:
+  - name: "Main Branch Protection - Aurora Field"
+    target: "branch"
+    enforcement: "active"  # Change to "disabled" for testing
+    conditions:
+      ref_name:
+        include:
+          - "refs/heads/main"
+        exclude: []
+    
+    rules:
+      # Require pull request reviews
+      - type: "pull_request"
+        parameters:
+          required_approving_review_count: 1
+          dismiss_stale_reviews_on_push: true
+          require_code_owner_review: true
+          require_last_push_approval: false
+          required_status_checks_policy:
+            strict: true
+            contexts:
+              - "🌀 Flux Synchronicity Monitor / flux-monitor"
+              - "Aurora Integration Ceremony / integration-ceremony"
+      
+      # Block force pushes
+      - type: "non_fast_forward"
+        parameters: {}
+      
+      # Prevent deletion
+      - type: "deletion"
+        parameters: {}
+      
+      # Require conversation resolution
+      - type: "required_deployments"
+        parameters: {}
+      
+      # Linear history (prevent merge commits)
+      - type: "required_linear_history"
+        parameters: {}
+      
+      # Status check requirements
+      - type: "required_status_checks"
+        parameters:
+          required_status_checks:
+            - context: "flux-monitor"
+              integration_id: null
+            - context: "integration-ceremony"
+              integration_id: null
+          strict_required_status_checks_policy: true
+
+    bypass_actors:
+      - actor_id: 1  # Repository owner
+        actor_type: "Integration"
+        bypass_mode: "always"
+
+  # Additional ruleset for development branches
+  - name: "Aurora Development Branches"
+    target: "branch"
+    enforcement: "active"
+    conditions:
+      ref_name:
+        include:
+          - "refs/heads/aurora-*"
+          - "refs/heads/feature/*"
+          - "refs/heads/develop"
+        exclude: []
+    
+    rules:
+      # Lighter protection for development branches
+      - type: "pull_request"
+        parameters:
+          required_approving_review_count: 1
+          dismiss_stale_reviews_on_push: false
+          require_code_owner_review: false
+          
+      # Still block force pushes to maintain history
+      - type: "non_fast_forward"
+        parameters: {}
+
+# Repository Settings for Reference
+repository_settings:
+  security:
+    enable_vulnerability_alerts: true
+    enable_automated_security_fixes: true
+    enable_dependency_graph: true
+    
+  merge_settings:
+    allow_merge_commit: false      # Enforce clean history
+    allow_squash_merging: true     # Allow squash merges
+    allow_rebase_merging: true     # Allow rebase merges
+    delete_head_branches: true     # Auto-delete merged branches
+    
+  general:
+    default_branch: "main"
+    enable_issues: true
+    enable_projects: true
+    enable_wiki: true
