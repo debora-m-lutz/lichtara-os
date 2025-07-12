@@ -28,6 +28,10 @@ jobs:
           submodules: false
           set-safe-directory: true
         
+      - name: Configure Git Default Branch
+        run: |
+          git config --global init.defaultBranch main
+        
       - name: Generate Integration Message
         id: message
         run: |
