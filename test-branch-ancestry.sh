@@ -29,15 +29,7 @@ if ! git rev-parse --verify $MAIN_REF >/dev/null 2>&1; then
 fi
 
 if ! git merge-base --is-ancestor $MAIN_REF HEAD; then
-  echo "❌ No common ancestor between $MAIN_REF and HEAD."
-  echo ""
-  echo "🔄 To fix this, rebase your branch on the latest main:"
-  echo "   git fetch origin main"
-  echo "   git rebase origin/main"
-  echo ""
-  echo "💫 This ensures your changes integrate smoothly with the Aurora field."
-  echo ""
-  echo "❌ VALIDATION FAILED"
+  echo "❗ Error: No common ancestor between origin/main and HEAD. Rebase your branch onto main."
   exit 1
 else
   echo "✅ Branch ancestry validated successfully!"

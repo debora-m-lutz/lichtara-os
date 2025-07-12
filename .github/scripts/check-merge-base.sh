@@ -49,17 +49,7 @@ fi
 
 # Perform the merge-base check
 if ! git merge-base --is-ancestor $MAIN_REF HEAD; then
-    echo ""
-    echo "❗ Error: No common ancestor between $MAIN_REF and HEAD."
-    echo "   Your branch needs to be rebased onto main before integration."
-    echo ""
-    echo "🔄 To fix this issue:"
-    echo "   1. git fetch origin main"
-    echo "   2. git rebase origin/main"
-    echo "   3. Resolve any conflicts if they arise"
-    echo "   4. git push --force-with-lease origin \$(git branch --show-current)"
-    echo ""
-    echo "🌟 This ensures your changes integrate harmoniously with the Aurora field."
+    echo "❗ Error: No common ancestor between origin/main and HEAD. Rebase your branch onto main."
     exit 1
 fi
 
