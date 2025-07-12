@@ -34,10 +34,12 @@ echo "Checking for potential API keys..."
 
 # Check each pattern
 for pattern in "sk-" "OPENAI_API_KEY.*=.*sk-" "Bearer sk-" "apikey.*sk-" "api_key.*sk-" "token.*sk-"; do
-    if git diff --cached 2>/dev/null | grep -q "$pattern"; then
+    # Skip scanning security and documentation files that contain example patterns
+    FILES_TO_SCAN=$(git diff --cached --name-only 2>/dev/null | grep -v -E "(pre-commit-hook|SECURITY|\.md)" || true)
+    if [ -n "$FILES_TO_SCAN" ] && echo "$FILES_TO_SCAN" | xargs git diff --cached 2>/dev/null | grep -q "$pattern"; then
         print_error "Potential API key found with pattern: $pattern"
         echo "Files containing potential secrets:"
-        git diff --cached --name-only 2>/dev/null | xargs grep -l "$pattern" 2>/dev/null | sed 's/^/  /' || echo "  (check git diff for details)"
+        echo "$FILES_TO_SCAN" | xargs grep -l "$pattern" 2>/dev/null | sed 's/^/  /' || echo "  (check git diff for details)"
         echo ""
         echo "To fix this:"
         echo "1. Remove the hardcoded API key from the code"
