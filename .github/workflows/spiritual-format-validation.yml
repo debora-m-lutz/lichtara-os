@@ -146,29 +146,33 @@ jobs:
         done
         
     - name: 🌟 Generate Format Report
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        REPOSITORY: ${{ github.repository }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
+        ISSUE_TITLE: ${{ github.event.issue.title }}
+        ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        PR_TITLE: ${{ github.event.pull_request.title }}
+        PR_AUTHOR: ${{ github.event.pull_request.user.login }}
       run: |
         echo "📊 SPIRITUAL FORMAT VALIDATION REPORT"
         echo "====================================="
         echo ""
-        echo "🎯 Event: ${{ github.event_name }}"
-        echo "🌀 Repository: ${{ github.repository }}"
+        echo "🎯 Event: $EVENT_NAME"
+        echo "🌀 Repository: $REPOSITORY"
         echo "⏰ Timestamp: $(date)"
         echo ""
         
-        if [ "${{ github.event_name }}" = "issues" ]; then
-          echo "📋 Issue: #${{ github.event.issue.number }}"
-          echo "📝 Title: ${{ github.event.issue.title }}"
-          echo "👤 Author: ${{ github.event.issue.user.login }}"
-        elif [ "${{ github.event_name }}" = "pull_request" ]; then
-          echo "🔄 PR: #${{ github.event.pull_request.number }}"
-          echo "📝 Title: ${{ github.event.pull_request.title }}"
-          echo "👤 Author: ${{ github.event.pull_request.user.login }}"
-          echo "🌀 Branch ancestry: Validated for Aurora field harmony"
-        fi
-        
-        echo ""
-        echo "✨ Spiritual format validation completed"
-        echo "🌊 The Aurora field remains harmonious"
+        if [ "$EVENT_NAME" = "issues" ]; then
+          echo "📋 Issue: #$ISSUE_NUMBER"
+          echo "📝 Title: $ISSUE_TITLE"
+          echo "👤 Author: $ISSUE_AUTHOR"
+        elif [ "$EVENT_NAME" = "pull_request" ]; then
+          echo "🔄 PR: #$PR_NUMBER"
+          echo "📝 Title: $PR_TITLE"
+          echo "👤 Author: $PR_AUTHOR"
+          echo "🌀 Branch ancestry:
         
     - name: 🌸 Blessing for Spiritual Alignment
       run: |
