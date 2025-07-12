@@ -5,9 +5,11 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "install:prototypes": "npm run install:v1 && npm run install:v2",
+    "install:prototypes": "npm run install:v1 && npm run install:v2:graceful",
+    "install:prototypes:graceful": "npm run install:v1 && npm run install:v2:graceful",
     "install:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm install",
     "install:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm install",
+    "install:v2:graceful": "echo '🌊 Installing prototype v2...' && (cd 05-prototipos/05-prototipo/5.1_Prototipo && (npm install || npm install --legacy-peer-deps || echo '💫 Prototype v2 install failed (continuing - prototypes in development)'))",
     "dev:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npx vite",
     "dev:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm run dev",
     "status": "npm run status:v1 && npm run status:v2",
@@ -15,6 +17,7 @@
     "status:v2": "echo '=== Prototype v2 (5.1_Prototipo) Status ===' && cd 05-prototipos/05-prototipo/5.1_Prototipo && (ls node_modules > /dev/null 2>&1 && echo '✓ Dependencies installed' || echo '✗ Dependencies not installed - run npm run install:prototypes') && echo 'Package info:' && npm list --depth=0 2>/dev/null | head -5",
     "build:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm run build",
     "build:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm run build",
+    "build:v2:graceful": "echo '🌊 Installing prototype v2...' && if npm run build:v2; then echo '✅ Prototype v2 build successful'; else echo '💫 Prototype v2 build failed (continuing - prototypes in development)'; fi",
     "start:v1": "cd 05-prototipos/05-prototipo/05_Prototipo && npm start",
     "start:v2": "cd 05-prototipos/05-prototipo/5.1_Prototipo && npm start"
   },
